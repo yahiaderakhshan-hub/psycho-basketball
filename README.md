@@ -1,1 +1,1 @@
-# psyho-basketball
+# psycho-basketball
