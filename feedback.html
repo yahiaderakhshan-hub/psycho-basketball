@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psycho Basketball — Feedback</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#000;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{background:#0f0f0f;border:1px solid #1f1f1f;border-radius:20px;padding:40px;max-width:560px;width:100%;}
+.logo{font-size:32px;margin-bottom:4px;}
+.title{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;}
+.title span{color:#fb923c;}
+.sub{font-size:14px;color:rgba(255,255,255,.4);margin-bottom:32px;}
+.question{margin-bottom:28px;}
+.q-label{font-size:13px;font-weight:600;color:rgba(255,255,255,.7);margin-bottom:10px;display:block;}
+.stars{display:flex;gap:8px;margin-bottom:4px;}
+.star{font-size:28px;cursor:pointer;opacity:.3;transition:opacity .15s,transform .15s;}
+.star.active,.star:hover{opacity:1;transform:scale(1.15);}
+.options{display:flex;flex-wrap:wrap;gap:8px;}
+.opt{padding:8px 16px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:99px;font-size:13px;cursor:pointer;transition:all .15s;color:rgba(255,255,255,.7);}
+.opt.selected,.opt:hover{background:#fb923c22;border-color:#fb923c;color:#fb923c;}
+textarea{width:100%;padding:12px 16px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;resize:vertical;min-height:80px;outline:none;}
+textarea:focus{border-color:#fb923c;}
+input[type=email]{width:100%;padding:12px 16px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;color:#fff;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;}
+input[type=email]:focus{border-color:#fb923c;}
+.submit-btn{width:100%;padding:16px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:8px;}
+.submit-btn:hover{opacity:.9;}
+.success{text-align:center;padding:40px 0;}
+.success-icon{font-size:64px;margin-bottom:16px;}
+.success-title{font-size:24px;font-weight:900;color:#4ade80;margin-bottom:8px;}
+.success-sub{font-size:14px;color:rgba(255,255,255,.4);}
+.back-btn{display:inline-block;margin-top:24px;padding:12px 28px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;color:rgba(255,255,255,.6);font-size:14px;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="form-section">
+    <div class="logo">🏀</div>
+    <div class="title">PSYCHO <span>FEEDBACK</span></div>
+    <div class="sub">Takes 60 seconds. Helps us build a better game.</div>
+
+    <form id="feedback-form" action="https://formspree.io/f/mwvzrlbg" method="POST" onsubmit="handleFeedback(event)">
+
+      <!-- Q1: Overall rating -->
+      <div class="question">
+        <label class="q-label">1. Overall — how would you rate Psycho Basketball?</label>
+        <div class="stars" id="stars-overall">
+          <span class="star" data-val="1" onclick="rate('overall',1)">⭐</span>
+          <span class="star" data-val="2" onclick="rate('overall',2)">⭐</span>
+          <span class="star" data-val="3" onclick="rate('overall',3)">⭐</span>
+          <span class="star" data-val="4" onclick="rate('overall',4)">⭐</span>
+          <span class="star" data-val="5" onclick="rate('overall',5)">⭐</span>
+        </div>
+        <input type="hidden" name="overall_rating" id="overall_rating">
+      </div>
+
+      <!-- Q2: Favourite feature -->
+      <div class="question">
+        <label class="q-label">2. What's your favourite feature so far?</label>
+        <div class="options" id="opts-fav">
+          <div class="opt" onclick="pick('fav',this,'Playing matches')">Playing matches</div>
+          <div class="opt" onclick="pick('fav',this,'Trades')">Trades</div>
+          <div class="opt" onclick="pick('fav',this,'Draft')">Draft</div>
+          <div class="opt" onclick="pick('fav',this,'Player development')">Player development</div>
+          <div class="opt" onclick="pick('fav',this,'Managing minutes')">Managing minutes</div>
+          <div class="opt" onclick="pick('fav',this,'Standings')">Standings</div>
+        </div>
+        <input type="hidden" name="favourite_feature" id="fav_feature">
+      </div>
+
+      <!-- Q3: Missing feature -->
+      <div class="question">
+        <label class="q-label">3. What's the #1 thing missing that you want added?</label>
+        <div class="options" id="opts-missing">
+          <div class="opt" onclick="pick('missing',this,'Online multiplayer')">Online multiplayer</div>
+          <div class="opt" onclick="pick('missing',this,'Player career mode')">Player career mode</div>
+          <div class="opt" onclick="pick('missing',this,'More realistic gameplay')">More realistic gameplay</div>
+          <div class="opt" onclick="pick('missing',this,'Better graphics')">Better graphics</div>
+          <div class="opt" onclick="pick('missing',this,'More teams/leagues')">More teams/leagues</div>
+          <div class="opt" onclick="pick('missing',this,'Coach career mode')">Coach career mode</div>
+          <div class="opt" onclick="pick('missing',this,'Achievements/badges')">Achievements/badges</div>
+        </div>
+        <input type="hidden" name="missing_feature" id="missing_feature">
+      </div>
+
+      <!-- Q4: Would you pay -->
+      <div class="question">
+        <label class="q-label">4. Would you pay $5 for a premium version with online multiplayer + more features?</label>
+        <div class="options" id="opts-pay">
+          <div class="opt" onclick="pick('pay',this,'Yes definitely')">Yes definitely 🔥</div>
+          <div class="opt" onclick="pick('pay',this,'Maybe')">Maybe</div>
+          <div class="opt" onclick="pick('pay',this,'No, keep it free')">No, keep it free</div>
+        </div>
+        <input type="hidden" name="would_pay" id="would_pay">
+      </div>
+
+      <!-- Q5: Open feedback -->
+      <div class="question">
+        <label class="q-label">5. Anything else? Bugs, ideas, or just vibes 😄</label>
+        <textarea name="open_feedback" placeholder="Write anything here..."></textarea>
+      </div>
+
+      <!-- Email optional -->
+      <div class="question">
+        <label class="q-label">6. Email (optional) — get notified when we launch new features</label>
+        <input type="email" name="email" placeholder="your@email.com">
+      </div>
+
+      <button class="submit-btn" type="submit">Send Feedback 🚀</button>
+    </form>
+  </div>
+
+  <div id="success-section" class="success" style="display:none;">
+    <div class="success-icon">🏆</div>
+    <div class="success-title">Thanks! You're a legend.</div>
+    <div class="success-sub">Your feedback directly shapes the game. We read every single response.</div>
+    <a href="game.html" class="back-btn">← Back to the game</a>
+  </div>
+</div>
+
+<script>
+const ratings={};
+const picks={};
+
+function rate(key,val){
+  ratings[key]=val;
+  document.getElementById(key+'_rating').value=val;
+  const stars=document.querySelectorAll('#stars-'+key+' .star');
+  stars.forEach((s,i)=>s.classList.toggle('active',i<val));
+}
+
+function pick(key,el,val){
+  picks[key]=val;
+  document.getElementById(key==='fav'?'fav_feature':key==='missing'?'missing_feature':'would_pay').value=val;
+  el.closest('.options').querySelectorAll('.opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function handleFeedback(e){
+  e.preventDefault();
+  const form=e.target;
+  const data=new FormData(form);
+  const obj={};
+  data.forEach((v,k)=>obj[k]=v);
+
+  fetch(form.action,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body:JSON.stringify(obj)
+  }).then(r=>{
+    if(r.ok){
+      document.getElementById('form-section').style.display='none';
+      document.getElementById('success-section').style.display='block';
+    } else {
+      alert('Something went wrong — try again!');
+    }
+  }).catch(()=>alert('No connection — try again!'));
+}
+</script>
+</body>
+</html>
