@@ -169,6 +169,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .ctrl-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
 .ctrl-btn:disabled{opacity:.4;cursor:not-allowed;}
 .court-wrap{flex:1;overflow:hidden;padding:8px;}
+@media(max-width:700px){
+  #pg-game{flex-direction:column;}
+  .sidebar{width:100%;flex-direction:row;flex-wrap:wrap;height:auto;overflow-x:auto;padding:6px 4px;gap:2px;flex-shrink:0;}
+  .sb-top{display:none;}
+  .ni{padding:6px 10px;font-size:11px;border-radius:6px;margin:0;}
+  .tab{overflow-y:auto;}
+  .match-layout{flex-direction:column;}
+  .match-left{width:100%;border-right:none;border-bottom:1px solid var(--brd);max-height:200px;}
+  .match-right{width:100%;border-left:none;border-top:1px solid var(--brd);max-height:180px;}
+  .match-main{min-height:0;}
+  .court-wrap{padding:4px;}
+  #courtCanvas{height:180px!important;}
+  .score-bar{padding:8px 12px;}
+  .score-pts{font-size:28px;}
+  .db-team{flex-direction:column;}
+  .ts-hdr{flex-wrap:wrap;gap:6px;}
+  #pg-intro .intro-btns{width:90vw;}
+}
 .commentary{padding:8px 12px;border-top:1px solid var(--brd);height:130px;overflow-y:auto;background:var(--pan);}
 .cm{font-size:11px;color:var(--t2);padding:2px 0;border-bottom:1px solid var(--brs);}
 .cm:last-child{border-bottom:none;}
