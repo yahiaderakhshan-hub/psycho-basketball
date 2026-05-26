@@ -1587,6 +1587,7 @@ function confirmSkipSeason(){
     if(g.won)wins++;else losses++;
   });
   const cpuTeams=TEAMS.filter(t=>t.id!==myTeam.id&&(t.league||'NBA')===(myTeam.league||'NBA'));
+  for(let i=cpuTeams.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cpuTeams[i],cpuTeams[j]]=[cpuTeams[j],cpuTeams[i]];}
   for(let i=0;i<cpuTeams.length-1;i+=2){
     const a=cpuTeams[i],b=cpuTeams[i+1];if(!b)continue;
     const rA=a.players.reduce((s,p)=>s+p.rating,0)/a.players.length;
@@ -1616,6 +1617,8 @@ function startInterGame(){
     if(p.injured){p.injuredGames=(p.injuredGames||1)-1;if(p.injuredGames<=0){p.injured=false;p.injuredGames=0;p.starter=true;addNews(`✅ ${p.name} is back from injury!`);}}
   });
   const cpuTeams=TEAMS.filter(t=>t.id!==myTeam.id&&(t.league||'NBA')===(myTeam.league||'NBA'));
+  // Shuffle so matchups are different every game
+  for(let i=cpuTeams.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cpuTeams[i],cpuTeams[j]]=[cpuTeams[j],cpuTeams[i]];}
   const pairs=[];
   for(let i=0;i<cpuTeams.length-1;i+=2)pairs.push([cpuTeams[i],cpuTeams[i+1]]);
   pairs.forEach(([a,b])=>{
