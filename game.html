@@ -1625,6 +1625,25 @@ function startInterGame(){
   myTeam.players.forEach(p=>{
     if(p.injured){p.injuredGames=(p.injuredGames||1)-1;if(p.injuredGames<=0){p.injured=false;p.injuredGames=0;p.starter=true;addNews(`✅ ${p.name} is back from injury!`);}}
   });
+
+  // CPU vs CPU trades (happen in background ~20% of games)
+  if(Math.random()<0.20){
+    const cpuTeams=TEAMS.filter(t=>t.id!==myTeam.id&&(t.league||'NBA')===(t.league||'NBA')&&t.players.length>=6);
+    if(cpuTeams.length>=2){
+      const i1=Math.floor(Math.random()*cpuTeams.length);
+      let i2=Math.floor(Math.random()*(cpuTeams.length-1));
+      if(i2>=i1)i2++;
+      const tA=cpuTeams[i1],tB=cpuTeams[i2];
+      const pA=tA.players[Math.floor(Math.random()*tA.players.length)];
+      const fairPicks=tB.players.filter(p=>Math.abs(p.rating-pA.rating)<=5);
+      if(pA&&fairPicks.length){
+        const pB=fairPicks[Math.floor(Math.random()*fairPicks.length)];
+        const iA=tA.players.indexOf(pA),iB=tB.players.indexOf(pB);
+        tA.players[iA]=pB;tB.players[iB]=pA;
+        addNews(`🔄 Trade: ${pA.name} → ${tB.short}, ${pB.name} → ${tA.short}`);
+      }
+    }
+  }
   const cpuTeams=TEAMS.filter(t=>t.id!==myTeam.id&&(t.league||'NBA')===(myTeam.league||'NBA'));
   // Shuffle so matchups are different every game
   for(let i=cpuTeams.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[cpuTeams[i],cpuTeams[j]]=[cpuTeams[j],cpuTeams[i]];}
