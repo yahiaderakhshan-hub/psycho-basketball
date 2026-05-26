@@ -2769,13 +2769,34 @@ function buildPlay(){
     // Ball animation
     const target=isA?{x:.75+Math.random()*.1,y:.3+Math.random()*.4}:{x:.15+Math.random()*.1,y:.3+Math.random()*.4};
     ball.fromX=ball.x;ball.fromY=ball.y;ball.tx=target.x;ball.ty=target.y;ball.progress=0;ball.arcH=0.15+Math.random()*0.1;
-    addComment((isThree?'🎯':'🏀')+' '+scorer.name+' scores '+(isThree?'3':'2')+'! ('+scoreA+'-'+scoreB+')');
+    const scoreLines=isThree?[
+      `🎯 ${scorer.name} from deep — SPLASH! ${scoreA}-${scoreB}`,
+      `🎯 ${scorer.name} fires the three — it's good! ${scoreA}-${scoreB}`,
+      `🎯 Corner three by ${scorer.name}! ${scoreA}-${scoreB}`,
+      `🎯 ${scorer.name} steps back and drains it! ${scoreA}-${scoreB}`,
+      `🎯 ${scorer.name} — ice cold from three! ${scoreA}-${scoreB}`,
+    ]:[
+      `✅ ${scorer.name} drives and finishes! ${scoreA}-${scoreB}`,
+      `✅ ${scorer.name} with the mid-range — good! ${scoreA}-${scoreB}`,
+      `✅ ${scorer.name} in the paint — two points! ${scoreA}-${scoreB}`,
+      `✅ ${scorer.name} draws contact and scores! ${scoreA}-${scoreB}`,
+      `✅ Easy bucket for ${scorer.name}. ${scoreA}-${scoreB}`,
+      `✅ ${scorer.name} off the glass — counts! ${scoreA}-${scoreB}`,
+    ];
+    addComment(scoreLines[Math.floor(Math.random()*scoreLines.length)]);
   }else{
     const reb=defenders[Math.floor(Math.random()*defenders.length)];
     reb.reb++;
     if(isA)tRB++;else tRA++;
     if(Math.random()<.15){const s=defenders[Math.floor(Math.random()*defenders.length)];s.stl++;if(isA)tSB++;else tSA++;}
-    addComment('❌ Missed — '+(isA?'Away':'Home')+' rebound');
+    const missLines=[
+      `❌ ${scorer.name} misses — ${reb.name} rebounds`,
+      `❌ Off the rim — ${reb.name} with the board`,
+      `❌ No good — ${reb.name} pulls it down`,
+      `❌ ${scorer.name} can't convert — ${reb.name} rebounds`,
+      `❌ Rattles out — ${reb.name} cleans it up`,
+    ];
+    addComment(missLines[Math.floor(Math.random()*missLines.length)]);
   }
   // Move players
   courtPlayers.forEach(p=>{p.tx=p.isA?0.1+Math.random()*0.35:0.55+Math.random()*0.35;p.ty=0.1+Math.random()*0.8;});
