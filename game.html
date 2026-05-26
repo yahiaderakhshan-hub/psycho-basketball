@@ -23,7 +23,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 .intro-logo{font-size:48px;margin-bottom:16px;}
 .intro-title{font-size:32px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-0.5px;}
 .intro-sub{font-size:15px;color:rgba(255,255,255,.6);margin-bottom:48px;}
-.intro-btns{display:flex;flex-direction:column;gap:12px;width:240px;}
+.intro-btns{display:flex;flex-direction:column;gap:12px;width:100%;}
 .intro-btn{padding:14px 24px;border-radius:var(--rs);border:none;font-size:15px;font-weight:500;
   font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s;}
 .intro-btn-p{background:var(--blue);color:#fff;}
@@ -33,7 +33,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);font-
 
 /* TEAM SELECT */
 #pg-teams{flex-direction:column;background:var(--bg);}
-.ts-hdr{padding:20px 24px;background:#fff;border-bottom:1px solid var(--brd);display:flex;align-items:center;gap:12px;}
+.ts-hdr{padding:16px 20px;background:var(--sur);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between;}
 .ts-title{font-size:20px;font-weight:600;}
 .ts-sub{font-size:13px;color:var(--t3);}
 .ts-grid{flex:1;overflow-y:auto;padding:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;}
@@ -257,29 +257,28 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cur
 <body>
 <!-- INTRO -->
 <div id="pg-intro" class="pg on">
-  <div style="text-align:center;max-width:420px;padding:0 24px;">
+  <div style="text-align:center;width:280px;">
     <div style="font-size:64px;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(251,146,60,.6));">🏀</div>
     <div style="font-size:42px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1;margin-bottom:6px;">PSYCHO</div>
     <div style="font-size:42px;font-weight:900;color:#fb923c;letter-spacing:-1.5px;line-height:1;margin-bottom:16px;">BASKETBALL</div>
     <div style="font-size:14px;color:rgba(255,255,255,.5);margin-bottom:40px;letter-spacing:.5px;text-transform:uppercase;">Coach like you're crazy. Win like you mean it.</div>
     <div class="intro-btns">
-      <button class="intro-btn intro-btn-p" onclick="goTeams()" style="background:linear-gradient(135deg,#f97316,#ea580c);border:none;font-size:15px;font-weight:700;letter-spacing:.3px;">🏀 Single Player</button>
-      <button class="intro-btn intro-btn-p" onclick="goMultiplayer()" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);border:none;font-size:15px;font-weight:700;letter-spacing:.3px;">👥 2 Player — Same Device</button>
+      <button class="intro-btn intro-btn-p" onclick="goTeams()" style="background:linear-gradient(135deg,#f97316,#ea580c);border:none;font-size:15px;font-weight:700;letter-spacing:.3px;">🏀 New Game</button>
       <button class="intro-btn intro-btn-s" onclick="tryLoad()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);font-size:14px;">📂 Continue Game</button>
     </div>
     <div style="margin-top:32px;font-size:11px;color:rgba(255,255,255,.2);letter-spacing:1px;">BETA v0.1 · PSYCHOBASKETBALL.COM</div>
   </div>
 </div>
 
-<!-- MULTIPLAYER TEAM SELECT -->
-<div id="pg-multi" class="pg">
+<!-- TEAM SELECT -->
+<div id="pg-teams" class="pg">
   <div class="ts-hdr">
     <div>
-      <div class="ts-title" id="multi-title">👤 Player 1 — Choose Your Team</div>
-      <div class="ts-sub" id="multi-sub">Pick the team you want to coach</div>
+      <div class="ts-title">Choose Your Team</div>
+      <div class="ts-sub">Select a team to manage this season</div>
     </div>
   </div>
-  <div class="ts-grid" id="multi-grid"></div>
+  <div class="ts-grid" id="team-grid"></div>
 </div>
 
 <!-- PRE-GAME MINUTES POPUP -->
@@ -371,7 +370,6 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cur
     <div class="ni" onclick="showTab('news',this)"><i class="ti ti-news"></i> News</div>
     <div class="ni" onclick="showTab('match',this)"><i class="ti ti-ball-basketball"></i> Play Game</div>
     <div class="ni" onclick="goIntro()"><i class="ti ti-home"></i> Main Menu</div>
-    <a href="feedback.html" target="_blank" style="display:flex;align-items:center;gap:8px;padding:10px 16px;margin:8px;background:#fb923c22;border:1px solid #fb923c44;border-radius:8px;color:#fb923c;font-size:13px;font-weight:600;text-decoration:none;">💬 Give Feedback</a>
     <div class="sb-bottom">
       <button class="sav-btn" onclick="saveGame()"><i class="ti ti-device-floppy"></i> Save</button>
     </div>
@@ -622,749 +620,533 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cur
 
 <script>
 const TEAMS = [
-  // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
   // WESTERN CONFERENCE
-  // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 
   // 1-seed: OKC Thunder (64-18)
   { id:'okc', name:'OKC Thunder', short:'OKC', league:'NBA',
     color:'#007AC1', bg:'#eff9ff', border:'#bae6fd', rating:95.0, chem:93,
     coach:{name:'Mark Daigneault', rating:93},
     players:[
-      {name:'SGA',              pos:'PG',rating:98,age:26,pot:99,morale:97,contract:5,nbaId:1628983,skills:['scorer','defender'],starter:true},
-      {name:'Jalen Williams',   pos:'SG',rating:89,age:23,pot:95,morale:90,contract:4,nbaId:1630553,skills:['scorer','playmaker'],starter:true},
-      {name:'Chet Holmgren',    pos:'PF',rating:88,age:22,pot:94,morale:90,contract:4,nbaId:1631096,skills:['defender','rebounder'],starter:true},
-      {name:'I. Hartenstein',   pos:'C', rating:84,age:26,pot:86,morale:88,contract:3,nbaId:1629732,skills:['rebounder','defender'],starter:true},
-      {name:'Cason Wallace',    pos:'SG',rating:80,age:21,pot:90,morale:87,contract:3,nbaId:1641789,skills:['defender','scorer'],starter:true},
-      {name:'Jared McCain',     pos:'SG',rating:80,age:22,pot:92,morale:89,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Lu Dort',          pos:'SF',rating:80,age:26,pot:82,morale:84,contract:3,nbaId:1629652,skills:['defender','scorer'],starter:false},
-      {name:'Alex Caruso',      pos:'PG',rating:79,age:32,pot:79,morale:85,contract:2,nbaId:1628960,skills:['defender','playmaker'],starter:false},
-      {name:'Ajay Mitchell',    pos:'SG',rating:76,age:22,pot:86,morale:84,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Nikola Topic',     pos:'PG',rating:75,age:20,pot:90,morale:81,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Aaron Wiggins',    pos:'SG',rating:74,age:25,pot:77,morale:80,contract:2,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Jaylin Williams',  pos:'PF',rating:73,age:23,pot:79,morale:79,contract:3,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Kenrich Williams', pos:'SF',rating:72,age:30,pot:73,morale:78,contract:1,nbaId:1629652,skills:['defender','scorer'],starter:false},
-      {name:'Isaiah Joe',       pos:'SG',rating:71,age:25,pot:74,morale:77,contract:2,nbaId:1630175,skills:['scorer','defender'],starter:false},
-      {name:'Payton Sandfort',  pos:'SF',rating:70,age:23,pot:77,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Brooks Barnhizer', pos:'SG',rating:68,age:23,pot:75,morale:76,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Thomas Sorber',    pos:'C', rating:66,age:22,pot:76,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Branden Carlson',  pos:'C', rating:65,age:24,pot:72,morale:74,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
+      {name:'SGA',            pos:'PG',rating:98,age:26,pot:99,morale:97,contract:5,nbaId:1628983,skills:['scorer','playmaker'],starter:true},
+      {name:'Jalen Williams', pos:'SG',rating:89,age:23,pot:95,morale:90,contract:4,nbaId:1630553,skills:['scorer','playmaker'],starter:true},
+      {name:'Chet Holmgren',  pos:'PF',rating:88,age:22,pot:94,morale:90,contract:4,nbaId:1631096,skills:['defender','rebounder'],starter:true},
+      {name:'I. Hartenstein', pos:'C', rating:84,age:26,pot:86,morale:88,contract:3,nbaId:1629732,skills:['rebounder','defender'],starter:true},
+      {name:'Cason Wallace',  pos:'SG',rating:80,age:21,pot:90,morale:87,contract:3,nbaId:1641789,skills:['defender','scorer'],starter:true},
+      {name:'Jared McCain',   pos:'SG',rating:80,age:22,pot:92,morale:89,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Alex Caruso',    pos:'PG',rating:79,age:32,pot:79,morale:85,contract:2,nbaId:1628960,skills:['defender','playmaker'],starter:false},
+      {name:'Lu Dort',        pos:'SF',rating:80,age:26,pot:82,morale:84,contract:3,nbaId:1629652,skills:['defender','scorer'],starter:false},
+      {name:'Ajay Mitchell',  pos:'PG',rating:76,age:22,pot:86,morale:84,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
     ],
-    news:[{t:'OKC best record in NBA — 64-18.',c:''},{t:'SGA back-to-back MVP — 32.7 PPG.',c:''},{t:'WCF vs Spurs — series tied 2-2.',c:''}]
+    news:[{t:'OKC best record in NBA \u2014 64-18.',c:''},{t:'SGA back-to-back MVP winner.',c:''},{t:'In WCF vs Spurs \u2014 leading 2-1.',c:''}]
   },
 
-    { id:'sas', name:'San Antonio Spurs', short:'SAS', league:'NBA',
-    color:'#C4CED4', bg:'#f8fafc', border:'#e2e8f0', rating:93.0, chem:89,
-    coach:{name:'Mitch Johnson', rating:80},
+  // 2-seed: San Antonio Spurs (62-20)
+  { id:'sas', name:'San Antonio Spurs', short:'SAS', league:'NBA',
+    color:'#C4CED4', bg:'#f8fafc', border:'#e2e8f0', rating:93.0, chem:88,
+    coach:{name:'Gregg Popovich', rating:95},
     players:[
-      {name:'Victor Wembanyama',pos:'C', rating:97,age:22,pot:99,morale:95,contract:4,nbaId:1641706,skills:['defender','scorer'],starter:true},
-      {name:"De'Aaron Fox",     pos:'PG',rating:88,age:28,pot:90,morale:86,contract:5,nbaId:1628368,skills:['scorer','playmaker'],starter:true},
-      {name:'Stephon Castle',   pos:'SG',rating:84,age:21,pot:96,morale:90,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:true},
-      {name:'Dylan Harper',     pos:'SG',rating:83,age:20,pot:95,morale:88,contract:3,nbaId:1642256,skills:['scorer','playmaker'],starter:true},
-      {name:'Devin Vassell',    pos:'SF',rating:83,age:25,pot:87,morale:86,contract:4,nbaId:1630170,skills:['scorer','defender'],starter:true},
-      {name:'Harrison Barnes',  pos:'SF',rating:79,age:33,pot:79,morale:82,contract:2,nbaId:203084, skills:['scorer','defender'],starter:false},
-      {name:'Keldon Johnson',   pos:'SF',rating:78,age:26,pot:80,morale:79,contract:3,nbaId:1629645,skills:['scorer','defender'],starter:false},
-      {name:'Carter Bryant',    pos:'SF',rating:76,age:21,pot:88,morale:84,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Luke Kornet',      pos:'C', rating:74,age:30,pot:75,morale:78,contract:2,nbaId:1628436,skills:['defender','scorer'],starter:false},
-      {name:'Kelly Olynyk',     pos:'C', rating:74,age:34,pot:74,morale:77,contract:1,nbaId:203482, skills:['scorer','rebounder'],starter:false},
-      {name:'Julian Champagnie',pos:'SF',rating:73,age:24,pot:79,morale:78,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Harrison Ingram',  pos:'SF',rating:72,age:23,pot:80,morale:78,contract:2,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Jordan McLaughlin',pos:'PG',rating:70,age:29,pot:71,morale:76,contract:1,nbaId:1629643,skills:['playmaker','defender'],starter:false},
-      {name:'Emanuel Miller',   pos:'SF',rating:69,age:24,pot:75,morale:76,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Mason Plumlee',    pos:'C', rating:68,age:35,pot:68,morale:75,contract:1,nbaId:203486, skills:['rebounder','defender'],starter:false},
-      {name:'Bismack Biyombo',  pos:'C', rating:65,age:33,pot:65,morale:74,contract:1,nbaId:202687, skills:['defender','rebounder'],starter:false},
-      {name:'Lindy Waters III', pos:'SF',rating:64,age:28,pot:67,morale:73,contract:1,nbaId:1630217,skills:['scorer','defender'],starter:false},
+      {name:'Victor Wembanyama', pos:'C', rating:97,age:22,pot:99,morale:95,contract:4,nbaId:1641706,skills:['defender','scorer'],starter:true},
+      {name:'Stephon Castle',    pos:'PG',rating:84,age:21,pot:96,morale:90,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:true},
+      {name:'Dylan Harper',      pos:'SG',rating:83,age:20,pot:95,morale:88,contract:3,nbaId:1642256,skills:['scorer','playmaker'],starter:true},
+      {name:"De'Aaron Fox",      pos:'PG',rating:88,age:28,pot:90,morale:86,contract:5,nbaId:1628368,skills:['scorer','playmaker'],starter:true},
+      {name:'Harrison Barnes',   pos:'SF',rating:79,age:33,pot:79,morale:82,contract:2,nbaId:203084, skills:['scorer','defender'],starter:true},
+      {name:'Zach Collins',      pos:'C', rating:77,age:27,pot:79,morale:78,contract:2,nbaId:1628400,skills:['rebounder','scorer'],starter:false},
+      {name:'Carter Bryant',     pos:'SF',rating:76,age:21,pot:88,morale:84,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Kam Jones',         pos:'PG',rating:74,age:23,pot:82,morale:82,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
+      {name:'Luke Kornet',       pos:'C', rating:74,age:30,pot:75,morale:78,contract:2,nbaId:1628436,skills:['defender','scorer'],starter:false},
     ],
-    news:[{t:'Wemby 41pts/24reb in WCF — generational!',c:''},{t:'Spurs 2-seed — WCF vs OKC.',c:''},{t:'Castle + Harper + Fox + Wemby — dynasty incoming.',c:''}]
+    news:[{t:'Wemby drops 41pts/24reb vs OKC in Game 2!',c:''},{t:'Spurs 2-seed \u2014 best young team in NBA.',c:''},{t:'WCF vs OKC \u2014 leading series 2-1.',c:''}]
   },
 
-    { id:'den', name:'Denver Nuggets', short:'DEN', league:'NBA',
+  // 3-seed: Denver Nuggets (54-28)
+  { id:'den', name:'Denver Nuggets', short:'DEN', league:'NBA',
     color:'#0E2240', bg:'#fefce8', border:'#fde68a', rating:90.0, chem:86,
     coach:{name:'David Adelman', rating:82},
     players:[
-      {name:'Nikola Jokic',      pos:'C', rating:98,age:31,pot:99,morale:92,contract:3,nbaId:203999, skills:['scorer','playmaker'],starter:true},
-      {name:'Jamal Murray',      pos:'PG',rating:87,age:29,pot:89,morale:86,contract:3,nbaId:1627750,skills:['scorer','playmaker'],starter:true},
-      {name:'Aaron Gordon',      pos:'PF',rating:83,age:30,pot:83,morale:84,contract:2,nbaId:203932, skills:['defender','scorer'],starter:true},
-      {name:'Christian Braun',   pos:'SG',rating:80,age:24,pot:84,morale:85,contract:3,nbaId:1631155,skills:['defender','scorer'],starter:true},
-      {name:'Cameron Johnson',   pos:'SF',rating:81,age:29,pot:83,morale:82,contract:3,nbaId:1629629,skills:['scorer','defender'],starter:true},
-      {name:'Jonas Valanciunas', pos:'C', rating:79,age:34,pot:79,morale:78,contract:1,nbaId:202685, skills:['rebounder','scorer'],starter:false},
-      {name:'DaRon Holmes II',   pos:'PF',rating:77,age:22,pot:88,morale:80,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Julian Strawther',  pos:'SG',rating:76,age:24,pot:81,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Peyton Watson',     pos:'SF',rating:75,age:23,pot:83,morale:79,contract:3,nbaId:1641769,skills:['defender','scorer'],starter:false},
-      {name:'Tyus Jones',        pos:'PG',rating:75,age:30,pot:76,morale:78,contract:2,nbaId:1626145,skills:['playmaker','defender'],starter:false},
-      {name:'T. Hardaway Jr.',   pos:'SG',rating:76,age:33,pot:76,morale:77,contract:1,nbaId:203501, skills:['scorer'],starter:false},
-      {name:'Bruce Brown',       pos:'SF',rating:74,age:29,pot:75,morale:77,contract:1,nbaId:1629650,skills:['defender','scorer'],starter:false},
-      {name:'Zeke Nnaji',        pos:'PF',rating:72,age:23,pot:76,morale:76,contract:2,nbaId:1630175,skills:['rebounder','scorer'],starter:false},
-      {name:'KJ Simpson',        pos:'PG',rating:71,age:22,pot:79,morale:77,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Curtis Jones',      pos:'SG',rating:69,age:29,pot:70,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Jalen Pickett',     pos:'PG',rating:68,age:25,pot:72,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Spencer Jones',     pos:'SF',rating:67,age:24,pot:73,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'David Roddy',       pos:'SF',rating:66,age:25,pot:71,morale:74,contract:1,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
+      {name:'Nikola Jokic',    pos:'C', rating:98,age:31,pot:99,morale:92,contract:3,nbaId:203999, skills:['scorer','playmaker'],starter:true},
+      {name:'Jamal Murray',    pos:'PG',rating:87,age:29,pot:89,morale:86,contract:3,nbaId:1627750,skills:['scorer','playmaker'],starter:true},
+      {name:'M. Porter Jr.',   pos:'SF',rating:85,age:27,pot:87,morale:83,contract:3,nbaId:1629008,skills:['scorer','rebounder'],starter:true},
+      {name:'Aaron Gordon',    pos:'PF',rating:83,age:30,pot:83,morale:84,contract:2,nbaId:203932, skills:['defender','scorer'],starter:true},
+      {name:'Christian Braun', pos:'SG',rating:80,age:24,pot:84,morale:85,contract:3,nbaId:1631155,skills:['defender','scorer'],starter:true},
+      {name:'R. Westbrook',    pos:'PG',rating:78,age:37,pot:78,morale:76,contract:1,nbaId:201566, skills:['playmaker','scorer'],starter:false},
+      {name:'J. Valanciunas',  pos:'C', rating:79,age:34,pot:79,morale:78,contract:1,nbaId:202685, skills:['rebounder','scorer'],starter:false},
+      {name:'T. Hardaway Jr.', pos:'SG',rating:77,age:33,pot:77,morale:77,contract:1,nbaId:203501, skills:['scorer'],starter:false},
+      {name:'Peyton Watson',   pos:'SF',rating:74,age:22,pot:82,morale:80,contract:3,nbaId:1641769,skills:['defender','scorer'],starter:false},
     ],
-    news:[{t:'Jokic 4th MVP — historic career.',c:''},{t:'Nuggets eliminated by Minnesota in R2.',c:'d'},{t:'New coach Adelman fresh start.',c:''}]
+    news:[{t:'Jokic 4th MVP season \u2014 historic.',c:''},{t:'Nuggets 3-seed \u2014 eliminated in R2 by Minnesota.',c:'d'},{t:'New coach Adelman \u2014 fresh start.',c:''}]
   },
 
-    { id:'lal', name:'Los Angeles Lakers', short:'LAL', league:'NBA',
+  // 4-seed: Los Angeles Lakers (53-29)
+  { id:'lal', name:'Los Angeles Lakers', short:'LAL', league:'NBA',
     color:'#552583', bg:'#f5f0ff', border:'#c4b5fd', rating:89.0, chem:82,
     coach:{name:'JJ Redick', rating:84},
     players:[
-      {name:'Luka Doncic',      pos:'PG',rating:96,age:26,pot:99,morale:92,contract:3,nbaId:1629029,skills:['scorer','playmaker'],starter:true,injured:true,injuredGames:3},
-      {name:'LeBron James',     pos:'SF',rating:87,age:40,pot:87,morale:88,contract:1,nbaId:2544,   skills:['scorer','playmaker'],starter:true},
-      {name:'Austin Reaves',    pos:'SG',rating:84,age:27,pot:86,morale:85,contract:3,nbaId:1631244,skills:['scorer','defender'],starter:true,injured:true,injuredGames:3},
-      {name:'Rui Hachimura',    pos:'PF',rating:81,age:26,pot:83,morale:84,contract:2,nbaId:1629632,skills:['scorer','defender'],starter:true},
-      {name:'Deandre Ayton',    pos:'C', rating:80,age:27,pot:82,morale:76,contract:2,nbaId:1629028,skills:['rebounder','finisher'],starter:true},
-      {name:'Marcus Smart',     pos:'PG',rating:80,age:31,pot:80,morale:82,contract:2,nbaId:1726616,skills:['defender','playmaker'],starter:false},
-      {name:'Luke Kennard',     pos:'SG',rating:78,age:28,pot:79,morale:79,contract:2,nbaId:1628384,skills:['scorer'],starter:false},
-      {name:'Jake LaRavia',     pos:'SF',rating:76,age:24,pot:83,morale:80,contract:3,nbaId:1631217,skills:['defender','scorer'],starter:false},
-      {name:'Dalton Knecht',    pos:'SG',rating:74,age:23,pot:82,morale:80,contract:3,nbaId:1641730,skills:['scorer'],starter:false},
-      {name:'Maxi Kleber',      pos:'PF',rating:74,age:33,pot:74,morale:78,contract:1,nbaId:1628467,skills:['defender','scorer'],starter:false},
-      {name:'Jarred Vanderbilt',pos:'PF',rating:73,age:26,pot:76,morale:77,contract:2,nbaId:1629021,skills:['rebounder','defender'],starter:false},
-      {name:'Jaxson Hayes',     pos:'C', rating:74,age:25,pot:78,morale:78,contract:2,nbaId:1629637,skills:['finisher','defender'],starter:false},
-      {name:'Drew Timme',       pos:'C', rating:71,age:24,pot:74,morale:77,contract:2,nbaId:1641742,skills:['scorer','rebounder'],starter:false},
-      {name:'Bronny James',     pos:'PG',rating:70,age:21,pot:79,morale:82,contract:2,nbaId:1642275,skills:['defender','playmaker'],starter:false},
-      {name:'Nick Smith Jr.',   pos:'PG',rating:70,age:21,pot:82,morale:78,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Adou Thiero',      pos:'SF',rating:68,age:22,pot:78,morale:77,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Chris Manon',      pos:'SG',rating:64,age:23,pot:70,morale:74,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
+      {name:'LeBron James',   pos:'SF',rating:87,age:40,pot:87,morale:88,contract:1,nbaId:2544,   skills:['scorer','playmaker'],starter:true},
+      {name:'Marcus Smart',   pos:'PG',rating:80,age:31,pot:80,morale:82,contract:2,nbaId:1726616,skills:['defender','playmaker'],starter:true},
+      {name:'Rui Hachimura',  pos:'PF',rating:81,age:26,pot:83,morale:84,contract:2,nbaId:1629632,skills:['scorer','defender'],starter:true},
+      {name:'D. Ayton',       pos:'C', rating:80,age:27,pot:82,morale:76,contract:2,nbaId:1629028,skills:['rebounder','finisher'],starter:true},
+      {name:'Jake LaRavia',   pos:'SF',rating:76,age:24,pot:83,morale:80,contract:3,nbaId:1631217,skills:['defender','scorer'],starter:true},
+      {name:'Luke Kennard',   pos:'SG',rating:78,age:28,pot:79,morale:79,contract:2,nbaId:1628384,skills:['scorer'],starter:false},
+      {name:'Dalton Knecht',  pos:'SG',rating:74,age:23,pot:82,morale:80,contract:3,nbaId:1641730,skills:['scorer'],starter:false},
+      {name:'Jaxson Hayes',   pos:'C', rating:74,age:25,pot:78,morale:78,contract:2,nbaId:1629637,skills:['finisher','defender'],starter:false},
+      {name:'Bronny James',   pos:'PG',rating:70,age:21,pot:79,morale:82,contract:2,nbaId:1642275,skills:['defender','playmaker'],starter:false},
+      {name:'Luka Doncic',    pos:'PG',rating:96,age:26,pot:99,morale:92,contract:3,nbaId:1629029,skills:['scorer','playmaker'],starter:false,injured:true,injuredGames:3},
+      {name:'Austin Reaves',  pos:'SG',rating:84,age:27,pot:86,morale:85,contract:3,nbaId:1631244,skills:['scorer','defender'],starter:false,injured:true,injuredGames:3},
     ],
-    news:[{t:'Luka (hamstring) and Reaves (oblique) OUT.',c:'d'},{t:'Lakers lost to Rockets — blew 3-1 lead.',c:'d'},{t:'LeBron carrying the playoff load.',c:''}]
+    news:[{t:'Luka (hamstring) and Reaves (oblique) OUT.',c:'d'},{t:'Lakers lost to Rockets \u2014 blew 3-1 lead.',c:'d'},{t:'53-29 regular season record.',c:''}]
   },
 
-    { id:'hou', name:'Houston Rockets', short:'HOU', league:'NBA',
-    color:'#CE1141', bg:'#fff1f2', border:'#fecdd3', rating:89.0, chem:83,
+  // 5-seed: Houston Rockets (52-30)
+  { id:'hou', name:'Houston Rockets', short:'HOU', league:'NBA',
+    color:'#CE1141', bg:'#fff1f2', border:'#fecdd3', rating:89.0, chem:82,
     coach:{name:'Ime Udoka', rating:84},
     players:[
-      {name:'Kevin Durant',      pos:'SF',rating:93,age:37,pot:93,morale:85,contract:2,nbaId:201142, skills:['scorer','playmaker'],starter:true},
-      {name:'Alperen Sengun',    pos:'C', rating:88,age:23,pot:93,morale:88,contract:4,nbaId:1630578,skills:['scorer','rebounder'],starter:true},
-      {name:'Amen Thompson',     pos:'SF',rating:83,age:22,pot:92,morale:86,contract:3,nbaId:1641731,skills:['defender','rebounder'],starter:true},
-      {name:'Reed Sheppard',     pos:'PG',rating:80,age:22,pot:90,morale:84,contract:3,nbaId:1641732,skills:['scorer','playmaker'],starter:true},
-      {name:'Fred VanVleet',     pos:'PG',rating:80,age:32,pot:80,morale:80,contract:2,nbaId:1627832,skills:['playmaker','defender'],starter:true},
-      {name:'Jabari Smith Jr.',  pos:'PF',rating:79,age:23,pot:87,morale:81,contract:3,nbaId:1631109,skills:['defender','scorer'],starter:false},
-      {name:'Tari Eason',        pos:'PF',rating:77,age:24,pot:84,morale:81,contract:3,nbaId:1631217,skills:['defender','rebounder'],starter:false},
-      {name:'Dorian Finney-Smith',pos:'SF',rating:76,age:32,pot:76,morale:78,contract:2,nbaId:1628449,skills:['defender','scorer'],starter:false},
-      {name:'Clint Capela',      pos:'C', rating:76,age:32,pot:76,morale:77,contract:1,nbaId:203991, skills:['rebounder','defender'],starter:false},
-      {name:'Steven Adams',      pos:'C', rating:74,age:32,pot:74,morale:78,contract:1,nbaId:203500, skills:['rebounder','defender'],starter:false},
-      {name:'Josh Okogie',       pos:'SG',rating:72,age:27,pot:74,morale:76,contract:2,nbaId:1629018,skills:['defender','scorer'],starter:false},
-      {name:'Aaron Holiday',     pos:'PG',rating:71,age:29,pot:72,morale:76,contract:1,nbaId:1629021,skills:['playmaker','scorer'],starter:false},
-      {name:'Tristen Newton',    pos:'PG',rating:70,age:25,pot:75,morale:76,contract:2,nbaId:1642355,skills:['playmaker','defender'],starter:false},
-      {name:"Jae'Sean Tate",     pos:'SF',rating:70,age:30,pot:70,morale:76,contract:1,nbaId:1630217,skills:['defender','scorer'],starter:false},
-      {name:'Jeff Green',        pos:'PF',rating:66,age:38,pot:66,morale:74,contract:1,nbaId:201145, skills:['scorer','defender'],starter:false},
-      {name:'JD Davison',        pos:'PG',rating:65,age:23,pot:74,morale:74,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Isaiah Crawford',   pos:'SF',rating:63,age:24,pot:70,morale:73,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Kevin Durant',    pos:'SF',rating:93,age:37,pot:93,morale:85,contract:2,nbaId:201142, skills:['scorer','playmaker'],starter:true},
+      {name:'A. Sengun',       pos:'C', rating:88,age:23,pot:93,morale:88,contract:4,nbaId:1630578,skills:['scorer','rebounder'],starter:true},
+      {name:'Amen Thompson',   pos:'SF',rating:83,age:22,pot:92,morale:86,contract:3,nbaId:1641731,skills:['defender','rebounder'],starter:true},
+      {name:'Reed Sheppard',   pos:'PG',rating:80,age:22,pot:90,morale:84,contract:3,nbaId:1641732,skills:['scorer','playmaker'],starter:true},
+      {name:'Fred VanVleet',   pos:'PG',rating:80,age:32,pot:80,morale:80,contract:2,nbaId:1627832,skills:['playmaker','defender'],starter:true},
+      {name:'Dillon Brooks',   pos:'SF',rating:78,age:29,pot:79,morale:76,contract:2,nbaId:1628415,skills:['defender','scorer'],starter:false},
+      {name:'Jabari Smith Jr.',pos:'PF',rating:78,age:23,pot:86,morale:80,contract:3,nbaId:1631109,skills:['defender','scorer'],starter:false},
+      {name:'Tari Eason',      pos:'PF',rating:76,age:24,pot:83,morale:81,contract:3,nbaId:1631217,skills:['defender','rebounder'],starter:false},
+      {name:'Steven Adams',    pos:'C', rating:74,age:32,pot:74,morale:78,contract:1,nbaId:203500, skills:['rebounder','defender'],starter:false},
     ],
-    news:[{t:'KD traded from Suns — Rockets are legit!',c:''},{t:'Beat the Lakers in R1 — Lakers blew 3-1 lead!',c:''},{t:'Sengun + KD — dangerous duo.',c:''}]
+    news:[{t:'KD traded from Suns \u2014 Rockets are legit.',c:''},{t:'Beat the Lakers in R1 \u2014 Lakers blew 3-1 lead!',c:''},{t:'5th seed West.',c:''}]
   },
 
-    { id:'min', name:'Minnesota Timberwolves', short:'MIN', league:'NBA',
+  // 6-seed: Minnesota Timberwolves (49-33)
+  { id:'min', name:'Minnesota Timberwolves', short:'MIN', league:'NBA',
     color:'#0C2340', bg:'#f0fdf4', border:'#bbf7d0', rating:88.0, chem:83,
     coach:{name:'Chris Finch', rating:83},
     players:[
-      {name:'Anthony Edwards',  pos:'SG',rating:93,age:24,pot:97,morale:91,contract:4,nbaId:1630162,skills:['scorer','defender'],starter:true},
-      {name:'Julius Randle',    pos:'PF',rating:85,age:31,pot:86,morale:82,contract:3,nbaId:203944, skills:['scorer','rebounder'],starter:true},
-      {name:'Jaden McDaniels',  pos:'SF',rating:82,age:23,pot:87,morale:84,contract:3,nbaId:1630183,skills:['defender','scorer'],starter:true},
-      {name:'Rudy Gobert',      pos:'C', rating:84,age:33,pot:84,morale:80,contract:2,nbaId:203497, skills:['defender','rebounder'],starter:true},
-      {name:'Donte DiVincenzo', pos:'PG',rating:82,age:28,pot:84,morale:82,contract:2,nbaId:1629059,skills:['scorer','defender'],starter:true},
-      {name:'Naz Reid',         pos:'PF',rating:80,age:26,pot:82,morale:82,contract:3,nbaId:1629675,skills:['scorer','rebounder'],starter:false},
-      {name:'Mike Conley',      pos:'PG',rating:76,age:38,pot:76,morale:82,contract:1,nbaId:201144, skills:['playmaker','defender'],starter:false},
-      {name:'T. Shannon Jr.',   pos:'SG',rating:78,age:24,pot:83,morale:80,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Ayo Dosunmu',      pos:'SG',rating:75,age:25,pot:79,morale:77,contract:2,nbaId:1630245,skills:['defender','scorer'],starter:false},
-      {name:'Kyle Anderson',    pos:'SF',rating:74,age:32,pot:74,morale:77,contract:1,nbaId:203937, skills:['playmaker','defender'],starter:false},
-      {name:'Jaylen Clark',     pos:'SG',rating:73,age:23,pot:79,morale:78,contract:2,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Bones Hyland',     pos:'PG',rating:73,age:25,pot:77,morale:76,contract:2,nbaId:1630591,skills:['scorer','playmaker'],starter:false},
-      {name:'Julian Phillips',  pos:'SF',rating:71,age:23,pot:79,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Joe Ingles',       pos:'SF',rating:70,age:38,pot:70,morale:76,contract:1,nbaId:204060, skills:['scorer','playmaker'],starter:false},
-      {name:'Enrique Freeman',  pos:'PF',rating:68,age:23,pot:75,morale:76,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Zyon Pullin',      pos:'PG',rating:67,age:24,pot:73,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Joan Beringer',    pos:'PF',rating:66,age:22,pot:76,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Rocco Zikarsky',   pos:'C', rating:64,age:20,pot:75,morale:74,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
+      {name:'Anthony Edwards', pos:'SG',rating:93,age:24,pot:97,morale:91,contract:4,nbaId:1630162,skills:['scorer','defender'],starter:true},
+      {name:'D. DiVincenzo',   pos:'PG',rating:82,age:28,pot:84,morale:82,contract:2,nbaId:1629059,skills:['scorer','defender'],starter:true},
+      {name:'Jaden McDaniels', pos:'SF',rating:82,age:23,pot:87,morale:84,contract:3,nbaId:1630183,skills:['defender','scorer'],starter:true},
+      {name:'Julius Randle',   pos:'PF',rating:85,age:31,pot:86,morale:82,contract:3,nbaId:203944, skills:['scorer','rebounder'],starter:true},
+      {name:'Rudy Gobert',     pos:'C', rating:84,age:33,pot:84,morale:80,contract:2,nbaId:203497, skills:['defender','rebounder'],starter:true},
+      {name:'Mike Conley',     pos:'PG',rating:76,age:38,pot:76,morale:82,contract:1,nbaId:201144, skills:['playmaker','defender'],starter:false},
+      {name:'Naz Reid',        pos:'PF',rating:80,age:26,pot:82,morale:82,contract:3,nbaId:1629675,skills:['scorer','rebounder'],starter:false},
+      {name:'T. Shannon Jr.',  pos:'SG',rating:78,age:24,pot:83,morale:80,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'R. Dillingham',   pos:'PG',rating:76,age:21,pot:90,morale:80,contract:4,nbaId:1642361,skills:['scorer','playmaker'],starter:false},
     ],
-    news:[{t:'Ant Edwards 40pts in playoffs — unstoppable.',c:''},{t:'Lost to Spurs in R2.',c:'d'},{t:'DiVincenzo runs the show at PG.',c:''}]
+    news:[{t:'Ant Edwards dropped 40 in playoffs.',c:''},{t:'Lost to Spurs in R2 \u2014 season over.',c:'d'},{t:'DiVincenzo runs the show at PG.',c:''}]
   },
 
-    { id:'por', name:'Portland Trail Blazers', short:'POR', league:'NBA',
+  // 7-seed: Portland Trail Blazers (42-40)
+  { id:'por', name:'Portland Trail Blazers', short:'POR', league:'NBA',
     color:'#E03A3E', bg:'#fff1f2', border:'#fecdd3', rating:82.0, chem:78,
     coach:{name:'Chauncey Billups', rating:79},
     players:[
-      {name:'Damian Lillard',   pos:'PG',rating:88,age:35,pot:88,morale:84,contract:2,nbaId:203081, skills:['scorer','playmaker'],starter:true,injured:true,injuredGames:2},
-      {name:'Shaedon Sharpe',   pos:'SG',rating:83,age:22,pot:93,morale:84,contract:3,nbaId:1631108,skills:['scorer','defender'],starter:true},
-      {name:'Deni Avdija',      pos:'SF',rating:82,age:24,pot:87,morale:84,contract:3,nbaId:1630166,skills:['scorer','playmaker'],starter:true},
-      {name:'Toumani Camara',   pos:'PF',rating:79,age:24,pot:83,morale:82,contract:3,nbaId:1641706,skills:['defender','rebounder'],starter:true},
-      {name:'Donovan Clingan',  pos:'C', rating:80,age:21,pot:89,morale:82,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
-      {name:'Scoot Henderson',  pos:'PG',rating:80,age:21,pot:92,morale:80,contract:3,nbaId:1641769,skills:['playmaker','scorer'],starter:false,injured:true,injuredGames:2},
-      {name:'Jrue Holiday',     pos:'PG',rating:83,age:35,pot:83,morale:82,contract:2,nbaId:203200, skills:['defender','playmaker'],starter:false},
-      {name:'Jerami Grant',     pos:'SF',rating:79,age:31,pot:79,morale:79,contract:2,nbaId:203924, skills:['scorer','defender'],starter:false},
-      {name:'Matisse Thybulle', pos:'SG',rating:75,age:28,pot:76,morale:78,contract:2,nbaId:1629680,skills:['defender','scorer'],starter:false},
-      {name:'Robert Williams III',pos:'C',rating:75,age:27,pot:77,morale:77,contract:2,nbaId:1629057,skills:['defender','rebounder'],starter:false},
-      {name:'Kris Murray',      pos:'SF',rating:74,age:24,pot:80,morale:78,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Vit Krejci',       pos:'SG',rating:72,age:23,pot:79,morale:77,contract:2,nbaId:1642355,skills:['playmaker','defender'],starter:false},
-      {name:'Caleb Love',       pos:'PG',rating:71,age:23,pot:77,morale:76,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Blake Wesley',     pos:'SG',rating:70,age:23,pot:77,morale:76,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Sidy Cissoko',     pos:'SG',rating:69,age:20,pot:80,morale:76,contract:2,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Yang Hansen',      pos:'C', rating:67,age:22,pot:74,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Chris Youngblood', pos:'SG',rating:66,age:24,pot:71,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Jrue Holiday',    pos:'PG',rating:83,age:35,pot:83,morale:82,contract:2,nbaId:203200, skills:['defender','playmaker'],starter:true},
+      {name:'Shaedon Sharpe',  pos:'SG',rating:83,age:22,pot:93,morale:84,contract:3,nbaId:1631108,skills:['scorer','defender'],starter:true},
+      {name:'Deni Avdija',     pos:'SF',rating:82,age:24,pot:87,morale:84,contract:3,nbaId:1630166,skills:['scorer','playmaker'],starter:true},
+      {name:'Toumani Camara',  pos:'PF',rating:79,age:24,pot:83,morale:82,contract:3,nbaId:1641706,skills:['defender','rebounder'],starter:true},
+      {name:'Donovan Clingan', pos:'C', rating:80,age:21,pot:89,morale:82,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
+      {name:'Damian Lillard',  pos:'PG',rating:88,age:35,pot:88,morale:82,contract:2,nbaId:203081, skills:['scorer','playmaker'],starter:false,injured:true,injuredGames:2},
+      {name:'Scoot Henderson', pos:'PG',rating:80,age:21,pot:92,morale:80,contract:3,nbaId:1641769,skills:['playmaker','scorer'],starter:false,injured:true,injuredGames:2},
+      {name:'Anfernee Simons', pos:'SG',rating:81,age:26,pot:84,morale:80,contract:2,nbaId:1629029,skills:['scorer','playmaker'],starter:false},
+      {name:'Robert Williams', pos:'C', rating:76,age:27,pot:78,morale:76,contract:2,nbaId:1629057,skills:['defender','rebounder'],starter:false},
     ],
-    news:[{t:'Lillard back at Portland — full circle!',c:''},{t:'Scoot + Lillard both returning from injury.',c:'d'},{t:'Lost to Spurs 1-4 in R1.',c:'d'}]
+    news:[{t:'Made playoffs via play-in.',c:''},{t:'Lillard and Scoot returning from injury.',c:'d'},{t:'Lost to Spurs 1-4 in R1.',c:'d'}]
   },
 
-    { id:'phx', name:'Phoenix Suns', short:'PHX', league:'NBA',
-    color:'#1D1160', bg:'#fef3c7', border:'#fde68a', rating:81.0, chem:73,
+  // 8-seed: Phoenix Suns (45-37)
+  { id:'phx', name:'Phoenix Suns', short:'PHX', league:'NBA',
+    color:'#1D1160', bg:'#fef3c7', border:'#fde68a', rating:83.0, chem:74,
     coach:{name:'Jordan Ott', rating:75},
     players:[
-      {name:'Devin Booker',     pos:'SG',rating:92,age:29,pot:93,morale:84,contract:4,nbaId:1626164,skills:['scorer','playmaker'],starter:true},
-      {name:'Jalen Green',      pos:'SG',rating:84,age:23,pot:90,morale:82,contract:3,nbaId:1630224,skills:['scorer','playmaker'],starter:true},
-      {name:'Dillon Brooks',    pos:'SF',rating:78,age:29,pot:79,morale:76,contract:2,nbaId:1628415,skills:['defender','scorer'],starter:true},
-      {name:"Royce O'Neale",    pos:'PF',rating:76,age:33,pot:76,morale:78,contract:2,nbaId:1626220,skills:['defender','scorer'],starter:true},
-      {name:'Mark Williams',    pos:'C', rating:79,age:23,pot:86,morale:80,contract:3,nbaId:1631218,skills:['rebounder','defender'],starter:true},
-      {name:'Grayson Allen',    pos:'SG',rating:77,age:29,pot:78,morale:78,contract:2,nbaId:1628960,skills:['scorer','defender'],starter:false},
-      {name:'Ryan Dunn',        pos:'SF',rating:74,age:22,pot:83,morale:79,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Khaman Maluach',   pos:'C', rating:73,age:20,pot:89,morale:79,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Haywood Highsmith',pos:'SF',rating:73,age:29,pot:74,morale:77,contract:2,nbaId:1630217,skills:['defender','scorer'],starter:false},
-      {name:'Oso Ighodaro',     pos:'PF',rating:71,age:23,pot:79,morale:77,contract:2,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Amir Coffey',      pos:'SG',rating:71,age:29,pot:72,morale:76,contract:1,nbaId:1629652,skills:['scorer','defender'],starter:false},
-      {name:'Collin Gillespie', pos:'PG',rating:70,age:26,pot:73,morale:76,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Jordan Goodwin',   pos:'PG',rating:69,age:26,pot:72,morale:75,contract:1,nbaId:1642355,skills:['defender','playmaker'],starter:false},
-      {name:'Jamaree Bouyea',   pos:'PG',rating:68,age:27,pot:71,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Koby Brea',        pos:'SG',rating:67,age:24,pot:73,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Rasheer Fleming',  pos:'PF',rating:65,age:26,pot:69,morale:73,contract:1,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Isaiah Livers',    pos:'SF',rating:64,age:27,pot:67,morale:73,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Devin Booker',    pos:'SG',rating:92,age:29,pot:93,morale:84,contract:4,nbaId:1626164,skills:['scorer','playmaker'],starter:true},
+      {name:'Jalen Green',     pos:'SG',rating:84,age:23,pot:90,morale:82,contract:3,nbaId:1630224,skills:['scorer','playmaker'],starter:true},
+      {name:'Dillon Brooks',   pos:'SF',rating:78,age:29,pot:79,morale:76,contract:2,nbaId:1628415,skills:['defender','scorer'],starter:true},
+      {name:'Royce ONeale',  pos:'PF',rating:76,age:33,pot:76,morale:78,contract:2,nbaId:1626220,skills:['defender','scorer'],starter:true},
+      {name:'Mark Williams',   pos:'C', rating:79,age:23,pot:86,morale:80,contract:3,nbaId:1631218,skills:['rebounder','defender'],starter:true},
+      {name:'K. Maluach',      pos:'C', rating:72,age:20,pot:88,morale:79,contract:4,nbaId:1642355,skills:['defender','rebounder'],starter:false},
+      {name:'Collin Gillespie',pos:'PG',rating:73,age:26,pot:77,morale:78,contract:2,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
+      {name:'Jordan Goodwin',  pos:'PG',rating:72,age:26,pot:75,morale:76,contract:2,nbaId:1642355,skills:['defender','playmaker'],starter:false},
     ],
-    news:[{t:'KD traded to Rockets — Booker is THE guy.',c:''},{t:'Jalen Green arrives from Houston.',c:''},{t:'Swept by OKC in R1.',c:'d'}]
+    news:[{t:'KD traded to Rockets \u2014 full rebuild.',c:''},{t:'Booker is THE guy now.',c:''},{t:'Swept by OKC in R1.',c:'d'}]
   },
 
-    // Missed playoffs (West)
+  // Missed playoffs (West)
   // Golden State Warriors
   { id:'gsw', name:'Golden State Warriors', short:'GSW', league:'NBA',
-    color:'#1D428A', bg:'#fffbeb', border:'#fde68a', rating:83.0, chem:76,
+    color:'#1D428A', bg:'#fffbeb', border:'#fde68a', rating:83.0, chem:74,
     coach:{name:'Steve Kerr', rating:88},
     players:[
-      {name:'Stephen Curry',    pos:'PG',rating:92,age:37,pot:92,morale:85,contract:1,nbaId:201939, skills:['scorer','playmaker'],starter:true},
-      {name:'Jimmy Butler',     pos:'SF',rating:87,age:36,pot:87,morale:80,contract:1,nbaId:202710, skills:['scorer','defender'],starter:true},
-      {name:'K. Porzingis',     pos:'C', rating:84,age:30,pot:86,morale:82,contract:2,nbaId:204001, skills:['scorer','defender'],starter:true},
-      {name:'B. Podziemski',    pos:'SG',rating:80,age:22,pot:88,morale:84,contract:3,nbaId:1641706,skills:['scorer','playmaker'],starter:true},
-      {name:'Draymond Green',   pos:'PF',rating:79,age:35,pot:79,morale:76,contract:1,nbaId:203110, skills:['defender','playmaker'],starter:true},
-      {name:'Al Horford',       pos:'C', rating:76,age:40,pot:76,morale:79,contract:1,nbaId:201143, skills:['defender','rebounder'],starter:false},
-      {name:'Moses Moody',      pos:'SG',rating:78,age:23,pot:85,morale:82,contract:3,nbaId:1630175,skills:['scorer','defender'],starter:false},
-      {name:'Gary Payton II',   pos:'PG',rating:76,age:32,pot:76,morale:80,contract:2,nbaId:1627780,skills:['defender','playmaker'],starter:false},
-      {name:'Seth Curry',       pos:'SG',rating:76,age:35,pot:76,morale:78,contract:1,nbaId:203915, skills:['scorer'],starter:false},
-      {name:"De'Anthony Melton",pos:'SG',rating:75,age:28,pot:77,morale:78,contract:2,nbaId:1629001,skills:['defender','scorer'],starter:false},
-      {name:'Charles Bassey',   pos:'C', rating:72,age:25,pot:77,morale:76,contract:2,nbaId:1630228,skills:['rebounder','defender'],starter:false},
-      {name:'Gui Santos',       pos:'SF',rating:71,age:23,pot:79,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Quinten Post',     pos:'C', rating:70,age:24,pot:76,morale:76,contract:2,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Will Richard',     pos:'SG',rating:69,age:23,pot:75,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Malevy Leons',     pos:'SF',rating:67,age:24,pot:74,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'LJ Cryer',         pos:'PG',rating:66,age:23,pot:72,morale:74,contract:1,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Pat Spencer',      pos:'PG',rating:65,age:29,pot:67,morale:73,contract:1,nbaId:1630559,skills:['playmaker'],starter:false},
+      {name:'Stephen Curry',   pos:'PG',rating:92,age:37,pot:92,morale:85,contract:1,nbaId:201939, skills:['scorer','playmaker'],starter:true},
+      {name:'Jimmy Butler',    pos:'SF',rating:87,age:36,pot:87,morale:80,contract:1,nbaId:202710, skills:['scorer','defender'],starter:true},
+      {name:'B. Podziemski',   pos:'SG',rating:79,age:22,pot:88,morale:84,contract:3,nbaId:1641706,skills:['scorer','playmaker'],starter:true},
+      {name:'K. Porzingis',    pos:'C', rating:84,age:30,pot:86,morale:82,contract:2,nbaId:204001, skills:['scorer','defender'],starter:true},
+      {name:'Draymond Green',  pos:'PF',rating:79,age:35,pot:79,morale:76,contract:1,nbaId:203110, skills:['defender','playmaker'],starter:true},
+      {name:'Al Horford',      pos:'C', rating:76,age:40,pot:76,morale:79,contract:1,nbaId:201143, skills:['defender','rebounder'],starter:false},
+      {name:'Moses Moody',     pos:'SG',rating:78,age:23,pot:85,morale:82,contract:3,nbaId:1630175,skills:['scorer','defender'],starter:false},
+      {name:'Kyle Anderson',   pos:'PF',rating:75,age:31,pot:75,morale:78,contract:2,nbaId:203937, skills:['playmaker','defender'],starter:false},
+      {name:'Pat Spencer',     pos:'PG',rating:70,age:28,pot:72,morale:76,contract:2,nbaId:1630559,skills:['playmaker'],starter:false},
     ],
-    news:[{t:'Curry + Butler + Porzingis — still dangerous.',c:''},{t:'Warriors missed playoffs.',c:'d'},{t:'Klay left for Dallas — end of an era.',c:'w'}]
+    news:[{t:'Warriors eliminated in play-in.',c:'d'},{t:'Curry, Butler, Draymond all expire this summer.',c:'w'},{t:'Porzingis joins Warriors at deadline.',c:''}]
   },
 
-    { id:'lac', name:'LA Clippers', short:'LAC', league:'NBA',
-    color:'#C8102E', bg:'#fff1f2', border:'#fecdd3', rating:82.0, chem:74,
+  // LA Clippers
+  { id:'lac', name:'LA Clippers', short:'LAC', league:'NBA',
+    color:'#C8102E', bg:'#fff1f2', border:'#fecdd3', rating:84.0, chem:72,
     coach:{name:'Tyronn Lue', rating:82},
     players:[
-      {name:'Kawhi Leonard',    pos:'SF',rating:88,age:34,pot:88,morale:79,contract:2,nbaId:202695, skills:['scorer','defender'],starter:true},
-      {name:'Darius Garland',   pos:'PG',rating:84,age:26,pot:87,morale:80,contract:3,nbaId:1629636,skills:['scorer','playmaker'],starter:true},
-      {name:'Bennedict Mathurin',pos:'SG',rating:81,age:23,pot:88,morale:81,contract:3,nbaId:1631109,skills:['scorer','playmaker'],starter:true},
-      {name:'John Collins',     pos:'PF',rating:80,age:27,pot:82,morale:78,contract:2,nbaId:1628381,skills:['scorer','rebounder'],starter:true},
-      {name:'Brook Lopez',      pos:'C', rating:79,age:38,pot:79,morale:78,contract:1,nbaId:201572, skills:['scorer','defender'],starter:true},
-      {name:'Kris Dunn',        pos:'PG',rating:77,age:30,pot:78,morale:79,contract:2,nbaId:1627739,skills:['defender','playmaker'],starter:false},
-      {name:'Bradley Beal',     pos:'SG',rating:76,age:32,pot:76,morale:74,contract:2,nbaId:203078, skills:['scorer','playmaker'],starter:false},
-      {name:'Bogdan Bogdanovic',pos:'SG',rating:78,age:33,pot:78,morale:78,contract:2,nbaId:203992, skills:['scorer','playmaker'],starter:false},
-      {name:'Derrick Jones Jr.',pos:'SF',rating:74,age:28,pot:75,morale:77,contract:2,nbaId:1628991,skills:['defender','scorer'],starter:false},
-      {name:'Isaiah Jackson',   pos:'PF',rating:73,age:23,pot:82,morale:77,contract:3,nbaId:1630580,skills:['defender','rebounder'],starter:false},
-      {name:'Nicolas Batum',    pos:'SF',rating:72,age:37,pot:72,morale:77,contract:1,nbaId:201587, skills:['defender','scorer'],starter:false},
-      {name:'TyTy Washington Jr.',pos:'PG',rating:74,age:23,pot:82,morale:78,contract:3,nbaId:1631109,skills:['scorer','playmaker'],starter:false},
-      {name:'Cam Christie',     pos:'SG',rating:71,age:20,pot:82,morale:78,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Kobe Sanders',     pos:'SG',rating:68,age:23,pot:76,morale:76,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Jordan Miller',    pos:'SG',rating:67,age:25,pot:72,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Norchad Omier',    pos:'PF',rating:67,age:25,pot:73,morale:75,contract:1,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Sean Pedulla',     pos:'PG',rating:66,age:24,pot:72,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Yanic Konan Niederhauser',pos:'C',rating:65,age:24,pot:74,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
+      {name:'Kawhi Leonard',   pos:'SF',rating:88,age:34,pot:88,morale:79,contract:2,nbaId:202695, skills:['scorer','defender'],starter:true},
+      {name:'James Harden',    pos:'PG',rating:87,age:36,pot:87,morale:78,contract:2,nbaId:201935, skills:['scorer','playmaker'],starter:true},
+      {name:'Kris Dunn',       pos:'PG',rating:79,age:30,pot:80,morale:80,contract:2,nbaId:1627739,skills:['defender','playmaker'],starter:true},
+      {name:'Ivica Zubac',     pos:'C', rating:81,age:28,pot:81,morale:82,contract:2,nbaId:1628433,skills:['rebounder','defender'],starter:true},
+      {name:'John Collins',    pos:'PF',rating:80,age:27,pot:82,morale:78,contract:2,nbaId:1628381,skills:['scorer','rebounder'],starter:true},
+      {name:'Darius Garland',  pos:'PG',rating:84,age:26,pot:87,morale:80,contract:3,nbaId:1629636,skills:['scorer','playmaker'],starter:false},
+      {name:'B. Mathurin',     pos:'SF',rating:80,age:23,pot:87,morale:80,contract:3,nbaId:1631109,skills:['scorer','playmaker'],starter:false},
+      {name:'Brook Lopez',     pos:'C', rating:78,age:38,pot:78,morale:78,contract:1,nbaId:201572, skills:['scorer','defender'],starter:false},
+      {name:'D. Jones Jr.',    pos:'SF',rating:76,age:30,pot:76,morale:78,contract:2,nbaId:1628991,skills:['defender','scorer'],starter:false},
     ],
-    news:[{t:'Kawhi + Garland — new Clippers core.',c:''},{t:'Clippers missed playoffs.',c:'d'},{t:'Mathurin breakout — 20+ PPG.',c:''}]
+    news:[{t:'Harden + Kawhi back together.',c:''},{t:'Clippers missed playoffs.',c:'d'},{t:'Garland acquired at deadline.',c:''}]
   },
 
-    { id:'dal', name:'Dallas Mavericks', short:'DAL', league:'NBA',
-    color:'#00538C', bg:'#eff6ff', border:'#bfdbfe', rating:85.0, chem:80,
+  // Dallas Mavericks
+  { id:'dal', name:'Dallas Mavericks', short:'DAL', league:'NBA',
+    color:'#00538C', bg:'#eff6ff', border:'#bfdbfe', rating:79.0, chem:70,
     coach:{name:'Jason Kidd', rating:80},
     players:[
-      {name:'Cooper Flagg',     pos:'SF',rating:84,age:19,pot:98,morale:90,contract:4,nbaId:1642843,skills:['scorer','defender'],starter:true},
-      {name:'Kyrie Irving',     pos:'PG',rating:87,age:33,pot:87,morale:80,contract:2,nbaId:202681, skills:['scorer','playmaker'],starter:true},
-      {name:'Klay Thompson',    pos:'SG',rating:81,age:35,pot:81,morale:77,contract:2,nbaId:202691, skills:['scorer','defender'],starter:true},
-      {name:'PJ Washington',    pos:'PF',rating:79,age:27,pot:80,morale:79,contract:3,nbaId:1629023,skills:['scorer','defender'],starter:true},
-      {name:'Dereck Lively II', pos:'C', rating:79,age:21,pot:88,morale:82,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
-      {name:'Khris Middleton',  pos:'SF',rating:80,age:34,pot:80,morale:78,contract:2,nbaId:203114, skills:['scorer','defender'],starter:false},
-      {name:'Daniel Gafford',   pos:'C', rating:79,age:26,pot:81,morale:80,contract:3,nbaId:1629655,skills:['finisher','defender'],starter:false},
-      {name:'Naji Marshall',    pos:'SF',rating:76,age:27,pot:78,morale:78,contract:2,nbaId:1630190,skills:['scorer','defender'],starter:false},
-      {name:'Caleb Martin',     pos:'SF',rating:76,age:29,pot:77,morale:78,contract:2,nbaId:1629631,skills:['defender','scorer'],starter:false},
-      {name:'Max Christie',     pos:'SG',rating:74,age:22,pot:83,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Ryan Nembhard',    pos:'PG',rating:73,age:23,pot:80,morale:78,contract:2,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Marvin Bagley III',pos:'PF',rating:72,age:26,pot:74,morale:74,contract:2,nbaId:1629070,skills:['rebounder','scorer'],starter:false},
-      {name:'Dwight Powell',    pos:'C', rating:70,age:34,pot:70,morale:76,contract:1,nbaId:203490, skills:['finisher','defender'],starter:false},
-      {name:'AJ Johnson',       pos:'SG',rating:68,age:21,pot:80,morale:77,contract:1,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Moussa Cisse',     pos:'C', rating:67,age:23,pot:76,morale:75,contract:1,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Tyler Smith',      pos:'SF',rating:65,age:21,pot:74,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Kyrie Irving',    pos:'PG',rating:87,age:33,pot:87,morale:76,contract:2,nbaId:202681, skills:['scorer','playmaker'],starter:true},
+      {name:'Klay Thompson',   pos:'SG',rating:81,age:35,pot:81,morale:77,contract:2,nbaId:202691, skills:['scorer','defender'],starter:true},
+      {name:'P.J. Washington', pos:'PF',rating:79,age:27,pot:80,morale:79,contract:3,nbaId:1629023,skills:['scorer','defender'],starter:true},
+      {name:'Naji Marshall',   pos:'SF',rating:76,age:27,pot:78,morale:78,contract:2,nbaId:1630190,skills:['scorer','defender'],starter:true},
+      {name:'Daniel Gafford',  pos:'C', rating:79,age:26,pot:81,morale:80,contract:3,nbaId:1629655,skills:['finisher','defender'],starter:true},
+      {name:'Quentin Grimes',  pos:'SG',rating:76,age:25,pot:79,morale:78,contract:2,nbaId:1630162,skills:['scorer','defender'],starter:false},
+      {name:'Olivier Maxence', pos:'PF',rating:74,age:26,pot:78,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Markieff Morris', pos:'PF',rating:72,age:35,pot:72,morale:75,contract:1,nbaId:202693, skills:['scorer','rebounder'],starter:false},
     ],
-    news:[{t:'Cooper Flagg ROY — 21 PPG as a rookie!',c:''},{t:'Kyrie back from ACL injury.',c:''},{t:'Flagg + Kyrie + Klay — exciting core.',c:''}]
+    news:[{t:'Post-Luka era \u2014 rebuilding with Kyrie.',c:''},{t:'Missed playoffs 2nd straight year.',c:'d'},{t:'Klay signed as veteran presence.',c:''}]
   },
 
-    { id:'mem', name:'Memphis Grizzlies', short:'MEM', league:'NBA',
+  // Memphis Grizzlies
+  { id:'mem', name:'Memphis Grizzlies', short:'MEM', league:'NBA',
     color:'#5D76A9', bg:'#f0fdf4', border:'#bbf7d0', rating:82.0, chem:80,
     coach:{name:'Taylor Jenkins', rating:80},
     players:[
-      {name:'Ja Morant',          pos:'PG',rating:90,age:26,pot:95,morale:86,contract:4,nbaId:1629630,skills:['scorer','playmaker'],starter:true},
-      {name:'Jaren Jackson Jr.',  pos:'PF',rating:87,age:26,pot:90,morale:84,contract:4,nbaId:1628991,skills:['defender','scorer'],starter:true},
-      {name:'GG Jackson',         pos:'PF',rating:79,age:21,pot:88,morale:82,contract:3,nbaId:1642355,skills:['scorer','rebounder'],starter:true},
-      {name:'Zach Edey',          pos:'C', rating:78,age:23,pot:84,morale:80,contract:3,nbaId:1642355,skills:['rebounder','defender'],starter:true},
-      {name:'Scotty Pippen Jr.',  pos:'SG',rating:78,age:24,pot:82,morale:81,contract:3,nbaId:1631217,skills:['scorer','playmaker'],starter:true},
-      {name:'Santi Aldama',       pos:'PF',rating:77,age:24,pot:82,morale:79,contract:3,nbaId:1630217,skills:['scorer','rebounder'],starter:false},
-      {name:'Ty Jerome',          pos:'SG',rating:76,age:28,pot:78,morale:79,contract:2,nbaId:1629632,skills:['scorer','playmaker'],starter:false},
-      {name:'KCP',                pos:'SG',rating:75,age:32,pot:75,morale:77,contract:1,nbaId:203484, skills:['scorer','defender'],starter:false},
-      {name:'Taylor Hendricks',   pos:'PF',rating:74,age:21,pot:84,morale:78,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Walter Clayton Jr.', pos:'PG',rating:73,age:23,pot:80,morale:78,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Jaylen Wells',       pos:'SG',rating:73,age:22,pot:80,morale:78,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Rayan Rupert',       pos:'SF',rating:71,age:21,pot:81,morale:78,contract:2,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'OM Prosper',         pos:'SF',rating:71,age:22,pot:79,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Brandon Clarke',     pos:'PF',rating:70,age:29,pot:71,morale:76,contract:1,nbaId:1629651,skills:['finisher','defender'],starter:false},
-      {name:'Cam Spencer',        pos:'SG',rating:69,age:25,pot:73,morale:76,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Cedric Coward',      pos:'SG',rating:67,age:24,pot:73,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Javon Small',        pos:'PG',rating:66,age:23,pot:72,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Taj Gibson',         pos:'PF',rating:63,age:40,pot:63,morale:74,contract:1,nbaId:201959, skills:['rebounder','defender'],starter:false},
+      {name:'Ja Morant',       pos:'PG',rating:90,age:26,pot:95,morale:86,contract:4,nbaId:1629630,skills:['scorer','playmaker'],starter:true},
+      {name:'Desmond Bane',    pos:'SG',rating:84,age:27,pot:86,morale:82,contract:3,nbaId:1630217,skills:['scorer','defender'],starter:true},
+      {name:'Jaren Jackson Jr',pos:'PF',rating:87,age:26,pot:90,morale:84,contract:4,nbaId:1628991,skills:['defender','scorer'],starter:true},
+      {name:'Scotty Pippen Jr',pos:'SF',rating:78,age:24,pot:84,morale:82,contract:3,nbaId:1631217,skills:['scorer','playmaker'],starter:true},
+      {name:'Zach Edey',       pos:'C', rating:78,age:23,pot:84,morale:80,contract:3,nbaId:1642355,skills:['rebounder','defender'],starter:true},
+      {name:'Vince Williams Jr',pos:'SG',rating:75,age:24,pot:80,morale:80,contract:3,nbaId:1641706,skills:['scorer','defender'],starter:false},
+      {name:'Luke Kennard',    pos:'SG',rating:78,age:28,pot:79,morale:79,contract:2,nbaId:1628384,skills:['scorer'],starter:false},
+      {name:'Santi Aldama',    pos:'PF',rating:76,age:24,pot:81,morale:79,contract:3,nbaId:1630217,skills:['scorer','rebounder'],starter:false},
+      {name:'Marcus Smart',    pos:'PG',rating:79,age:31,pot:79,morale:80,contract:2,nbaId:1726616,skills:['defender','playmaker'],starter:false},
     ],
-    news:[{t:'Ja Morant back healthy all season.',c:''},{t:'Grizzlies missed playoffs.',c:'d'},{t:'JJJ DPOY candidate — elite defender.',c:''}]
+    news:[{t:'Ja Morant back healthy all season.',c:''},{t:'Grizzlies missed playoffs.',c:'d'},{t:'JJJ DPOY candidate again.',c:''}]
   },
 
-    { id:'nop', name:'New Orleans Pelicans', short:'NOP', league:'NBA',
-    color:'#0C2340', bg:'#f0fdf4', border:'#bbf7d0', rating:80.0, chem:70,
+  // New Orleans Pelicans
+  { id:'nop', name:'New Orleans Pelicans', short:'NOP', league:'NBA',
+    color:'#0C2340', bg:'#f0fdf4', border:'#bbf7d0', rating:79.0, chem:68,
     coach:{name:'Willie Green', rating:76},
     players:[
-      {name:'Zion Williamson',  pos:'PF',rating:88,age:25,pot:93,morale:74,contract:3,nbaId:1629627,skills:['scorer','finisher'],starter:true},
-      {name:'Dejounte Murray',  pos:'PG',rating:84,age:29,pot:86,morale:80,contract:3,nbaId:1628386,skills:['scorer','defender'],starter:true},
-      {name:'Trey Murphy III',  pos:'SF',rating:80,age:24,pot:85,morale:81,contract:3,nbaId:1630530,skills:['scorer','defender'],starter:true},
-      {name:'Jeremiah Fears',   pos:'SG',rating:78,age:20,pot:92,morale:82,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:true},
-      {name:'Yves Missi',       pos:'C', rating:76,age:21,pot:87,morale:80,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
-      {name:'Herbert Jones',    pos:'SF',rating:78,age:27,pot:80,morale:82,contract:3,nbaId:1630544,skills:['defender','scorer'],starter:false},
-      {name:'Jordan Poole',     pos:'SG',rating:78,age:26,pot:81,morale:74,contract:3,nbaId:1629673,skills:['scorer','playmaker'],starter:false},
-      {name:'Jordan Hawkins',   pos:'SG',rating:74,age:23,pot:80,morale:78,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Hunter Dickinson', pos:'C', rating:75,age:24,pot:81,morale:78,contract:3,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Saddiq Bey',       pos:'SF',rating:74,age:26,pot:78,morale:77,contract:2,nbaId:1630217,skills:['scorer','defender'],starter:false},
-      {name:'Kevon Looney',     pos:'C', rating:72,age:30,pot:73,morale:77,contract:1,nbaId:1626172,skills:['rebounder','defender'],starter:false},
-      {name:'Trey Alexander',   pos:'SG',rating:71,age:23,pot:78,morale:77,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Derik Queen',      pos:'C', rating:70,age:21,pot:82,morale:78,contract:1,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Bryce McGowens',   pos:'SG',rating:69,age:23,pot:75,morale:76,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Karlo Matkovic',   pos:'PF',rating:68,age:23,pot:76,morale:75,contract:1,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
-      {name:'Micah Peavy',      pos:'SF',rating:67,age:23,pot:74,morale:75,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'DeAndre Jordan',   pos:'C', rating:65,age:37,pot:65,morale:73,contract:1,nbaId:201599, skills:['rebounder','defender'],starter:false},
+      {name:'Zion Williamson', pos:'PF',rating:88,age:25,pot:93,morale:74,contract:3,nbaId:1629627,skills:['scorer','finisher'],starter:true},
+      {name:'CJ McCollum',     pos:'SG',rating:82,age:34,pot:82,morale:78,contract:2,nbaId:203468, skills:['scorer','playmaker'],starter:true},
+      {name:'Jeremiah Fears',  pos:'PG',rating:78,age:20,pot:92,morale:82,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:true},
+      {name:'Trey Murphy III', pos:'SF',rating:79,age:24,pot:84,morale:80,contract:3,nbaId:1630530,skills:['scorer','defender'],starter:true},
+      {name:'Yves Missi',      pos:'C', rating:76,age:21,pot:87,morale:80,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
+      {name:'Herb Jones',      pos:'SF',rating:78,age:27,pot:80,morale:82,contract:3,nbaId:1630544,skills:['defender','scorer'],starter:false},
+      {name:'Jose Alvarado',   pos:'PG',rating:76,age:27,pot:78,morale:80,contract:2,nbaId:1630631,skills:['defender','playmaker'],starter:false},
+      {name:'Jordan Hawkins',  pos:'SG',rating:74,age:23,pot:80,morale:78,contract:3,nbaId:1642355,skills:['scorer'],starter:false},
     ],
-    news:[{t:'Zion healthy — when playing he is unstoppable.',c:''},{t:'Murray + Fears — exciting backcourt.',c:''},{t:'Pelicans missed playoffs 2nd year.',c:'d'}]
+    news:[{t:'Zion healthy \u2014 when he plays they are deadly.',c:''},{t:'Pelicans missed playoffs 2nd year.',c:'d'},{t:'Jeremiah Fears is the future PG.',c:''}]
   },
 
-    { id:'sac', name:'Sacramento Kings', short:'SAC', league:'NBA',
-    color:'#5A2D81', bg:'#faf5ff', border:'#e9d5ff', rating:82.0, chem:76,
+  // Sacramento Kings
+  { id:'sac', name:'Sacramento Kings', short:'SAC', league:'NBA',
+    color:'#5A2D81', bg:'#faf5ff', border:'#e9d5ff', rating:80.0, chem:74,
     coach:{name:'Mike Brown', rating:80},
     players:[
-      {name:'Domantas Sabonis',  pos:'C', rating:87,age:29,pot:88,morale:84,contract:3,nbaId:1627734,skills:['rebounder','playmaker'],starter:true},
-      {name:'Zach LaVine',       pos:'SG',rating:86,age:30,pot:87,morale:82,contract:3,nbaId:203897, skills:['scorer','playmaker'],starter:true},
-      {name:'DeMar DeRozan',     pos:'SF',rating:83,age:36,pot:83,morale:80,contract:2,nbaId:201942, skills:['scorer','playmaker'],starter:true},
-      {name:'Keegan Murray',     pos:'SF',rating:81,age:24,pot:86,morale:81,contract:3,nbaId:1631108,skills:['scorer','defender'],starter:true},
-      {name:'Russell Westbrook', pos:'PG',rating:78,age:37,pot:78,morale:76,contract:1,nbaId:201566, skills:['playmaker','scorer'],starter:true},
-      {name:'Malik Monk',        pos:'PG',rating:79,age:27,pot:81,morale:79,contract:2,nbaId:1628370,skills:['scorer','playmaker'],starter:false},
-      {name:"De'Andre Hunter",   pos:'SF',rating:79,age:27,pot:82,morale:80,contract:3,nbaId:1629631,skills:['defender','scorer'],starter:false},
-      {name:'Precious Achiuwa',  pos:'PF',rating:75,age:26,pot:79,morale:77,contract:2,nbaId:1630173,skills:['rebounder','defender'],starter:false},
-      {name:'Devin Carter',      pos:'SG',rating:73,age:23,pot:82,morale:78,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Killian Hayes',     pos:'PG',rating:72,age:24,pot:78,morale:76,contract:2,nbaId:1630175,skills:['playmaker','defender'],starter:false},
-      {name:'Maxime Raynaud',    pos:'C', rating:71,age:23,pot:79,morale:77,contract:2,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Drew Eubanks',      pos:'C', rating:70,age:28,pot:71,morale:76,contract:1,nbaId:1629521,skills:['rebounder','defender'],starter:false},
-      {name:'Nique Clifford',    pos:'SG',rating:69,age:24,pot:74,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Patrick Baldwin Jr.',pos:'SF',rating:68,age:23,pot:76,morale:75,contract:2,nbaId:1631109,skills:['scorer','rebounder'],starter:false},
-      {name:'Doug McDermott',    pos:'SF',rating:68,age:34,pot:68,morale:74,contract:1,nbaId:203926, skills:['scorer'],starter:false},
-      {name:'Dylan Cardwell',    pos:'C', rating:65,age:22,pot:73,morale:74,contract:1,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Daeqwon Plowden',   pos:'SF',rating:63,age:24,pot:70,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Isaiah Stevens',    pos:'PG',rating:62,age:24,pot:68,morale:73,contract:1,nbaId:1642355,skills:['playmaker','defender'],starter:false},
+      {name:"De'Aaron Fox",   pos:'PG',rating:87,age:28,pot:90,morale:82,contract:3,nbaId:1628368,skills:['scorer','playmaker'],starter:true},
+      {name:'Domantas Sabonis',pos:'C', rating:87,age:29,pot:88,morale:84,contract:3,nbaId:1627734,skills:['rebounder','playmaker'],starter:true},
+      {name:'Keegan Murray',   pos:'SF',rating:80,age:24,pot:85,morale:80,contract:3,nbaId:1631108,skills:['scorer','defender'],starter:true},
+      {name:'Kevin Huerter',   pos:'SG',rating:78,age:26,pot:80,morale:78,contract:3,nbaId:1629029,skills:['scorer','defender'],starter:true},
+      {name:'Alex Len',        pos:'PF',rating:74,age:32,pot:74,morale:76,contract:1,nbaId:203458, skills:['rebounder','defender'],starter:true},
+      {name:'Malik Monk',      pos:'PG',rating:79,age:27,pot:81,morale:79,contract:2,nbaId:1628370,skills:['scorer','playmaker'],starter:false},
+      {name:'Trey Lyles',      pos:'PF',rating:73,age:29,pot:74,morale:76,contract:1,nbaId:1626168,skills:['scorer','rebounder'],starter:false},
+      {name:'K-J Martin',      pos:'SF',rating:74,age:24,pot:79,morale:78,contract:2,nbaId:1630217,skills:['scorer','defender'],starter:false},
     ],
-    news:[{t:'LaVine + Sabonis + DeRozan — playoff push.',c:''},{t:'Fox gone — Westbrook runs the point.',c:'w'},{t:'Kings missed playoffs again.',c:'d'}]
+    news:[{t:'Fox leaving in free agency this summer.',c:'w'},{t:'Kings missed playoffs 3rd year.',c:'d'},{t:'Sabonis double-doubles every night.',c:''}]
   },
 
-    { id:'uta', name:'Utah Jazz', short:'UTA', league:'NBA',
-    color:'#002B5C', bg:'#eff6ff', border:'#bfdbfe', rating:78.0, chem:72,
+  // Utah Jazz
+  { id:'uta', name:'Utah Jazz', short:'UTA', league:'NBA',
+    color:'#002B5C', bg:'#eff6ff', border:'#bfdbfe', rating:74.0, chem:70,
     coach:{name:'Will Hardy', rating:76},
     players:[
-      {name:'Lauri Markkanen',  pos:'PF',rating:85,age:28,pot:87,morale:80,contract:3,nbaId:1628384,skills:['scorer','rebounder'],starter:true},
-      {name:'Jaren Jackson Jr.',pos:'PF',rating:87,age:26,pot:90,morale:84,contract:4,nbaId:1628991,skills:['defender','scorer'],starter:true},
-      {name:'Keyonte George',   pos:'PG',rating:79,age:21,pot:88,morale:79,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:true},
-      {name:'Walker Kessler',   pos:'C', rating:78,age:23,pot:85,morale:80,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
-      {name:'Cody Williams',    pos:'SF',rating:75,age:20,pot:89,morale:80,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:true},
-      {name:'Isaiah Collier',   pos:'PG',rating:75,age:21,pot:87,morale:79,contract:3,nbaId:1642355,skills:['playmaker','defender'],starter:false},
-      {name:'Ace Bailey',       pos:'SF',rating:74,age:19,pot:94,morale:81,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Kyle Filipowski',  pos:'C', rating:73,age:21,pot:83,morale:78,contract:3,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
-      {name:'Brice Sensabaugh', pos:'SF',rating:73,age:22,pot:81,morale:78,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Jusuf Nurkic',     pos:'C', rating:75,age:31,pot:75,morale:76,contract:2,nbaId:203994, skills:['rebounder','scorer'],starter:false},
-      {name:'Svi Mykhailiuk',   pos:'SG',rating:72,age:28,pot:73,morale:76,contract:1,nbaId:1629016,skills:['scorer','defender'],starter:false},
-      {name:'Blake Hinson',     pos:'SF',rating:71,age:24,pot:75,morale:76,contract:1,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
-      {name:'Kevin Love',       pos:'PF',rating:70,age:37,pot:70,morale:75,contract:1,nbaId:201567, skills:['rebounder','scorer'],starter:false},
-      {name:'John Konchar',     pos:'SG',rating:68,age:29,pot:69,morale:75,contract:1,nbaId:1629629,skills:['defender','scorer'],starter:false},
-      {name:'Oscar Tshiebwe',   pos:'PF',rating:67,age:25,pot:73,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Bez Mbeng',        pos:'PG',rating:65,age:25,pot:70,morale:74,contract:1,nbaId:1642355,skills:['playmaker','defender'],starter:false},
-      {name:'Elijah Harkless',  pos:'SG',rating:63,age:23,pot:71,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Lauri Markkanen', pos:'PF',rating:84,age:28,pot:86,morale:78,contract:3,nbaId:1628384,skills:['scorer','rebounder'],starter:true},
+      {name:'Keyonte George',  pos:'PG',rating:79,age:21,pot:88,morale:78,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:true},
+      {name:'Jordan Clarkson', pos:'SG',rating:78,age:33,pot:78,morale:77,contract:2,nbaId:203648, skills:['scorer','playmaker'],starter:true},
+      {name:'John Collins',    pos:'PF',rating:79,age:27,pot:81,morale:77,contract:2,nbaId:1628381,skills:['scorer','rebounder'],starter:true},
+      {name:'Walker Kessler',  pos:'C', rating:78,age:23,pot:85,morale:80,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:true},
+      {name:'Cody Williams',   pos:'SF',rating:74,age:20,pot:88,morale:80,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
+      {name:'Isaiah Collier',  pos:'PG',rating:74,age:21,pot:86,morale:79,contract:3,nbaId:1642355,skills:['playmaker','defender'],starter:false},
+      {name:'Kyle Filipowski', pos:'C', rating:72,age:21,pot:83,morale:78,contract:3,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
     ],
-    news:[{t:'JJJ traded to Utah — massive haul.',c:''},{t:'Ace Bailey rookie — pot 94 future star.',c:''},{t:'Jazz stockpiling picks and young talent.',c:''}]
+    news:[{t:'Jazz in full rebuild \u2014 stockpiling picks.',c:''},{t:'Markkanen considering his future.',c:'w'},{t:'Lots of young talent developing.',c:''}]
   },
 
-    // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
   // EASTERN CONFERENCE
-  // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
 
   // 1-seed: Detroit Pistons (60-22)
   { id:'det', name:'Detroit Pistons', short:'DET', league:'NBA',
-    color:'#C8102E', bg:'#fff1f2', border:'#fecdd3', rating:88.0, chem:86,
+    color:'#C8102E', bg:'#fff1f2', border:'#fecdd3', rating:90.0, chem:88,
     coach:{name:'JB Bickerstaff', rating:84},
     players:[
-      {name:'Cade Cunningham',  pos:'PG',rating:91,age:24,pot:97,morale:90,contract:4,nbaId:1630595,skills:['scorer','playmaker'],starter:true},
-      {name:'Jalen Duren',      pos:'C', rating:86,age:22,pot:93,morale:87,contract:3,nbaId:1631105,skills:['rebounder','defender'],starter:true},
-      {name:'Ausar Thompson',   pos:'SF',rating:80,age:23,pot:92,morale:84,contract:3,nbaId:1641709,skills:['defender','scorer'],starter:true},
-      {name:'Tobias Harris',    pos:'PF',rating:79,age:33,pot:79,morale:80,contract:2,nbaId:202699, skills:['scorer','defender'],starter:true},
-      {name:'Isaiah Stewart',   pos:'PF',rating:77,age:25,pot:80,morale:80,contract:3,nbaId:1630191,skills:['defender','rebounder'],starter:true},
-      {name:'Duncan Robinson',  pos:'SG',rating:78,age:32,pot:78,morale:80,contract:3,nbaId:1629130,skills:['scorer'],starter:false},
-      {name:'Ronald Holland II',pos:'SF',rating:74,age:20,pot:90,morale:83,contract:3,nbaId:1641842,skills:['defender','scorer'],starter:false},
-      {name:'Kevin Huerter',    pos:'SG',rating:76,age:27,pot:78,morale:78,contract:3,nbaId:1628989,skills:['scorer','defender'],starter:false},
-      {name:'Paul Reed',        pos:'PF',rating:73,age:26,pot:77,morale:77,contract:2,nbaId:1630194,skills:['rebounder','defender'],starter:false},
-      {name:'Daniss Jenkins',   pos:'PG',rating:72,age:24,pot:78,morale:77,contract:1,nbaId:1642450,skills:['playmaker','scorer'],starter:false},
-      {name:'Caris LeVert',     pos:'SG',rating:72,age:31,pot:72,morale:76,contract:1,nbaId:1627747,skills:['scorer','playmaker'],starter:false},
-      {name:'Javonte Green',    pos:'SG',rating:71,age:32,pot:71,morale:76,contract:1,nbaId:1629750,skills:['defender','scorer'],starter:false},
-      {name:'Marcus Sasser',    pos:'PG',rating:69,age:25,pot:74,morale:76,contract:1,nbaId:1631204,skills:['scorer','playmaker'],starter:false},
-      {name:'Chaz Lanier',      pos:'SG',rating:65,age:24,pot:73,morale:76,contract:1,nbaId:1642404,skills:['scorer'],starter:false},
-      {name:'Tolu Smith',       pos:'PF',rating:65,age:25,pot:72,morale:75,contract:1,nbaId:1642449,skills:['rebounder','defender'],starter:false},
-      {name:'Isaac Jones',      pos:'SF',rating:63,age:25,pot:70,morale:74,contract:1,nbaId:1642403,skills:['defender','scorer'],starter:false},
+      {name:'Cade Cunningham', pos:'PG',rating:92,age:24,pot:97,morale:90,contract:4,nbaId:1630595,skills:['scorer','playmaker'],starter:true},
+      {name:'Ausar Thompson',  pos:'SF',rating:84,age:22,pot:93,morale:88,contract:3,nbaId:1641731,skills:['defender','scorer'],starter:true},
+      {name:'Jalen Duren',     pos:'C', rating:83,age:21,pot:91,morale:86,contract:3,nbaId:1631162,skills:['rebounder','defender'],starter:true},
+      {name:'Isaiah Stewart',  pos:'PF',rating:80,age:23,pot:83,morale:82,contract:3,nbaId:1630191,skills:['defender','rebounder'],starter:true},
+      {name:'Tobias Harris',   pos:'SF',rating:79,age:33,pot:79,morale:80,contract:2,nbaId:202699, skills:['scorer','defender'],starter:true},
+      {name:'Duncan Robinson', pos:'SG',rating:79,age:31,pot:79,morale:80,contract:2,nbaId:1629130,skills:['scorer'],starter:false},
+      {name:'Ronald Holland II',pos:'SG',rating:76,age:20,pot:90,morale:84,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:false},
+      {name:'Kevin Huerter',   pos:'SG',rating:77,age:26,pot:79,morale:78,contract:2,nbaId:1629029,skills:['scorer','defender'],starter:false},
+      {name:'Caris LeVert',    pos:'SG',rating:76,age:31,pot:76,morale:77,contract:2,nbaId:1627747,skills:['scorer','playmaker'],starter:false},
     ],
-    news:[{t:'Pistons 1-seed East — 60-22 record!',c:''},{t:'Cade + Duren — best young duo in NBA.',c:''},{t:'Lost to Knicks in ECF 0-4.',c:'d'}]
+    news:[{t:'Pistons best record in East \u2014 60-22.',c:''},{t:'Cade Cunningham MVP candidate.',c:''},{t:'Lost to Knicks in ECF 0-4.',c:'d'}]
   },
 
-    { id:'bos', name:'Boston Celtics', short:'BOS', league:'NBA',
+  // 2-seed: Boston Celtics (56-26)
+  { id:'bos', name:'Boston Celtics', short:'BOS', league:'NBA',
     color:'#007A33', bg:'#f0fdf4', border:'#bbf7d0', rating:87.0, chem:82,
     coach:{name:'Joe Mazzulla', rating:85},
     players:[
-      {name:'Jayson Tatum',      pos:'SF',rating:93,age:28,pot:97,morale:88,contract:4,nbaId:1628369,skills:['scorer','playmaker'],starter:true,injured:true,injuredGames:5},
-      {name:'Jaylen Brown',      pos:'SG',rating:89,age:28,pot:90,morale:85,contract:4,nbaId:1627759,skills:['scorer','defender'],starter:true},
-      {name:'Derrick White',     pos:'PG',rating:82,age:31,pot:83,morale:84,contract:4,nbaId:1628401,skills:['defender','playmaker'],starter:true},
-      {name:'Sam Hauser',        pos:'SF',rating:79,age:28,pot:80,morale:80,contract:4,nbaId:1641748,skills:['scorer'],starter:true},
-      {name:'Neemias Queta',     pos:'C', rating:77,age:26,pot:83,morale:80,contract:4,nbaId:1630538,skills:['rebounder','defender'],starter:true},
-      {name:'Payton Pritchard',  pos:'PG',rating:83,age:28,pot:84,morale:86,contract:4,nbaId:1630202,skills:['scorer','playmaker'],starter:false},
-      {name:'Nikola Vucevic',    pos:'C', rating:80,age:35,pot:80,morale:78,contract:1,nbaId:202696, skills:['rebounder','scorer'],starter:false},
-      {name:'Baylor Scheierman', pos:'SG',rating:74,age:25,pot:79,morale:78,contract:1,nbaId:1641855,skills:['scorer','defender'],starter:false},
-      {name:'Jordan Walsh',      pos:'SG',rating:70,age:22,pot:80,morale:79,contract:2,nbaId:1641731,skills:['defender','scorer'],starter:false},
-      {name:'Ron Harper Jr.',    pos:'SF',rating:69,age:26,pot:73,morale:77,contract:3,nbaId:1630240,skills:['scorer','defender'],starter:false},
-      {name:'Dalano Banton',     pos:'SF',rating:68,age:26,pot:72,morale:76,contract:1,nbaId:1630230,skills:['playmaker','scorer'],starter:false},
-      {name:'Luka Garza',        pos:'C', rating:70,age:27,pot:71,morale:77,contract:1,nbaId:1630553,skills:['scorer','rebounder'],starter:false},
-      {name:'Hugo Gonzalez',     pos:'SG',rating:65,age:20,pot:76,morale:78,contract:1,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
+      {name:'Jayson Tatum',    pos:'SF',rating:93,age:27,pot:97,morale:88,contract:4,nbaId:1628369,skills:['scorer','playmaker'],starter:true},
+      {name:'Jaylen Brown',    pos:'SG',rating:88,age:28,pot:90,morale:85,contract:3,nbaId:1627759,skills:['scorer','defender'],starter:true},
+      {name:'Derrick White',   pos:'PG',rating:82,age:31,pot:83,morale:84,contract:3,nbaId:1628401,skills:['defender','playmaker'],starter:true},
+      {name:'Sam Hauser',      pos:'SF',rating:79,age:26,pot:80,morale:80,contract:3,nbaId:1641748,skills:['scorer'],starter:true},
+      {name:'Neemias Queta',   pos:'C', rating:76,age:24,pot:83,morale:80,contract:2,nbaId:1630538,skills:['rebounder','defender'],starter:true},
+      {name:'Payton Pritchard',pos:'PG',rating:82,age:27,pot:83,morale:85,contract:3,nbaId:1630202,skills:['scorer','playmaker'],starter:false},
+      {name:'Nikola Vucevic',  pos:'C', rating:80,age:34,pot:80,morale:78,contract:1,nbaId:202696, skills:['rebounder','scorer'],starter:false},
+      {name:'Drew Timme',      pos:'C', rating:71,age:24,pot:74,morale:77,contract:2,nbaId:1641742,skills:['scorer','rebounder'],starter:false},
+      {name:'Jordan Walsh',    pos:'SF',rating:70,age:21,pot:80,morale:79,contract:2,nbaId:1641731,skills:['defender'],starter:false},
     ],
-    news:[{t:'Tatum injured — Jaylen Brown carrying the load.',c:'d'},{t:'Lost to 76ers in R1 Game 7.',c:'d'},{t:'Pritchard 6th Man of Year — 17 PPG!',c:''}]
+    news:[{t:'Tatum back from Achilles \u2014 MVP form.',c:''},{t:'Lost to 76ers in R1 Game 7.',c:'d'},{t:'Pritchard won 6th Man of Year!',c:''}]
   },
 
   // 3-seed: New York Knicks (53-29)
   { id:'nyk', name:'New York Knicks', short:'NYK', league:'NBA',
-    color:'#006BB6', bg:'#eff6ff', border:'#bfdbfe', rating:90.0, chem:88,
+    color:'#006BB6', bg:'#eff6ff', border:'#bfdbfe', rating:89.0, chem:86,
     coach:{name:'Tom Thibodeau', rating:84},
     players:[
-      {name:'Jalen Brunson',     pos:'PG',rating:91,age:29,pot:93,morale:92,contract:4,nbaId:1628973,skills:['scorer','playmaker'],starter:true},
-      {name:'OG Anunoby',        pos:'SF',rating:86,age:28,pot:87,morale:86,contract:4,nbaId:1628384,skills:['defender','scorer'],starter:true},
-      {name:'Mikal Bridges',     pos:'SG',rating:85,age:29,pot:86,morale:86,contract:4,nbaId:1628969,skills:['scorer','defender'],starter:true},
-      {name:'Karl-Anthony Towns',pos:'C', rating:89,age:30,pot:90,morale:85,contract:3,nbaId:1626157,skills:['scorer','rebounder'],starter:true},
-      {name:'Josh Hart',         pos:'PF',rating:82,age:31,pot:83,morale:87,contract:3,nbaId:1628404,skills:['rebounder','defender'],starter:true},
-      {name:'Mitchell Robinson', pos:'C', rating:77,age:28,pot:79,morale:79,contract:3,nbaId:1629011,skills:['rebounder','defender'],starter:false},
-      {name:'Miles McBride',     pos:'PG',rating:78,age:25,pot:83,morale:82,contract:3,nbaId:1630540,skills:['scorer','defender'],starter:false},
-      {name:'Landry Shamet',     pos:'SG',rating:76,age:29,pot:77,morale:78,contract:2,nbaId:1629013,skills:['scorer'],starter:false},
-      {name:'Jordan Clarkson',   pos:'SG',rating:75,age:33,pot:75,morale:77,contract:1,nbaId:203903, skills:['scorer','playmaker'],starter:false},
-      {name:'Jose Alvarado',     pos:'PG',rating:74,age:28,pot:76,morale:79,contract:2,nbaId:1630631,skills:['defender','playmaker'],starter:false},
-      {name:'Jeremy Sochan',     pos:'SF',rating:73,age:23,pot:83,morale:79,contract:3,nbaId:1631110,skills:['defender','scorer'],starter:false},
-      {name:'Pacome Dadiet',     pos:'SF',rating:67,age:20,pot:82,morale:80,contract:2,nbaId:1642359,skills:['scorer','defender'],starter:false},
-      {name:'Tyler Kolek',       pos:'PG',rating:70,age:25,pot:75,morale:78,contract:2,nbaId:1642278,skills:['playmaker','scorer'],starter:false},
-      {name:'Mohamed Diawara',   pos:'SF',rating:68,age:21,pot:80,morale:79,contract:1,nbaId:1642885,skills:['scorer','defender'],starter:false},
-      {name:'Ariel Hukporti',    pos:'C', rating:69,age:24,pot:82,morale:79,contract:2,nbaId:1641706,skills:['defender','rebounder'],starter:false},
-      {name:'Kevin McCullar Jr.',pos:'SG',rating:67,age:25,pot:76,morale:77,contract:2,nbaId:1641755,skills:['defender','scorer'],starter:false},
-      {name:'Dillon Jones',      pos:'SF',rating:65,age:24,pot:75,morale:76,contract:1,nbaId:1641794,skills:['defender','rebounder'],starter:false},
-      {name:'Trey Jemison III',  pos:'C', rating:63,age:26,pot:67,morale:75,contract:1,nbaId:1641998,skills:['rebounder','defender'],starter:false},
+      {name:'Jalen Brunson',   pos:'PG',rating:90,age:29,pot:92,morale:90,contract:4,nbaId:1628384,skills:['scorer','playmaker'],starter:true},
+      {name:'Mikal Bridges',   pos:'SG',rating:86,age:28,pot:87,morale:86,contract:4,nbaId:1628964,skills:['scorer','defender'],starter:true},
+      {name:'OG Anunoby',      pos:'SF',rating:85,age:27,pot:87,morale:85,contract:4,nbaId:1628384,skills:['defender','scorer'],starter:true},
+      {name:'KAT',             pos:'C', rating:88,age:30,pot:89,morale:84,contract:3,nbaId:1626157,skills:['scorer','rebounder'],starter:true},
+      {name:'Josh Hart',       pos:'PF',rating:82,age:29,pot:83,morale:86,contract:3,nbaId:1628407,skills:['rebounder','defender'],starter:true},
+      {name:'Miles McBride',   pos:'PG',rating:78,age:24,pot:82,morale:82,contract:3,nbaId:1630530,skills:['scorer','defender'],starter:false},
+      {name:'Jordan Clarkson', pos:'SG',rating:77,age:33,pot:77,morale:78,contract:1,nbaId:203648, skills:['scorer','playmaker'],starter:false},
+      {name:'Landry Shamet',   pos:'SG',rating:76,age:28,pot:77,morale:78,contract:2,nbaId:1629013,skills:['scorer'],starter:false},
+      {name:'K. Yabusele',     pos:'PF',rating:77,age:29,pot:78,morale:80,contract:2,nbaId:1628437,skills:['scorer','defender'],starter:false},
     ],
-    news:[{t:'Knicks set playoff record 47-pt halftime lead.',c:''},{t:'ECF — one win from NBA Finals!',c:''},{t:'Brunson + KAT + OG — dynasty building.',c:''}]
+    news:[{t:'Knicks set playoff record 47-pt halftime lead.',c:''},{t:'Leading ECF 3-0 vs Cleveland.',c:''},{t:'Brunson \u2014 best closer in the East.',c:''}]
   },
 
-    { id:'cle', name:'Cleveland Cavaliers', short:'CLE', league:'NBA',
-    color:'#860038', bg:'#fff1f2', border:'#fecdd3', rating:90.0, chem:87,
+  // 4-seed: Cleveland Cavaliers (52-30)
+  { id:'cle', name:'Cleveland Cavaliers', short:'CLE', league:'NBA',
+    color:'#860038', bg:'#fff1f2', border:'#fecdd3', rating:88.0, chem:86,
     coach:{name:'Kenny Atkinson', rating:83},
     players:[
-      {name:'Donovan Mitchell', pos:'SG',rating:92,age:29,pot:93,morale:89,contract:4,nbaId:1628378,skills:['scorer','playmaker'],starter:true},
-      {name:'Evan Mobley',      pos:'C', rating:87,age:24,pot:94,morale:87,contract:4,nbaId:1630596,skills:['defender','rebounder'],starter:true},
-      {name:'James Harden',     pos:'PG',rating:88,age:36,pot:88,morale:84,contract:2,nbaId:201935, skills:['scorer','playmaker'],starter:true},
-      {name:'Jarrett Allen',    pos:'C', rating:82,age:28,pot:83,morale:83,contract:3,nbaId:1628386,skills:['rebounder','defender'],starter:true},
-      {name:'Jaylon Tyson',     pos:'SF',rating:78,age:23,pot:86,morale:81,contract:2,nbaId:1642281,skills:['scorer','defender'],starter:true},
-      {name:'Sam Merrill',      pos:'SG',rating:77,age:30,pot:78,morale:80,contract:2,nbaId:1630241,skills:['scorer','defender'],starter:false},
-      {name:'Dennis Schroder',  pos:'PG',rating:77,age:32,pot:77,morale:78,contract:2,nbaId:203471, skills:['scorer','playmaker'],starter:false},
-      {name:'Max Strus',        pos:'SG',rating:76,age:30,pot:77,morale:78,contract:2,nbaId:1629622,skills:['scorer','defender'],starter:false,injured:true,injuredGames:3},
-      {name:'Keon Ellis',       pos:'SG',rating:71,age:26,pot:75,morale:77,contract:2,nbaId:1631165,skills:['defender','scorer'],starter:false},
-      {name:'Thomas Bryant',    pos:'C', rating:70,age:28,pot:71,morale:76,contract:1,nbaId:1628418,skills:['rebounder','scorer'],starter:false},
-      {name:'Dean Wade',        pos:'PF',rating:70,age:29,pot:71,morale:76,contract:2,nbaId:1629731,skills:['scorer','defender'],starter:false},
-      {name:'Craig Porter Jr.', pos:'PG',rating:69,age:26,pot:74,morale:76,contract:2,nbaId:1641854,skills:['playmaker','defender'],starter:false},
-      {name:'Larry Nance Jr.',  pos:'PF',rating:68,age:33,pot:68,morale:75,contract:1,nbaId:1626204,skills:['defender','rebounder'],starter:false},
-      {name:'Tyrese Proctor',   pos:'PG',rating:68,age:22,pot:80,morale:78,contract:1,nbaId:1642878,skills:['playmaker','scorer'],starter:false},
-      {name:'Naeqwan Tomlin',   pos:'SF',rating:67,age:25,pot:73,morale:75,contract:1,nbaId:1641772,skills:['scorer','defender'],starter:false},
-      {name:'Riley Minix',      pos:'SF',rating:64,age:25,pot:70,morale:74,contract:1,nbaId:1642434,skills:['scorer','defender'],starter:false},
+      {name:'Donovan Mitchell',pos:'SG',rating:92,age:29,pot:93,morale:88,contract:4,nbaId:1628378,skills:['scorer','playmaker'],starter:true},
+      {name:'Darius Garland',  pos:'PG',rating:84,age:25,pot:88,morale:82,contract:4,nbaId:1629636,skills:['scorer','playmaker'],starter:true},
+      {name:'Evan Mobley',     pos:'PF',rating:86,age:24,pot:94,morale:86,contract:4,nbaId:1630596,skills:['defender','rebounder'],starter:true},
+      {name:'Jarrett Allen',   pos:'C', rating:83,age:27,pot:85,morale:84,contract:3,nbaId:1628386,skills:['rebounder','defender'],starter:true},
+      {name:"De'Andre Hunter",pos:'SF',rating:80,age:27,pot:82,morale:82,contract:3,nbaId:1629631,skills:['defender','scorer'],starter:true},
+      {name:'Lonzo Ball',      pos:'PG',rating:78,age:27,pot:79,morale:76,contract:2,nbaId:1628366,skills:['playmaker','defender'],starter:false},
+      {name:'Max Strus',       pos:'SG',rating:77,age:29,pot:78,morale:76,contract:2,nbaId:1629654,skills:['scorer'],starter:false,injured:true,injuredGames:2},
+      {name:'Thomas Bryant',   pos:'C', rating:74,age:27,pot:75,morale:77,contract:2,nbaId:1628418,skills:['rebounder','scorer'],starter:false},
+      {name:'Caris LeVert',    pos:'SG',rating:75,age:31,pot:75,morale:76,contract:1,nbaId:1627747,skills:['scorer','playmaker'],starter:false},
     ],
-    news:[{t:'Mitchell 27.9 PPG — best scorer in the East.',c:''},{t:'Harden joins Cavs — 23.6 PPG playmaker.',c:''},{t:'Down 0-3 to Knicks in ECF.',c:'d'}]
+    news:[{t:'Cavs swept Toronto 4-0 in R1.',c:''},{t:'Down 0-3 to Knicks in ECF.',c:'d'},{t:'Mitchell averaging 35 in playoffs.',c:''}]
   },
 
-    { id:'tor', name:'Toronto Raptors', short:'TOR', league:'NBA',
-    color:'#CE1141', bg:'#fff1f2', border:'#fecdd3', rating:83.0, chem:80,
+  // 5-seed: Toronto Raptors (46-36)
+  { id:'tor', name:'Toronto Raptors', short:'TOR', league:'NBA',
+    color:'#CE1141', bg:'#fff1f2', border:'#fecdd3', rating:83.0, chem:78,
     coach:{name:'Darko Rajakovic', rating:78},
     players:[
-      {name:'Scottie Barnes',       pos:'SF',rating:86,age:24,pot:94,morale:86,contract:5,nbaId:1630567,skills:['scorer','playmaker'],starter:true},
-      {name:'Brandon Ingram',       pos:'SF',rating:86,age:28,pot:87,morale:82,contract:3,nbaId:1627742,skills:['scorer','playmaker'],starter:true},
-      {name:'Immanuel Quickley',    pos:'PG',rating:83,age:26,pot:86,morale:83,contract:3,nbaId:1630193,skills:['scorer','playmaker'],starter:true},
-      {name:'RJ Barrett',           pos:'SG',rating:84,age:25,pot:88,morale:82,contract:3,nbaId:1629628,skills:['scorer','defender'],starter:true},
-      {name:'Jakob Poeltl',         pos:'C', rating:79,age:30,pot:80,morale:78,contract:2,nbaId:1627751,skills:['defender','rebounder'],starter:true},
-      {name:'Sandro Mamukelashvili',pos:'PF',rating:77,age:27,pot:79,morale:80,contract:2,nbaId:1630572,skills:['scorer','rebounder'],starter:false},
-      {name:'Collin Murray-Boyles', pos:'PF',rating:75,age:20,pot:88,morale:80,contract:1,nbaId:1642867,skills:['defender','rebounder'],starter:false},
-      {name:'Jamal Shead',          pos:'PG',rating:73,age:23,pot:80,morale:79,contract:1,nbaId:1642347,skills:['playmaker','defender'],starter:false},
-      {name:"Ja'Kobe Walter",       pos:'SG',rating:73,age:21,pot:84,morale:79,contract:2,nbaId:1642266,skills:['scorer','defender'],starter:false},
-      {name:'Gradey Dick',          pos:'SG',rating:72,age:22,pot:84,morale:80,contract:2,nbaId:1641711,skills:['scorer','defender'],starter:false},
-      {name:'Trayce Jackson-Davis', pos:'PF',rating:69,age:26,pot:74,morale:77,contract:2,nbaId:1631218,skills:['finisher','defender'],starter:false},
-      {name:'Jonathan Mogbo',       pos:'PF',rating:67,age:24,pot:80,morale:78,contract:1,nbaId:1642367,skills:['defender','rebounder'],starter:false},
-      {name:'AJ Lawson',            pos:'SG',rating:67,age:25,pot:72,morale:76,contract:1,nbaId:1630639,skills:['scorer','defender'],starter:false},
-      {name:'Jamison Battle',       pos:'SF',rating:66,age:25,pot:71,morale:76,contract:1,nbaId:1642419,skills:['scorer','defender'],starter:false},
-      {name:'Alijah Martin',        pos:'PG',rating:64,age:24,pot:74,morale:76,contract:1,nbaId:1642918,skills:['scorer','playmaker'],starter:false},
-      {name:'Garrett Temple',       pos:'SG',rating:62,age:40,pot:62,morale:75,contract:1,nbaId:202066, skills:['defender','scorer'],starter:false},
+      {name:'Scottie Barnes',  pos:'SF',rating:84,age:24,pot:94,morale:84,contract:5,nbaId:1630567,skills:['scorer','playmaker'],starter:true},
+      {name:'Brandon Ingram',  pos:'SF',rating:85,age:28,pot:87,morale:80,contract:3,nbaId:1627742,skills:['scorer','playmaker'],starter:true},
+      {name:'I. Quickley',     pos:'PG',rating:82,age:26,pot:85,morale:82,contract:3,nbaId:1630193,skills:['scorer','playmaker'],starter:true},
+      {name:'RJ Barrett',      pos:'SG',rating:82,age:24,pot:88,morale:82,contract:3,nbaId:1629628,skills:['scorer','defender'],starter:true},
+      {name:'Jakob Poeltl',    pos:'C', rating:79,age:30,pot:80,morale:78,contract:2,nbaId:1627751,skills:['defender','rebounder'],starter:true},
+      {name:'Gradey Dick',     pos:'SG',rating:77,age:22,pot:84,morale:80,contract:3,nbaId:1642355,skills:['scorer'],starter:false},
+      {name:'C. Murray-Boyles',pos:'PF',rating:76,age:21,pot:87,morale:80,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
+      {name:"Ja'Kobe Walter", pos:'SG',rating:74,age:21,pot:84,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Jonathan Mogbo',  pos:'PF',rating:73,age:23,pot:80,morale:78,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
     ],
-    news:[{t:'Raptors back in playoffs after 4 years!',c:''},{t:'Lost to Cavs 0-4 in R1.',c:'d'},{t:'Barnes + Ingram + Quickley — deadly trio.',c:''}]
+    news:[{t:'Raptors back in playoffs after 4 years!',c:''},{t:'Lost to Cavs 0-4 in R1.',c:'d'},{t:'Ingram + Barnes \u2014 elite wing duo.',c:''}]
   },
 
   // 6-seed: Atlanta Hawks (46-36)
   { id:'atl', name:'Atlanta Hawks', short:'ATL', league:'NBA',
-    color:'#C1272D', bg:'#fff1f2', border:'#fecdd3', rating:82.0, chem:78,
+    color:'#C1272D', bg:'#fff1f2', border:'#fecdd3', rating:84.0, chem:80,
     coach:{name:'Quin Snyder', rating:82},
     players:[
-      {name:'Jalen Johnson',    pos:'SF',rating:87,age:23,pot:93,morale:86,contract:4,nbaId:1630591,skills:['scorer','rebounder'],starter:true},
-      {name:'Dyson Daniels',    pos:'SG',rating:83,age:23,pot:89,morale:85,contract:3,nbaId:1631108,skills:['defender','scorer'],starter:true},
-      {name:'Jonathan Kuminga', pos:'SF',rating:82,age:22,pot:90,morale:82,contract:3,nbaId:1630173,skills:['scorer','defender'],starter:true},
-      {name:'Onyeka Okongwu',   pos:'C', rating:80,age:24,pot:86,morale:82,contract:3,nbaId:1630168,skills:['defender','rebounder'],starter:true},
+      {name:'Trae Young',       pos:'PG',rating:88,age:27,pot:92,morale:84,contract:4,nbaId:1629029,skills:['scorer','playmaker'],starter:true},
+      {name:'Jalen Johnson',    pos:'SF',rating:86,age:23,pot:92,morale:84,contract:4,nbaId:1630591,skills:['scorer','rebounder'],starter:true},
+      {name:'Dyson Daniels',    pos:'SG',rating:82,age:23,pot:88,morale:84,contract:3,nbaId:1631108,skills:['defender','scorer'],starter:true},
       {name:'Zaccharie Risacher',pos:'SF',rating:78,age:20,pot:93,morale:82,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
-      {name:'CJ McCollum',      pos:'SG',rating:82,age:34,pot:82,morale:80,contract:2,nbaId:203468, skills:['scorer','playmaker'],starter:false},
-      {name:'N. Alexander-Walker',pos:'SG',rating:79,age:27,pot:81,morale:79,contract:3,nbaId:1629638,skills:['scorer','defender'],starter:false},
-      {name:'Buddy Hield',      pos:'SG',rating:78,age:33,pot:78,morale:78,contract:2,nbaId:1627741,skills:['scorer','defender'],starter:false},
-      {name:'Corey Kispert',    pos:'SF',rating:76,age:25,pot:79,morale:78,contract:3,nbaId:1630217,skills:['scorer','defender'],starter:false},
-      {name:'Asa Newell',       pos:'PF',rating:73,age:20,pot:86,morale:79,contract:1,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Gabe Vincent',     pos:'PG',rating:72,age:29,pot:73,morale:77,contract:2,nbaId:1629750,skills:['playmaker','defender'],starter:false},
-      {name:'Mouhamed Gueye',   pos:'PF',rating:70,age:22,pot:80,morale:77,contract:2,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Jock Landale',     pos:'C', rating:70,age:30,pot:71,morale:76,contract:1,nbaId:1629006,skills:['rebounder','scorer'],starter:false},
-      {name:'Christian Koloko', pos:'C', rating:68,age:24,pot:76,morale:76,contract:2,nbaId:1631109,skills:['defender','rebounder'],starter:false},
-      {name:'Keaton Wallace',   pos:'SG',rating:67,age:26,pot:71,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Tony Bradley',     pos:'C', rating:66,age:28,pot:68,morale:75,contract:1,nbaId:1628042,skills:['rebounder','defender'],starter:false},
-      {name:'RayJ Dennis',      pos:'PG',rating:65,age:23,pot:73,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Keshon Gilbert',   pos:'SG',rating:64,age:23,pot:74,morale:75,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
+      {name:'Onyeka Okongwu',   pos:'C', rating:80,age:24,pot:86,morale:82,contract:3,nbaId:1630168,skills:['defender','rebounder'],starter:true},
+      {name:'N. Alexander-Walker',pos:'SG',rating:81,age:27,pot:83,morale:80,contract:3,nbaId:1629638,skills:['scorer','defender'],starter:false},
+      {name:'K. Porzingis',     pos:'C', rating:80,age:30,pot:82,morale:76,contract:2,nbaId:204001, skills:['scorer','defender'],starter:false},
+      {name:'Luke Kennard',     pos:'SG',rating:78,age:28,pot:79,morale:79,contract:2,nbaId:1628384,skills:['scorer'],starter:false},
+      {name:'Asa Newell',       pos:'PF',rating:72,age:20,pot:86,morale:80,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
     ],
-    news:[{t:'Trae Young traded — new era in Atlanta.',c:''},{t:'Jalen Johnson + Kuminga — elite wing duo.',c:''},{t:'Daniels DPOY frontrunner.',c:''}]
+    news:[{t:'Hawks back in playoffs for first time since 2023.',c:''},{t:'Lost to Knicks R1 \u2014 Knicks set halftime lead record.',c:'d'},{t:'Jalen Johnson breakout year 22.5 PPG.',c:''}]
   },
 
-    { id:'phi', name:'Philadelphia 76ers', short:'PHI', league:'NBA',
-    color:'#006BB6', bg:'#eff6ff', border:'#bfdbfe', rating:85.0, chem:78,
+  // 7-seed: Philadelphia 76ers (45-37)
+  { id:'phi', name:'Philadelphia 76ers', short:'PHI', league:'NBA',
+    color:'#006BB6', bg:'#eff6ff', border:'#bfdbfe', rating:85.0, chem:76,
     coach:{name:'Nick Nurse', rating:82},
     players:[
-      {name:'Tyrese Maxey',    pos:'PG',rating:90,age:25,pot:93,morale:90,contract:4,nbaId:1630178,skills:['scorer','playmaker'],starter:true},
-      {name:'Joel Embiid',     pos:'C', rating:92,age:32,pot:93,morale:80,contract:3,nbaId:203954, skills:['scorer','playmaker'],starter:true},
-      {name:'Paul George',     pos:'SF',rating:82,age:36,pot:82,morale:78,contract:2,nbaId:202331, skills:['scorer','defender'],starter:true},
-      {name:'Kelly Oubre Jr.', pos:'SF',rating:79,age:30,pot:79,morale:78,contract:2,nbaId:1626162,skills:['scorer','defender'],starter:true},
-      {name:'VJ Edgecombe',    pos:'SG',rating:80,age:20,pot:92,morale:84,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
-      {name:'Quentin Grimes',  pos:'SG',rating:79,age:26,pot:82,morale:80,contract:3,nbaId:1630162,skills:['scorer','defender'],starter:false},
-      {name:'Andre Drummond',  pos:'C', rating:76,age:32,pot:76,morale:76,contract:1,nbaId:203083, skills:['rebounder','defender'],starter:false},
-      {name:'Dominick Barlow', pos:'PF',rating:72,age:22,pot:82,morale:79,contract:2,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
-      {name:'Trendon Watford', pos:'PF',rating:71,age:25,pot:75,morale:77,contract:2,nbaId:1630217,skills:['scorer','playmaker'],starter:false},
-      {name:'Justin Edwards',  pos:'SF',rating:70,age:22,pot:82,morale:79,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'MarJon Beauchamp',pos:'SF',rating:70,age:25,pot:76,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Tyrese Martin',   pos:'SG',rating:69,age:27,pot:72,morale:76,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Dalen Terry',     pos:'SG',rating:68,age:23,pot:76,morale:77,contract:2,nbaId:1641770,skills:['defender','scorer'],starter:false},
-      {name:'Adem Bona',       pos:'C', rating:68,age:23,pot:80,morale:78,contract:2,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Jabari Walker',   pos:'PF',rating:67,age:23,pot:74,morale:76,contract:2,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Johni Broome',    pos:'C', rating:64,age:23,pot:80,morale:77,contract:1,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Kyle Lowry',      pos:'PG',rating:60,age:40,pot:60,morale:75,contract:1,nbaId:200768, skills:['playmaker','defender'],starter:false},
+      {name:'Joel Embiid',     pos:'C', rating:94,age:31,pot:95,morale:80,contract:3,nbaId:203954, skills:['scorer','playmaker'],starter:true},
+      {name:'Tyrese Maxey',    pos:'PG',rating:88,age:25,pot:93,morale:88,contract:4,nbaId:1630178,skills:['scorer','playmaker'],starter:true},
+      {name:'Paul George',     pos:'SF',rating:84,age:35,pot:84,morale:78,contract:2,nbaId:202331, skills:['scorer','defender'],starter:true},
+      {name:'VJ Edgecombe',    pos:'SG',rating:78,age:20,pot:92,morale:84,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
+      {name:'Andre Drummond',  pos:'C', rating:77,age:32,pot:77,morale:76,contract:1,nbaId:203083, skills:['rebounder','defender'],starter:true},
+      {name:'Kelly Oubre Jr.', pos:'SF',rating:78,age:29,pot:79,morale:77,contract:2,nbaId:1626162,skills:['scorer','defender'],starter:false},
+      {name:'Eric Gordon',     pos:'SG',rating:75,age:37,pot:75,morale:76,contract:1,nbaId:201569, skills:['scorer'],starter:false},
+      {name:'D. Watford',      pos:'SF',rating:74,age:26,pot:77,morale:76,contract:2,nbaId:1630217,skills:['defender','scorer'],starter:false},
+      {name:'Adem Bona',       pos:'C', rating:73,age:22,pot:82,morale:78,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
     ],
-    news:[{t:'Sixers upset Celtics in R1 Game 7!',c:''},{t:'Lost to Knicks R2 0-4.',c:'d'},{t:'Maxey 28.3 PPG — All-NBA caliber.',c:''}]
+    news:[{t:'Sixers upset Celtics in R1 Game 7!',c:''},{t:'Lost to Knicks R2 0-4.',c:'d'},{t:'Embiid health concerns all season.',c:'w'}]
   },
 
-    { id:'orl', name:'Orlando Magic', short:'ORL', league:'NBA',
-    color:'#0077C0', bg:'#eff6ff', border:'#bfdbfe', rating:84.0, chem:83,
+  // 8-seed: Orlando Magic (45-37)
+  { id:'orl', name:'Orlando Magic', short:'ORL', league:'NBA',
+    color:'#0077C0', bg:'#eff6ff', border:'#bfdbfe', rating:84.0, chem:82,
     coach:{name:'Jamahl Mosley', rating:79},
     players:[
-      {name:'Paolo Banchero',   pos:'PF',rating:89,age:23,pot:96,morale:89,contract:4,nbaId:1631162,skills:['scorer','playmaker'],starter:true},
-      {name:'Franz Wagner',     pos:'SF',rating:87,age:23,pot:93,morale:87,contract:4,nbaId:1630532,skills:['scorer','playmaker'],starter:true},
-      {name:'Desmond Bane',     pos:'SG',rating:84,age:27,pot:86,morale:83,contract:3,nbaId:1630217,skills:['scorer','defender'],starter:true},
-      {name:'Jalen Suggs',      pos:'PG',rating:81,age:23,pot:87,morale:82,contract:3,nbaId:1630591,skills:['defender','scorer'],starter:true},
-      {name:'Wendell Carter Jr.',pos:'C',rating:79,age:27,pot:80,morale:80,contract:3,nbaId:1629057,skills:['defender','rebounder'],starter:true},
-      {name:'Jonathan Isaac',   pos:'SF',rating:78,age:27,pot:82,morale:79,contract:3,nbaId:1628371,skills:['defender','scorer'],starter:false},
-      {name:'Anthony Black',    pos:'SG',rating:76,age:21,pot:87,morale:81,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Tristan da Silva', pos:'SF',rating:75,age:23,pot:81,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Moritz Wagner',    pos:'PF',rating:75,age:27,pot:76,morale:78,contract:2,nbaId:1629029,skills:['scorer','rebounder'],starter:false},
-      {name:'Goga Bitadze',     pos:'C', rating:74,age:26,pot:78,morale:77,contract:2,nbaId:1629655,skills:['defender','rebounder'],starter:false},
-      {name:'Jett Howard',      pos:'SG',rating:72,age:22,pot:81,morale:78,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Jevon Carter',     pos:'PG',rating:71,age:30,pot:72,morale:76,contract:1,nbaId:1629029,skills:['defender','playmaker'],starter:false},
-      {name:'Noah Penda',       pos:'SF',rating:70,age:21,pot:80,morale:77,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Jase Richardson',  pos:'PG',rating:68,age:20,pot:80,morale:77,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Colin Castleton',  pos:'C', rating:67,age:24,pot:71,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Jamal Cain',       pos:'SF',rating:66,age:26,pot:70,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Paolo Banchero',  pos:'PF',rating:88,age:23,pot:96,morale:88,contract:4,nbaId:1631162,skills:['scorer','playmaker'],starter:true},
+      {name:'Franz Wagner',    pos:'SF',rating:86,age:23,pot:93,morale:86,contract:4,nbaId:1630532,skills:['scorer','playmaker'],starter:true},
+      {name:'Desmond Bane',    pos:'SG',rating:83,age:27,pot:85,morale:82,contract:3,nbaId:1630217,skills:['scorer','defender'],starter:true},
+      {name:'Jalen Suggs',     pos:'PG',rating:81,age:23,pot:87,morale:82,contract:3,nbaId:1630591,skills:['defender','scorer'],starter:true},
+      {name:'W. Carter Jr.',   pos:'C', rating:79,age:27,pot:80,morale:80,contract:3,nbaId:1629057,skills:['defender','rebounder'],starter:true},
+      {name:'Anthony Black',   pos:'SF',rating:78,age:21,pot:88,morale:82,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:false},
+      {name:'Jevon Carter',    pos:'PG',rating:75,age:30,pot:75,morale:78,contract:1,nbaId:1629029,skills:['defender','playmaker'],starter:false},
+      {name:'Goga Bitadze',    pos:'C', rating:74,age:26,pot:78,morale:77,contract:2,nbaId:1629655,skills:['defender','rebounder'],starter:false},
+      {name:'Moritz Wagner',   pos:'PF',rating:75,age:27,pot:76,morale:78,contract:2,nbaId:1629029,skills:['scorer','rebounder'],starter:false},
     ],
-    news:[{t:'Banchero + Franz — best young duo in East.',c:''},{t:'Bane traded from Memphis — huge pickup.',c:''},{t:'Magic lost to Pistons in R1.',c:'d'}]
+    news:[{t:'Magic won play-in to make playoffs.',c:''},{t:'Lost to Pistons in R1.',c:'d'},{t:'Bane acquired from Memphis \u2014 big addition.',c:''}]
   },
 
-    { id:'mil', name:'Milwaukee Bucks', short:'MIL', league:'NBA',
-    color:'#00471B', bg:'#f0fdf4', border:'#bbf7d0', rating:82.0, chem:74,
+  // Missed playoffs (East)
+  // Milwaukee Bucks
+  { id:'mil', name:'Milwaukee Bucks', short:'MIL', league:'NBA',
+    color:'#00471B', bg:'#f0fdf4', border:'#bbf7d0', rating:83.0, chem:72,
     coach:{name:'Doc Rivers', rating:80},
     players:[
-      {name:'Giannis Antetokounmpo',pos:'PF',rating:96,age:31,pot:97,morale:82,contract:3,nbaId:203507, skills:['scorer','defender'],starter:true},
-      {name:'Myles Turner',         pos:'C', rating:82,age:30,pot:82,morale:80,contract:3,nbaId:1626167,skills:['defender','scorer'],starter:true},
-      {name:'Gary Trent Jr.',       pos:'SG',rating:78,age:27,pot:79,morale:78,contract:2,nbaId:1629631,skills:['scorer','defender'],starter:true},
-      {name:'Kyle Kuzma',           pos:'SF',rating:78,age:30,pot:79,morale:77,contract:2,nbaId:1628398,skills:['scorer','rebounder'],starter:true},
-      {name:'Bobby Portis',         pos:'PF',rating:77,age:31,pot:77,morale:79,contract:2,nbaId:1626187,skills:['scorer','rebounder'],starter:true},
-      {name:'Kevin Porter Jr.',     pos:'SG',rating:76,age:26,pot:80,morale:77,contract:2,nbaId:1629680,skills:['scorer','playmaker'],starter:false},
-      {name:'AJ Green',             pos:'SG',rating:75,age:26,pot:80,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Taurean Prince',       pos:'SF',rating:74,age:31,pot:74,morale:77,contract:2,nbaId:1627746,skills:['scorer','defender'],starter:false},
-      {name:'Ousmane Dieng',        pos:'SF',rating:73,age:23,pot:83,morale:78,contract:3,nbaId:1631109,skills:['scorer','playmaker'],starter:false},
-      {name:'Gary Harris',          pos:'SG',rating:72,age:31,pot:72,morale:76,contract:1,nbaId:203914, skills:['defender','scorer'],starter:false},
-      {name:'Andre Jackson Jr.',    pos:'SG',rating:70,age:24,pot:79,morale:77,contract:2,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Thanasis Antetokounmpo',pos:'SF',rating:68,age:33,pot:68,morale:80,contract:2,nbaId:203500, skills:['defender','scorer'],starter:false},
-      {name:'Alex Antetokounmpo',   pos:'SF',rating:65,age:24,pot:74,morale:77,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Jericho Sims',         pos:'C', rating:65,age:28,pot:68,morale:75,contract:1,nbaId:1630591,skills:['rebounder','defender'],starter:false},
-      {name:'Pete Nance',           pos:'PF',rating:64,age:25,pot:70,morale:75,contract:1,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
-      {name:'Ryan Rollins',         pos:'PG',rating:63,age:23,pot:73,morale:75,contract:1,nbaId:1631109,skills:['scorer','playmaker'],starter:false},
-      {name:'Cormac Ryan',          pos:'SG',rating:62,age:28,pot:66,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Giannis Antetokounmpo',pos:'PF',rating:96,age:31,pot:97,morale:82,contract:3,nbaId:203507,skills:['scorer','defender'],starter:true},
+      {name:'Myles Turner',    pos:'C', rating:82,age:30,pot:82,morale:80,contract:3,nbaId:1626167,skills:['defender','scorer'],starter:true},
+      {name:'Kevin Porter Jr.',pos:'PG',rating:80,age:25,pot:83,morale:78,contract:2,nbaId:1629680,skills:['scorer','playmaker'],starter:true},
+      {name:'Kyle Kuzma',      pos:'SF',rating:79,age:30,pot:79,morale:77,contract:2,nbaId:1628398,skills:['scorer','rebounder'],starter:true},
+      {name:'AJ Green',        pos:'SG',rating:78,age:25,pot:81,morale:80,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
+      {name:'Gary Trent Jr.',  pos:'SG',rating:78,age:26,pot:79,morale:78,contract:2,nbaId:1629631,skills:['scorer'],starter:false},
+      {name:'Bobby Portis',    pos:'PF',rating:77,age:31,pot:77,morale:79,contract:2,nbaId:1626187,skills:['scorer','rebounder'],starter:false},
+      {name:'Taurean Prince',  pos:'SF',rating:75,age:30,pot:75,morale:77,contract:2,nbaId:1627746,skills:['scorer','defender'],starter:false},
+      {name:'Cole Anthony',    pos:'PG',rating:74,age:25,pot:77,morale:76,contract:2,nbaId:1630166,skills:['scorer','playmaker'],starter:false},
     ],
-    news:[{t:'Lillard waived — torn Achilles.',c:'d'},{t:'Giannis carrying this team alone.',c:''},{t:'Bucks missed playoffs — shocking.',c:'d'}]
+    news:[{t:'Lillard waived \u2014 torn Achilles.',c:'d'},{t:'Bucks missed playoffs first time since 2016.',c:'d'},{t:'Giannis still elite but needs help.',c:''}]
   },
 
-    { id:'ind', name:'Indiana Pacers', short:'IND', league:'NBA',
-    color:'#002D62', bg:'#eff6ff', border:'#bfdbfe', rating:82.0, chem:79,
+  // Indiana Pacers
+  { id:'ind', name:'Indiana Pacers', short:'IND', league:'NBA',
+    color:'#002D62', bg:'#eff6ff', border:'#bfdbfe', rating:80.0, chem:76,
     coach:{name:'Rick Carlisle', rating:82},
     players:[
-      {name:'Tyrese Haliburton',pos:'PG',rating:88,age:26,pot:92,morale:85,contract:4,nbaId:1630169,skills:['playmaker','scorer'],starter:true},
-      {name:'Pascal Siakam',    pos:'PF',rating:86,age:31,pot:87,morale:81,contract:3,nbaId:1627783,skills:['scorer','defender'],starter:true},
-      {name:'Andrew Nembhard',  pos:'SG',rating:79,age:25,pot:82,morale:80,contract:3,nbaId:1630217,skills:['playmaker','defender'],starter:true},
-      {name:'Aaron Nesmith',    pos:'SF',rating:77,age:25,pot:79,morale:79,contract:3,nbaId:1630175,skills:['scorer','defender'],starter:true},
-      {name:'Ivica Zubac',      pos:'C', rating:81,age:28,pot:81,morale:81,contract:2,nbaId:1628433,skills:['rebounder','defender'],starter:true},
-      {name:'Obi Toppin',       pos:'PF',rating:77,age:27,pot:79,morale:78,contract:2,nbaId:1630175,skills:['scorer','rebounder'],starter:false},
-      {name:'Ben Sheppard',     pos:'SG',rating:76,age:24,pot:81,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'TJ McConnell',     pos:'PG',rating:74,age:33,pot:74,morale:80,contract:2,nbaId:1626158,skills:['playmaker','defender'],starter:false},
-      {name:'Jarace Walker',    pos:'PF',rating:74,age:22,pot:83,morale:78,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Kobe Brown',       pos:'SF',rating:73,age:25,pot:77,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Kam Jones',        pos:'SG',rating:72,age:24,pot:79,morale:77,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Johnny Furphy',    pos:'SF',rating:71,age:21,pot:81,morale:78,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Jalen Slawson',    pos:'SF',rating:69,age:25,pot:73,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Micah Potter',     pos:'C', rating:68,age:27,pot:70,morale:74,contract:1,nbaId:1642355,skills:['rebounder','scorer'],starter:false},
-      {name:'Quenton Jackson',  pos:'SG',rating:67,age:26,pot:71,morale:74,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Taelon Peter',     pos:'PG',rating:64,age:24,pot:70,morale:73,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Jay Huff',         pos:'C', rating:63,age:27,pot:67,morale:73,contract:1,nbaId:1642355,skills:['defender','rebounder'],starter:false},
+      {name:'Tyrese Haliburton',pos:'PG',rating:88,age:26,pot:92,morale:84,contract:4,nbaId:1630169,skills:['playmaker','scorer'],starter:true},
+      {name:'Pascal Siakam',   pos:'PF',rating:86,age:31,pot:87,morale:80,contract:3,nbaId:1627783,skills:['scorer','defender'],starter:true},
+      {name:'B. Mathurin',     pos:'SF',rating:82,age:23,pot:88,morale:80,contract:3,nbaId:1631109,skills:['scorer','playmaker'],starter:true},
+      {name:'Andrew Nembhard', pos:'SG',rating:79,age:25,pot:82,morale:80,contract:3,nbaId:1630217,skills:['playmaker','defender'],starter:true},
+      {name:'Myles Turner',    pos:'C', rating:81,age:29,pot:82,morale:80,contract:2,nbaId:1626167,skills:['defender','scorer'],starter:true},
+      {name:'Obi Toppin',      pos:'PF',rating:76,age:27,pot:78,morale:78,contract:2,nbaId:1630175,skills:['scorer','rebounder'],starter:false},
+      {name:'T.J. McConnell',  pos:'PG',rating:74,age:33,pot:74,morale:80,contract:2,nbaId:1626158,skills:['playmaker','defender'],starter:false},
+      {name:'Aaron Nesmith',   pos:'SF',rating:75,age:25,pot:77,morale:78,contract:3,nbaId:1630175,skills:['scorer','defender'],starter:false},
     ],
-    news:[{t:'Haliburton + Siakam — still dangerous.',c:''},{t:'Zubac acquired from Clippers.',c:''},{t:'Pacers missed playoffs — defending ECF champs.',c:'d'}]
+    news:[{t:'Pacers missed playoffs \u2014 defending ECF champs!',c:'d'},{t:'Haliburton + Siakam still a dangerous duo.',c:''},{t:'Rebuilding around young core.',c:''}]
   },
 
-    { id:'mia', name:'Miami Heat', short:'MIA', league:'NBA',
-    color:'#98002E', bg:'#fff1f2', border:'#fecdd3', rating:82.0, chem:78,
-    coach:{name:'Erik Spoelstra', rating:92},
+  // Miami Heat
+  { id:'mia', name:'Miami Heat', short:'MIA', league:'NBA',
+    color:'#98002E', bg:'#fff1f2', border:'#fecdd3', rating:80.0, chem:74,
+    coach:{name:'Erik Spoelstra', rating:90},
     players:[
-      {name:'Bam Adebayo',      pos:'C', rating:87,age:28,pot:89,morale:85,contract:3,nbaId:1628389,skills:['defender','scorer'],starter:true},
-      {name:'Tyler Herro',      pos:'SG',rating:84,age:26,pot:86,morale:81,contract:3,nbaId:1629639,skills:['scorer','playmaker'],starter:true},
-      {name:'Norman Powell',    pos:'SG',rating:82,age:32,pot:82,morale:80,contract:3,nbaId:1626181,skills:['scorer','defender'],starter:true},
-      {name:'Andrew Wiggins',   pos:'SF',rating:81,age:30,pot:82,morale:79,contract:3,nbaId:203952, skills:['scorer','defender'],starter:true},
-      {name:'Nikola Jovic',     pos:'PF',rating:79,age:22,pot:87,morale:80,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:true},
-      {name:'Jaime Jaquez Jr.', pos:'SF',rating:76,age:24,pot:81,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Simone Fontecchio',pos:'SF',rating:76,age:29,pot:77,morale:78,contract:2,nbaId:1631109,skills:['scorer','defender'],starter:false},
-      {name:"Kel'el Ware",      pos:'C', rating:75,age:21,pot:88,morale:79,contract:3,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Davion Mitchell',  pos:'PG',rating:74,age:27,pot:76,morale:77,contract:2,nbaId:1630217,skills:['defender','playmaker'],starter:false},
-      {name:'Dru Smith',        pos:'PG',rating:71,age:27,pot:73,morale:76,contract:1,nbaId:1642355,skills:['defender','playmaker'],starter:false},
-      {name:'Kasparas Jakucionis',pos:'PG',rating:70,age:20,pot:83,morale:78,contract:2,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Pelle Larsson',    pos:'SG',rating:69,age:25,pot:73,morale:76,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Trevor Keels',     pos:'SG',rating:68,age:23,pot:74,morale:76,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Keshad Johnson',   pos:'SF',rating:66,age:24,pot:72,morale:75,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Vladislav Goldin', pos:'C', rating:65,age:24,pot:74,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Myron Gardner',    pos:'SF',rating:62,age:26,pot:68,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
+      {name:'Bam Adebayo',     pos:'C', rating:87,age:28,pot:89,morale:84,contract:3,nbaId:1628389,skills:['defender','scorer'],starter:true},
+      {name:'Tyler Herro',     pos:'SG',rating:84,age:26,pot:86,morale:80,contract:3,nbaId:1629639,skills:['scorer','playmaker'],starter:true},
+      {name:'Nikola Jovic',    pos:'PF',rating:79,age:22,pot:87,morale:80,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:true},
+      {name:'Terry Rozier',    pos:'PG',rating:80,age:31,pot:80,morale:78,contract:2,nbaId:1626179,skills:['scorer','playmaker'],starter:true},
+      {name:"Kel'el Ware",    pos:'C', rating:77,age:21,pot:88,morale:80,contract:3,nbaId:1642355,skills:['rebounder','defender'],starter:true},
+      {name:'Dru Smith',       pos:'SG',rating:74,age:27,pot:76,morale:78,contract:2,nbaId:1642355,skills:['defender','scorer'],starter:false},
+      {name:'Josh Richardson', pos:'SF',rating:74,age:31,pot:74,morale:77,contract:1,nbaId:1626196,skills:['defender','scorer'],starter:false},
+      {name:'Jaime Jaquez Jr.',pos:'SF',rating:75,age:24,pot:80,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
     ],
-    news:[{t:'Bam + Herro — Heat culture continues.',c:''},{t:'Wiggins + Powell big offseason additions.',c:''},{t:'Heat missed playoffs — Spoelstra rebuilding.',c:'d'}]
+    news:[{t:'Heat missed playoffs for first time since 2019.',c:'d'},{t:'Spoelstra era continues.',c:''},{t:'Bam leads young core.',c:''}]
   },
 
-    { id:'wsh', name:'Washington Wizards', short:'WSH', league:'NBA',
-    color:'#002B5C', bg:'#eff6ff', border:'#bfdbfe', rating:78.0, chem:68,
+  // Washington Wizards
+  { id:'wsh', name:'Washington Wizards', short:'WSH', league:'NBA',
+    color:'#002B5C', bg:'#eff6ff', border:'#bfdbfe', rating:72.0, chem:64,
     coach:{name:'Brian Keefe', rating:70},
     players:[
-      {name:'Anthony Davis',    pos:'C', rating:93,age:32,pot:93,morale:80,contract:3,nbaId:203076, skills:['scorer','defender'],starter:true},
-      {name:'Trae Young',       pos:'PG',rating:88,age:27,pot:92,morale:82,contract:4,nbaId:1629029,skills:['scorer','playmaker'],starter:true},
-      {name:'Alex Sarr',        pos:'C', rating:79,age:20,pot:95,morale:81,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:true},
-      {name:'Bilal Coulibaly',  pos:'SF',rating:78,age:21,pot:90,morale:81,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:true},
-      {name:'Kyshawn George',   pos:'SF',rating:75,age:22,pot:84,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
-      {name:"D'Angelo Russell", pos:'PG',rating:78,age:29,pot:79,morale:74,contract:2,nbaId:1626156,skills:['scorer','playmaker'],starter:false},
-      {name:'Cam Whitmore',     pos:'SF',rating:76,age:21,pot:86,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Tre Johnson',      pos:'SG',rating:74,age:20,pot:88,morale:78,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Bub Carrington',   pos:'SG',rating:72,age:20,pot:82,morale:78,contract:3,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Jaden Hardy',      pos:'SG',rating:72,age:22,pot:80,morale:77,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Tristan Vukcevic', pos:'C', rating:71,age:23,pot:80,morale:77,contract:2,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
-      {name:'Will Riley',       pos:'SF',rating:70,age:20,pot:82,morale:77,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Justin Champagnie',pos:'SF',rating:69,age:24,pot:74,morale:75,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Sharife Cooper',   pos:'PG',rating:68,age:24,pot:73,morale:75,contract:1,nbaId:1642355,skills:['playmaker','scorer'],starter:false},
-      {name:'Leaky Black',      pos:'SF',rating:67,age:26,pot:70,morale:74,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Jamir Watkins',    pos:'SF',rating:66,age:23,pot:73,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Julian Reese',     pos:'PF',rating:65,age:23,pot:72,morale:74,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
-      {name:'Anthony Gill',     pos:'SF',rating:64,age:32,pot:64,morale:73,contract:1,nbaId:1628972,skills:['defender','scorer'],starter:false},
+      {name:'Alexandre Sarr',  pos:'C', rating:79,age:20,pot:95,morale:80,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:true},
+      {name:'Bilal Coulibaly', pos:'SF',rating:78,age:21,pot:90,morale:80,contract:3,nbaId:1642355,skills:['defender','scorer'],starter:true},
+      {name:'Jordan Poole',    pos:'PG',rating:78,age:26,pot:80,morale:72,contract:3,nbaId:1629673,skills:['scorer','playmaker'],starter:true},
+      {name:'Malcolm Brogdon', pos:'PG',rating:76,age:33,pot:76,morale:76,contract:1,nbaId:1627763,skills:['playmaker','scorer'],starter:true},
+      {name:'Marvin Bagley III',pos:'PF',rating:74,age:26,pot:76,morale:74,contract:2,nbaId:1629070,skills:['rebounder','scorer'],starter:true},
+      {name:'Kyle Kuzma',      pos:'SF',rating:78,age:30,pot:79,morale:74,contract:2,nbaId:1628398,skills:['scorer','rebounder'],starter:false},
+      {name:'Tristan Vukcevic',pos:'C', rating:73,age:23,pot:82,morale:78,contract:3,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
+      {name:'Johnny Davis',    pos:'SG',rating:71,age:23,pot:78,morale:76,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
     ],
-    news:[{t:'AD + Trae Young — unexpected duo!',c:''},{t:'Sarr + Coulibaly — elite young core.',c:''},{t:'Wizards rebuilding but with star power.',c:''}]
+    news:[{t:'Wizards in full rebuild.',c:''},{t:'Sarr and Coulibaly are the future.',c:''},{t:'5th straight year missing playoffs.',c:'d'}]
   },
 
-    { id:'cha', name:'Charlotte Hornets', short:'CHA', league:'NBA',
-    color:'#00788C', bg:'#f0fdfa', border:'#99f6e4', rating:78.0, chem:70,
+  // Charlotte Hornets
+  { id:'cha', name:'Charlotte Hornets', short:'CHA', league:'NBA',
+    color:'#00788C', bg:'#f0fdfa', border:'#99f6e4', rating:77.0, chem:68,
     coach:{name:'Charles Lee', rating:74},
     players:[
-      {name:'LaMelo Ball',      pos:'PG',rating:87,age:24,pot:93,morale:82,contract:4,nbaId:1630163,skills:['playmaker','scorer'],starter:true},
-      {name:'Brandon Miller',   pos:'SF',rating:82,age:22,pot:90,morale:82,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
-      {name:'Kon Knueppel',     pos:'SG',rating:80,age:20,pot:91,morale:83,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
-      {name:'Miles Bridges',    pos:'PF',rating:80,age:27,pot:82,morale:78,contract:3,nbaId:1628969,skills:['scorer','rebounder'],starter:true},
-      {name:'Coby White',       pos:'SG',rating:80,age:25,pot:84,morale:79,contract:3,nbaId:1629632,skills:['scorer','playmaker'],starter:true},
-      {name:'Xavier Tillman',   pos:'PF',rating:74,age:26,pot:77,morale:78,contract:2,nbaId:1630214,skills:['defender','rebounder'],starter:false},
-      {name:'Grant Williams',   pos:'PF',rating:75,age:26,pot:77,morale:77,contract:2,nbaId:1629649,skills:['defender','scorer'],starter:false},
-      {name:'Josh Green',       pos:'SG',rating:74,age:24,pot:78,morale:78,contract:2,nbaId:1630175,skills:['defender','scorer'],starter:false},
-      {name:'Tidjane Salaun',   pos:'SF',rating:73,age:20,pot:85,morale:78,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Tre Mann',         pos:'SG',rating:72,age:24,pot:77,morale:76,contract:2,nbaId:1630530,skills:['scorer','playmaker'],starter:false},
-      {name:'Ryan Kalkbrenner', pos:'C', rating:72,age:24,pot:78,morale:76,contract:2,nbaId:1642355,skills:['defender','rebounder'],starter:false},
-      {name:'Liam McNeeley',    pos:'SF',rating:71,age:20,pot:82,morale:77,contract:2,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Moussa Diabate',   pos:'PF',rating:70,age:23,pot:78,morale:76,contract:2,nbaId:1631109,skills:['rebounder','defender'],starter:false},
-      {name:'Pat Connaughton',  pos:'SG',rating:70,age:32,pot:70,morale:76,contract:1,nbaId:1626192,skills:['scorer','defender'],starter:false},
-      {name:'Antonio Reeves',   pos:'SG',rating:69,age:25,pot:74,morale:75,contract:1,nbaId:1642355,skills:['scorer'],starter:false},
-      {name:'Tosan Evbuomwan',  pos:'SF',rating:68,age:23,pot:75,morale:75,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Sion James',       pos:'SG',rating:67,age:25,pot:72,morale:74,contract:1,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'PJ Hall',          pos:'C', rating:66,age:23,pot:73,morale:74,contract:1,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
+      {name:'LaMelo Ball',     pos:'PG',rating:87,age:24,pot:93,morale:80,contract:4,nbaId:1630163,skills:['playmaker','scorer'],starter:true},
+      {name:'Kon Knueppel',    pos:'SG',rating:80,age:20,pot:91,morale:82,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:true},
+      {name:'Coby White',      pos:'SG',rating:80,age:25,pot:84,morale:79,contract:3,nbaId:1629632,skills:['scorer','playmaker'],starter:true},
+      {name:'X. Tillman',      pos:'PF',rating:74,age:26,pot:77,morale:78,contract:2,nbaId:1630214,skills:['defender','rebounder'],starter:true},
+      {name:'Mark Williams',   pos:'C', rating:77,age:23,pot:84,morale:78,contract:3,nbaId:1631218,skills:['rebounder','defender'],starter:true},
+      {name:'Grant Williams',  pos:'PF',rating:75,age:26,pot:77,morale:77,contract:2,nbaId:1629649,skills:['defender','scorer'],starter:false},
+      {name:'Nick Smith Jr.',  pos:'PG',rating:74,age:21,pot:83,morale:78,contract:3,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
+      {name:'Tre Mann',        pos:'SG',rating:73,age:24,pot:78,morale:77,contract:2,nbaId:1630530,skills:['scorer'],starter:false},
     ],
-    news:[{t:'LaMelo + Knueppel — elite young backcourt.',c:''},{t:'Coby White arrives from Bulls.',c:''},{t:'Hornets rebuilding around young core.',c:''}]
+    news:[{t:'LaMelo + Knueppel \u2014 exciting young backcourt.',c:''},{t:'Hornets 10th straight year missing playoffs.',c:'d'},{t:'Knueppel ROY frontrunner!',c:''}]
   },
 
-    { id:'bkn', name:'Brooklyn Nets', short:'BKN', league:'NBA',
-    color:'#000000', bg:'#f8fafc', border:'#e2e8f0', rating:78.0, chem:70,
+  // Brooklyn Nets
+  { id:'bkn', name:'Brooklyn Nets', short:'BKN', league:'NBA',
+    color:'#000000', bg:'#f8fafc', border:'#e2e8f0', rating:75.0, chem:66,
     coach:{name:'Jordi Fernandez', rating:74},
     players:[
-      {name:'Michael Porter Jr.', pos:'SF',rating:84,age:27,pot:86,morale:82,contract:3,nbaId:1629008,skills:['scorer','rebounder'],starter:true},
-      {name:'Nic Claxton',        pos:'C', rating:80,age:27,pot:83,morale:79,contract:3,nbaId:1629651,skills:['defender','rebounder'],starter:true},
-      {name:'Noah Clowney',       pos:'PF',rating:76,age:21,pot:86,morale:80,contract:2,nbaId:1641730,skills:['scorer','defender'],starter:true},
-      {name:"Day'Ron Sharpe",     pos:'C', rating:74,age:24,pot:80,morale:77,contract:3,nbaId:1630549,skills:['rebounder','defender'],starter:true},
-      {name:'Egor Demin',         pos:'PG',rating:74,age:20,pot:88,morale:80,contract:3,nbaId:1642856,skills:['playmaker','scorer'],starter:true},
-      {name:'Ziaire Williams',    pos:'SF',rating:74,age:24,pot:82,morale:77,contract:2,nbaId:1630533,skills:['scorer','defender'],starter:false},
-      {name:'Danny Wolf',         pos:'PF',rating:73,age:22,pot:83,morale:79,contract:1,nbaId:1642874,skills:['scorer','rebounder'],starter:false},
-      {name:'Terance Mann',       pos:'SG',rating:73,age:29,pot:75,morale:77,contract:2,nbaId:1629611,skills:['scorer','defender'],starter:false},
-      {name:'Nolan Traore',       pos:'PG',rating:71,age:19,pot:88,morale:79,contract:1,nbaId:1642849,skills:['playmaker','scorer'],starter:false},
-      {name:'Drake Powell',       pos:'SG',rating:70,age:20,pot:84,morale:79,contract:1,nbaId:1642962,skills:['scorer','defender'],starter:false},
-      {name:'Ben Saraf',          pos:'PG',rating:70,age:20,pot:83,morale:79,contract:1,nbaId:1642879,skills:['playmaker','scorer'],starter:false},
-      {name:'Josh Minott',        pos:'SF',rating:69,age:23,pot:76,morale:77,contract:2,nbaId:1631169,skills:['scorer','defender'],starter:false},
-      {name:'Jalen Wilson',       pos:'SF',rating:68,age:25,pot:73,morale:76,contract:2,nbaId:1630592,skills:['scorer','rebounder'],starter:false},
-      {name:'Ochai Agbaji',       pos:'SG',rating:68,age:26,pot:72,morale:76,contract:2,nbaId:1630534,skills:['scorer','defender'],starter:false},
-      {name:'Malachi Smith',      pos:'PG',rating:67,age:26,pot:73,morale:76,contract:1,nbaId:1641869,skills:['scorer','playmaker'],starter:false},
-      {name:'Tyson Etienne',      pos:'PG',rating:67,age:26,pot:71,morale:75,contract:1,nbaId:1630623,skills:['scorer','playmaker'],starter:false},
-      {name:'EJ Liddell',         pos:'PF',rating:68,age:25,pot:74,morale:76,contract:2,nbaId:1630604,skills:['scorer','defender'],starter:false},
-      {name:'Chaney Johnson',     pos:'SF',rating:66,age:23,pot:76,morale:76,contract:1,nbaId:1643052,skills:['scorer','rebounder'],starter:false},
+      {name:'Cam Thomas',      pos:'SG',rating:83,age:23,pot:90,morale:82,contract:3,nbaId:1630591,skills:['scorer','playmaker'],starter:true},
+      {name:'Nic Claxton',     pos:'C', rating:80,age:26,pot:83,morale:78,contract:3,nbaId:1629651,skills:['defender','rebounder'],starter:true},
+      {name:"D'Angelo Russell",pos:'PG',rating:78,age:29,pot:79,morale:74,contract:2,nbaId:1626156,skills:['scorer','playmaker'],starter:true},
+      {name:'Ziaire Williams', pos:'SF',rating:75,age:23,pot:82,morale:76,contract:3,nbaId:1630531,skills:['scorer','defender'],starter:true},
+      {name:"Day'Ron Sharpe", pos:'PF',rating:74,age:23,pot:79,morale:76,contract:3,nbaId:1630218,skills:['rebounder','defender'],starter:true},
+      {name:'Jalen Wilson',    pos:'SF',rating:74,age:25,pot:78,morale:76,contract:2,nbaId:1642355,skills:['scorer','rebounder'],starter:false},
+      {name:'Dennis Schroder', pos:'PG',rating:76,age:32,pot:76,morale:74,contract:1,nbaId:203471, skills:['scorer','playmaker'],starter:false},
+      {name:'Noah Clowney',    pos:'PF',rating:72,age:21,pot:82,morale:78,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
     ],
-    news:[{t:'Nets full rebuild — young core developing.',c:''},{t:'MPJ traded to Brooklyn — fresh start.',c:''},{t:'Egor Demin + Traore + Saraf — future is bright.',c:''}]
+    news:[{t:'Nets full rebuild \u2014 stockpiling picks.',c:''},{t:'Cam Thomas is their best player.',c:''},{t:'3rd straight year missing playoffs.',c:'d'}]
   },
 
-    // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
   // EUROLEAGUE
-  // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
   { id:'rm', name:'Real Madrid', short:'RM', league:'EuroLeague',
     color:'#00529F', bg:'#eff6ff', border:'#bfdbfe', rating:85.0, chem:84,
     coach:{name:'Sergio Scariolo', rating:86},
@@ -1393,12 +1175,12 @@ const TEAMS = [
       {name:'Jan Vesely',     pos:'C', rating:74,age:33,pot:75,morale:76,contract:1,nbaId:null,skills:['rebounder','defender'],starter:false},
       {name:'Yam Madar',      pos:'PG',rating:73,age:24,pot:79,morale:77,contract:2,nbaId:null,skills:['playmaker','scorer'],starter:false},
     ],
-    news:[{t:'Jasikevicius building a EuroLeague contender.',c:''},{t:'Kantepe — future EuroLeague star.',c:''},{t:'Competing at top of EuroLeague standings.',c:''}]
+    news:[{t:'Jasikevicius building a EuroLeague contender.',c:''},{t:'Kantepe \u2014 future EuroLeague star.',c:''},{t:'Competing at top of EuroLeague standings.',c:''}]
   },
 
-  // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
   // NBL
-  // ═══════════════════════════════
+  // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
   { id:'mel', name:'Melbourne United', short:'MEL', league:'NBL',
     color:'#003087', bg:'#eff6ff', border:'#bfdbfe', rating:80.0, chem:75,
     coach:{name:'Dean Vickerman', rating:80},
@@ -1412,41 +1194,28 @@ const TEAMS = [
       {name:'Chris Goulding', pos:'SG',rating:74,age:37,pot:74,morale:72,contract:1,nbaId:null,skills:['scorer'],starter:false},
       {name:'Ian Clark',      pos:'SG',rating:72,age:34,pot:72,morale:75,contract:1,nbaId:null,skills:['scorer'],starter:false},
     ],
-    news:[{t:'Melbourne United — NBL powerhouse.',c:''},{t:'Hukporti the most exciting young big in NBL.',c:''},{t:'Walker running the show at PG.',c:''}]
+    news:[{t:'Melbourne United \u2014 NBL powerhouse.',c:''},{t:'Hukporti the most exciting young big in NBL.',c:''},{t:'Walker running the show at PG.',c:''}]
   },
 
   // Chicago Bulls (already exists - keeping last)
   { id:'chi', name:'Chicago Bulls', short:'CHI', league:'NBA',
-    color:'#CE1141', bg:'#fff1f2', border:'#fecdd3', rating:79.0, chem:68,
+    color:'#CE1141', bg:'#fff1f2', border:'#fecdd3', rating:80.0, chem:68,
     coach:{name:'Billy Donovan', rating:78},
     players:[
-      {name:'Anfernee Simons',   pos:'SG',rating:84,age:27,pot:87,morale:80,contract:1,nbaId:1629014,skills:['scorer','playmaker'],starter:true},
-      {name:'Josh Giddey',       pos:'PG',rating:82,age:22,pot:88,morale:75,contract:3,nbaId:1630581,skills:['playmaker','rebounder'],starter:true},
-      {name:'Matas Buzelis',     pos:'SF',rating:82,age:21,pot:93,morale:83,contract:3,nbaId:1641824,skills:['scorer','defender'],starter:true},
-      {name:'Patrick Williams',  pos:'PF',rating:76,age:23,pot:84,morale:77,contract:3,nbaId:1630172,skills:['defender','scorer'],starter:true},
-      {name:'Zach Collins',      pos:'C', rating:77,age:27,pot:79,morale:78,contract:2,nbaId:1628400,skills:['rebounder','scorer'],starter:true},
-      {name:'Collin Sexton',     pos:'SG',rating:80,age:26,pot:83,morale:78,contract:2,nbaId:1629029,skills:['scorer','playmaker'],starter:false},
-      {name:'Rob Dillingham',    pos:'PG',rating:76,age:21,pot:90,morale:80,contract:4,nbaId:1642361,skills:['scorer','playmaker'],starter:false},
-      {name:'Guerschon Yabusele',pos:'PF',rating:77,age:30,pot:78,morale:79,contract:2,nbaId:1628437,skills:['scorer','defender'],starter:false},
-      {name:'Leonard Miller',    pos:'PF',rating:74,age:22,pot:84,morale:78,contract:3,nbaId:1641706,skills:['scorer','rebounder'],starter:false},
-      {name:'Noa Essengue',      pos:'SF',rating:72,age:19,pot:89,morale:79,contract:3,nbaId:1642355,skills:['scorer','defender'],starter:false},
-      {name:'Isaac Okoro',       pos:'SF',rating:72,age:24,pot:76,morale:77,contract:2,nbaId:1630168,skills:['defender','scorer'],starter:false},
-      {name:'Tre Jones',         pos:'PG',rating:72,age:26,pot:74,morale:77,contract:2,nbaId:1630217,skills:['playmaker','defender'],starter:false},
-      {name:'Mac McClung',       pos:'PG',rating:71,age:26,pot:73,morale:78,contract:2,nbaId:1642355,skills:['scorer','playmaker'],starter:false},
-      {name:'Jalen Smith',       pos:'PF',rating:70,age:24,pot:74,morale:76,contract:2,nbaId:1630175,skills:['rebounder','scorer'],starter:false},
-      {name:'Nick Richards',     pos:'C', rating:70,age:28,pot:72,morale:76,contract:2,nbaId:1629596,skills:['rebounder','defender'],starter:false},
-      {name:'Mouhamadou Gueye',  pos:'SF',rating:67,age:24,pot:76,morale:76,contract:1,nbaId:1642355,skills:['defender','scorer'],starter:false},
-      {name:'Yuki Kawamura',     pos:'PG',rating:63,age:28,pot:66,morale:76,contract:1,nbaId:1642355,skills:['playmaker','defender'],starter:false},
-      {name:'Lachlan Olbrich',   pos:'C', rating:62,age:24,pot:70,morale:75,contract:1,nbaId:1642355,skills:['rebounder','defender'],starter:false},
+      {name:'Josh Giddey',     pos:'PG',rating:82,age:22,pot:88,morale:75,contract:3,nbaId:1630581,skills:['playmaker','rebounder'],starter:true},
+      {name:'A. Simons',       pos:'SG',rating:84,age:27,pot:87,morale:80,contract:1,nbaId:1629014,skills:['scorer','playmaker'],starter:true},
+      {name:'M. Buzelis',      pos:'SF',rating:82,age:21,pot:93,morale:83,contract:3,nbaId:1641824,skills:['scorer','defender'],starter:true},
+      {name:'Patrick Williams',pos:'PF',rating:76,age:23,pot:84,morale:77,contract:3,nbaId:1630172,skills:['defender','scorer'],starter:true},
+      {name:'Zach Collins',    pos:'C', rating:77,age:27,pot:79,morale:78,contract:2,nbaId:1628400,skills:['rebounder','scorer'],starter:true},
+      {name:'Collin Sexton',   pos:'SG',rating:80,age:26,pot:83,morale:78,contract:2,nbaId:1629029,skills:['scorer','playmaker'],starter:false},
+      {name:'Rob Dillingham',  pos:'PG',rating:76,age:21,pot:90,morale:80,contract:4,nbaId:1642361,skills:['scorer','playmaker'],starter:false},
+      {name:'Ayo Dosunmu',     pos:'SG',rating:75,age:25,pot:79,morale:77,contract:2,nbaId:1630245,skills:['defender','scorer'],starter:false},
+      {name:'Dalen Terry',     pos:'SG',rating:73,age:22,pot:80,morale:78,contract:3,nbaId:1641770,skills:['defender','scorer'],starter:false},
     ],
-    news:[{t:'Buzelis + Simons — exciting young core.',c:''},{t:'Giddey running the show at PG.',c:''},{t:'4th straight year missing playoffs.',c:'d'}]
+    news:[{t:'Donovan stepped down after the season.',c:'d'},{t:'Buzelis + Simons \u2014 exciting young core.',c:''},{t:'4th straight year missing playoffs.',c:'d'}]
   },
 ];
 
-
-// ══════════════════════════════════════════
-// UTILITIES
-// ══════════════════════════════════════════
 function rand(a,b){return Math.random()*(b-a)+a;}
 function lerp(a,b,t){return a+(b-a)*t;}
 function initials(n){return n.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
@@ -1525,102 +1294,7 @@ function coachTacticDefault(name,rating){
 // ══════════════════════════════════════════
 // INTRO / TEAM SELECT
 // ══════════════════════════════════════════
-function goIntro(){
-  isMultiplayer=false;
-  window._multiplayerMode=false;
-  window._p2CanControl=false;
-  document.getElementById('pg-game').classList.remove('on');
-  document.getElementById('pg-multi')?.classList.remove('on');
-  document.getElementById('pg-intro').classList.add('on');
-}
-
-// ══════════════════════════════════════════
-// MULTIPLAYER — SAME DEVICE
-// ══════════════════════════════════════════
-let isMultiplayer=false;
-let multiTeam1=null,multiTeam2=null;
-let multiSelectStep=1;
-
-function goMultiplayer(){
-  isMultiplayer=true;
-  multiSelectStep=1;
-  multiTeam1=null;multiTeam2=null;
-  document.getElementById('pg-intro').classList.remove('on');
-  document.getElementById('pg-multi').classList.add('on');
-  document.getElementById('multi-title').textContent='👤 Player 1 — Choose Your Team';
-  document.getElementById('multi-sub').textContent='Pass the device to Player 1';
-  buildMultiGrid();
-}
-
-function buildMultiGrid(){
-  const grid=document.getElementById('multi-grid');
-  grid.innerHTML='';
-  const nbaTeams=TEAMS.filter(t=>t.league==='NBA'||!t.league);
-  nbaTeams.forEach(t=>{
-    const taken=(multiSelectStep===2&&multiTeam1?.id===t.id);
-    const d=document.createElement('div');
-    d.className='ts-card';
-    d.style.opacity=taken?'0.3':'1';
-    d.style.pointerEvents=taken?'none':'all';
-    d.innerHTML=`<div class="ts-badge" style="background:${t.bg};color:${t.color};border:2px solid ${t.color}33;">${t.short}</div>
-      <div class="ts-name">${t.name}</div>
-      <div class="ts-info">⭐ ${t.rating} · ${t.coach.name}</div>`;
-    if(!taken) d.onclick=()=>multiPickTeam(t);
-    grid.appendChild(d);
-  });
-}
-
-function multiPickTeam(t){
-  if(multiSelectStep===1){
-    multiTeam1=t;
-    multiSelectStep=2;
-    showHandoff('🏀 Player 1 picked '+t.name+'!','Pass to Player 2 to pick their team 👇',()=>{
-      document.getElementById('multi-title').textContent='👤 Player 2 — Choose Your Team';
-      document.getElementById('multi-sub').textContent='Pick your team';
-      buildMultiGrid();
-    });
-  } else {
-    multiTeam2=t;
-    showHandoff('🏀 Player 2 picked '+t.name+'!','Both teams locked in — let\'s go! 🏀',()=>{
-      startMultiplayerGame();
-    });
-  }
-}
-
-function showHandoff(title,sub,callback){
-  const overlay=document.createElement('div');
-  overlay.id='handoff-overlay';
-  overlay.style.cssText='position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;';
-  overlay.innerHTML=`
-    <div style="font-size:64px;margin-bottom:20px;">🏀</div>
-    <div style="font-size:28px;font-weight:900;color:#fb923c;margin-bottom:12px;">${title}</div>
-    <div style="font-size:16px;color:rgba(255,255,255,.5);margin-bottom:40px;">${sub}</div>
-    <button id="handoff-btn" style="padding:16px 40px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;font-family:'DM Sans',sans-serif;cursor:pointer;">Continue →</button>`;
-  document.body.appendChild(overlay);
-  document.getElementById('handoff-btn').onclick=()=>{overlay.remove();callback();};
-}
-
-function startMultiplayerGame(){
-  document.getElementById('pg-multi').classList.remove('on');
-  myTeam=multiTeam1;
-  const fakeGame={home:multiTeam1,away:multiTeam2,played:false,scoreA:0,scoreB:0,won:null};
-  gameSchedule=[fakeGame];
-  currentGameIdx=0;wins=0;losses=0;
-  window._multiplayerMode=true;
-  window._multiTeam1=multiTeam1;
-  window._multiTeam2=multiTeam2;
-  window._multiMinsStep=1;
-  document.getElementById('pg-game').classList.add('on');
-  buildGameUI();
-  // P1 sets minutes
-  _pendingGame=fakeGame;
-  myTeam=multiTeam1;
-  const recs=calcAllSuggestedMins();
-  multiTeam1.players.forEach(p=>{const r=recs.find(x=>x.name===p.name);p.assignedMins=r?r.mins:0;});
-  document.getElementById('pregame-title').textContent='⏱ Player 1 Minutes — '+multiTeam1.short;
-  renderPregameList();
-  document.getElementById('pregame-overlay').classList.add('on');
-}
+function goIntro(){document.getElementById('pg-game').classList.remove('on');document.getElementById('pg-intro').classList.add('on');}
 function goTeams(){document.getElementById('pg-intro').classList.remove('on');document.getElementById('pg-teams').classList.add('on');buildTeamGrid();}
 
 function buildTeamGrid(){
@@ -2586,7 +2260,7 @@ function renderPregameList(){
   const warn=document.getElementById('pregame-warn');
   if(warn){if(total!==240){warn.style.display='block';warn.style.background=total>240?'var(--rl)':'var(--al)';warn.style.color=total>240?'var(--red)':'var(--amb)';warn.textContent=total>240?`⚠ ${total-240} mins over — reduce someone`:`⚠ ${240-total} mins short — add to someone`;}else warn.style.display='none';}
   const btn=document.getElementById('pregame-start-btn');
-  if(btn){btn.style.opacity=total===240?'1':'0.6';btn.style.pointerEvents='all';}
+  if(btn){btn.style.opacity=total===240?'1':'0.45';btn.style.pointerEvents=total===240?'all':'none';}
   const list=document.getElementById('pregame-mins-list');if(!list)return;
   list.innerHTML=t.players.map((p,i)=>{
     const rec=recs.find(x=>x.name===p.name)?.mins||0;
@@ -2637,7 +2311,7 @@ function attachSliderDrag(idx){
     if(badge){badge.textContent=total+'/240';badge.style.color=color;}
     if(totalEl){totalEl.textContent=total;totalEl.style.color=color;}
     const btn=document.getElementById('pregame-start-btn');
-    if(btn){btn.style.opacity=total===240?'1':'0.6';btn.style.pointerEvents='all';}
+    if(btn){btn.style.opacity=total===240?'1':'0.45';btn.style.pointerEvents=total===240?'all':'none';}
     const warn=document.getElementById('pregame-warn');
     if(warn){if(total!==240){warn.style.display='block';warn.style.background=total>240?'var(--rl)':'var(--al)';warn.style.color=total>240?'var(--red)':'var(--amb)';warn.textContent=total>240?`⚠ ${total-240} mins over`:`⚠ ${240-total} mins short`;}else warn.style.display='none';}
   }
@@ -2652,47 +2326,16 @@ function attachSliderDrag(idx){
 function confirmPregameMins(){
   const total=myTeam.players.reduce((s,p)=>s+(p.assignedMins||0),0);
   if(total!==240){
-    const badge=document.getElementById('pregame-total-badge');
-    if(badge){badge.style.color='var(--red)';setTimeout(()=>badge.style.color='',800);}
+    const warn=document.getElementById('pregame-warn');
+    if(warn){warn.style.display='block';warn.style.background='var(--rl)';warn.style.color='var(--red)';warn.textContent=`⚠ Total must be 240 mins (currently ${total})`;}
+    const btn=document.getElementById('pregame-start-btn');
+    if(btn){btn.style.background='var(--red)';setTimeout(()=>btn.style.background='',600);}
     return;
   }
-
-  // MULTIPLAYER FLOW
-  if(window._multiplayerMode&&window._multiMinsStep===1){
-    document.getElementById('pregame-overlay').classList.remove('on');
-    showHandoff('✅ Player 1 minutes set!','Pass to Player 2 to set their minutes 👇',()=>{
-      myTeam=multiTeam2;
-      const recs=calcAllSuggestedMins();
-      multiTeam2.players.forEach(p=>{const r=recs.find(x=>x.name===p.name);p.assignedMins=r?r.mins:0;});
-      document.getElementById('pregame-title').textContent='⏱ Player 2 Minutes — '+multiTeam2.short;
-      renderPregameList();
-      document.getElementById('pregame-overlay').classList.add('on');
-      window._multiMinsStep=2;
-      myTeam=multiTeam1;
-    });
-    return;
-  }
-
-  if(window._multiplayerMode&&window._multiMinsStep===2){
-    document.getElementById('pregame-overlay').classList.remove('on');
-    window._multiMinsStep=0;
-    myTeam=multiTeam1;
-    showHandoff('🏀 Both teams ready!','Game is starting — good luck coaches!',()=>{
-      window._p2CanControl=true;
-      const g=gameSchedule[0];
-      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-      const matchTab=document.getElementById('tab-match');
-      if(matchTab)matchTab.classList.add('on');
-      setTimeout(()=>setupMatch(g),80);
-    });
-    return;
-  }
-
-  // SINGLE PLAYER FLOW
-  const g=_pendingGame;
-  _pendingGame=null;
+  const g=_pendingGame;_pendingGame=null;
   document.getElementById('pregame-overlay').classList.remove('on');
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('act'));
   const matchTab=document.getElementById('tab-match');
   if(matchTab)matchTab.classList.add('on');
   setTimeout(()=>setupMatch(g),80);
@@ -2924,23 +2567,32 @@ function toggleSim(){
 let _stepCount=0;
 function stepPlay(){
   _stepCount++;
-  // Game logic runs every ~500ms at 1x speed (realistic NBA pace)
-  // ticker fires every 16ms, so we skip most ticks
-  const skipRate=Math.max(1,Math.round(30/simSpeed));
-  if(_stepCount%skipRate!==0)return;
-  buildPlay();
+  if(_stepCount%Math.max(1,Math.round(4/simSpeed))!==0)return;
+  // Advance clock
+  secs-=Math.floor(rand(1,3));
+  if(secs<0){mins--;secs+=60;}
+  if(mins<0){
+    qScores[quarter-1]=[scoreA-qScores.slice(0,quarter-1).reduce((s,q)=>s+q[0],0),scoreB-qScores.slice(0,quarter-1).reduce((s,q)=>s+q[1],0)];
+    document.getElementById('qs'+quarter).textContent=qScores[quarter-1][0]+'-'+qScores[quarter-1][1];
+    [...onCourtA,...benchA,...onCourtB,...benchB].forEach(p=>{if(p.mins>0)p.mins++;});
+    if(quarter>=4){finishGame();return;}
+    quarter++;mins=12;secs=0;prevA=scoreA;prevB=scoreB;lastAutoRotMin=12;
+    document.getElementById('mquarter').textContent=quarter;
+  }
+  document.getElementById('mtimer').textContent=mins+':'+(secs<10?'0':'')+secs;
+  document.getElementById('mquarter').textContent=quarter;
+  // Play
+  if(Math.random()<.25)buildPlay();
   checkAutoRotation();
   runCpuAI();
+  // Update mins for on-court players
   [...onCourtA,...onCourtB].forEach(p=>p.mins=Math.max(p.mins,Math.floor(((quarter-1)*12+(12-mins))*0.9)));
   document.getElementById('mscoreA').textContent=scoreA;
   document.getElementById('mscoreB').textContent=scoreB;
-  document.getElementById('mtimer').textContent=mins+':'+(secs<10?'0':'')+secs;
-  document.getElementById('mquarter').textContent=quarter;
   updateBoxScore();
 }
 
 function buildPlay(){
-  if(gameFinished)return;
   const isA=possession==='a';
   const tac=isA?(TACTICS[currentTactic]||TACTICS.balanced):(TACTICS[cpuTactic]||TACTICS.balanced);
   const attackers=isA?onCourtA:onCourtB;
@@ -2949,21 +2601,7 @@ function buildPlay(){
   const scorer=attackers[Math.floor(Math.random()*attackers.length)];
   const [cMin,cMax]=tac.clockSec||[13,17];
   const secPerPlay=Math.floor(rand(cMin,cMax));
-  // Advance clock
   secs-=secPerPlay;
-  while(secs<0){mins--;secs+=60;}
-  // Quarter transition
-  if(mins<0){
-    qScores[quarter-1]=[
-      scoreA-qScores.slice(0,quarter-1).reduce((s,q)=>s+q[0],0),
-      scoreB-qScores.slice(0,quarter-1).reduce((s,q)=>s+q[1],0)
-    ];
-    const qEl=document.getElementById('qs'+quarter);
-    if(qEl)qEl.textContent=qScores[quarter-1][0]+'-'+qScores[quarter-1][1];
-    if(quarter>=4){finishGame();return;}
-    quarter++;mins=12;secs=0;prevA=scoreA;prevB=scoreB;lastAutoRotMin=12;
-    return; // start fresh next tick
-  }
   const isThree=Math.random()<tac.threePct;
   const scored=Math.random()<tac.scorePct;
   const pts=scored?(isThree?3:2):0;
@@ -2971,17 +2609,19 @@ function buildPlay(){
     if(isA){scoreA+=pts;tAA++;if(Math.random()<.3){const a=attackers[Math.floor(Math.random()*attackers.length)];a.ast++;tAA++;}}
     else{scoreB+=pts;tAB++;if(Math.random()<.3){const a=attackers[Math.floor(Math.random()*attackers.length)];a.ast++;tAB++;}}
     scorer.pts+=pts;
-    const target=isA?{x:.85+Math.random()*.05,y:.35+Math.random()*.3}:{x:.1+Math.random()*.05,y:.35+Math.random()*.3};
-    ball.fromX=ball.x;ball.fromY=ball.y;ball.tx=target.x;ball.ty=target.y;ball.progress=0;ball.arcH=0.18+Math.random()*0.1;
-    addComment((isThree?'🎯':'🏀')+' '+scorer.name+' '+(isThree?'3PTR':'2PTS')+'! ('+scoreA+'-'+scoreB+')');
+    // Ball animation
+    const target=isA?{x:.75+Math.random()*.1,y:.3+Math.random()*.4}:{x:.15+Math.random()*.1,y:.3+Math.random()*.4};
+    ball.fromX=ball.x;ball.fromY=ball.y;ball.tx=target.x;ball.ty=target.y;ball.progress=0;ball.arcH=0.15+Math.random()*0.1;
+    addComment((isThree?'🎯':'🏀')+' '+scorer.name+' scores '+(isThree?'3':'2')+'! ('+scoreA+'-'+scoreB+')');
   }else{
     const reb=defenders[Math.floor(Math.random()*defenders.length)];
     reb.reb++;
     if(isA)tRB++;else tRA++;
     if(Math.random()<.15){const s=defenders[Math.floor(Math.random()*defenders.length)];s.stl++;if(isA)tSB++;else tSA++;}
-    addComment('❌ Miss — '+(isA?(gameSchedule[currentGameIdx]||window._playoffGame)?.away?.short||'Away':'Home')+' reb');
+    addComment('❌ Missed — '+(isA?'Away':'Home')+' rebound');
   }
-  courtPlayers.forEach(p=>{p.tx=p.isA?0.12+Math.random()*0.38:0.5+Math.random()*0.38;p.ty=0.08+Math.random()*0.84;});
+  // Move players
+  courtPlayers.forEach(p=>{p.tx=p.isA?0.1+Math.random()*0.35:0.55+Math.random()*0.35;p.ty=0.1+Math.random()*0.8;});
   possession=possession==='a'?'b':'a';
   runCpuAI();
 }
@@ -3042,55 +2682,55 @@ function drawFrame(){
 }
 
 function drawCourt(){
-  ctx.clearRect(0,0,cW,cH);
-  // Hardwood floor
-  const grad=ctx.createLinearGradient(0,0,0,cH);
-  grad.addColorStop(0,'#d4953a');grad.addColorStop(1,'#b8782a');
-  ctx.fillStyle=grad;ctx.fillRect(0,0,cW,cH);
-  // Wood grain
-  ctx.strokeStyle='rgba(0,0,0,.05)';ctx.lineWidth=1;
-  for(let i=0;i<cH;i+=6){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(cW,i);ctx.stroke();}
-  // Team color zones
-  const g=gameSchedule[currentGameIdx]||window._playoffGame;
-  if(g&&g.home&&g.away){
-    ctx.fillStyle=(g.home.color||'#1a56db')+'28';
-    ctx.fillRect(0,0,cW*0.18,cH);
-    ctx.fillStyle=(g.away.color||'#dc2626')+'28';
-    ctx.fillRect(cW*0.82,0,cW*0.18,cH);
-  }
-  // Court lines
-  ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2;
-  // Center line
-  ctx.beginPath();ctx.moveTo(cW/2,0);ctx.lineTo(cW/2,cH);ctx.stroke();
-  // Center circle
-  ctx.beginPath();ctx.arc(cW/2,cH/2,cH*.14,0,Math.PI*2);ctx.stroke();
-  // Left paint
-  ctx.strokeRect(0,cH*.25,cW*.17,cH*.5);
-  // Right paint
-  ctx.strokeRect(cW*.83,cH*.25,cW*.17,cH*.5);
-  // Left free throw line
-  ctx.beginPath();ctx.arc(cW*.17,cH/2,cH*.11,Math.PI/2,Math.PI*1.5);ctx.stroke();
-  // Right free throw line
-  ctx.beginPath();ctx.arc(cW*.83,cH/2,cH*.11,Math.PI*-.5,Math.PI*.5);ctx.stroke();
-  // Left 3pt arc
-  ctx.beginPath();ctx.arc(cW*.04,cH/2,cH*.41,-.44*Math.PI,.44*Math.PI);ctx.stroke();
-  // Right 3pt arc
-  ctx.beginPath();ctx.arc(cW*.96,cH/2,cH*.41,.56*Math.PI,1.44*Math.PI);ctx.stroke();
-  // Backboards
-  ctx.strokeStyle='rgba(255,255,255,.95)';ctx.lineWidth=3;
-  ctx.beginPath();ctx.moveTo(3,cH*.36);ctx.lineTo(3,cH*.64);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(cW-3,cH*.36);ctx.lineTo(cW-3,cH*.64);ctx.stroke();
-  // Left hoop
-  ctx.beginPath();ctx.arc(cW*.06,cH/2,cH*.04,0,Math.PI*2);
-  ctx.strokeStyle='#ff6b35';ctx.lineWidth=3;ctx.stroke();
-  // Right hoop
-  ctx.beginPath();ctx.arc(cW*.94,cH/2,cH*.04,0,Math.PI*2);
-  ctx.strokeStyle='#ff6b35';ctx.lineWidth=3;ctx.stroke();
+  ctx.fillStyle='#1a1a2e';ctx.fillRect(0,0,cW,cH);
+  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(cW/2,10);ctx.lineTo(cW/2,cH-10);ctx.stroke();
+  ctx.beginPath();ctx.arc(cW/2,cH/2,30,0,Math.PI*2);ctx.stroke();
+  // Paint areas
+  ctx.strokeRect(cW*.02,cH*.2,cW*.2,cH*.6);
+  ctx.strokeRect(cW*.78,cH*.2,cW*.2,cH*.6);
+  // Baskets
+  ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(cW*.04,cH/2,6,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(cW*.96,cH/2,6,0,Math.PI*2);ctx.fill();
   // Tactic labels
-  ctx.textAlign='left';ctx.fillStyle='rgba(255,255,255,.5)';ctx.font='bold 10px sans-serif';
-  ctx.fillText(TACTICS[currentTactic]?.label||'',10,cH-10);
+  ctx.textAlign='left';ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='9px sans-serif';
+  ctx.fillText(TACTICS[currentTactic]?.label,10,cH-12);
   ctx.textAlign='right';
-  ctx.fillText(TACTICS[cpuTactic]?.label||'',cW-10,cH-10);
+  ctx.fillText(TACTICS[cpuTactic]?.label,cW-10,cH-12);
+}
+
+function drawPlayer(p){
+  const x=p.x*cW,y=p.y*cH;
+  ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);
+  ctx.fillStyle=p.color||'#1a56db';ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='7px sans-serif';ctx.textAlign='center';
+  ctx.fillText(p.short,x,y+3);
+}
+
+function drawBall(){
+  const x=ball.x*cW,y=ball.y*cH;
+  ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);
+  ctx.fillStyle='#f97316';ctx.fill();
+  ctx.strokeStyle='#92400e';ctx.lineWidth=1;ctx.stroke();
+}
+
+
+function drawCourt(){
+  ctx.fillStyle='#1a1a2e';ctx.fillRect(0,0,cW,cH);
+  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(cW/2,10);ctx.lineTo(cW/2,cH-10);ctx.stroke();
+  ctx.beginPath();ctx.arc(cW/2,cH/2,30,0,Math.PI*2);ctx.stroke();
+  // Paint areas
+  ctx.strokeRect(cW*.02,cH*.2,cW*.2,cH*.6);
+  ctx.strokeRect(cW*.78,cH*.2,cW*.2,cH*.6);
+  // Baskets
+  ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(cW*.04,cH/2,6,0,Math.PI*2);ctx.fill();
+  ctx.beginPath();ctx.arc(cW*.96,cH/2,6,0,Math.PI*2);ctx.fill();
+  // Tactic labels
+  ctx.textAlign='left';ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='9px sans-serif';
+  ctx.fillText(TACTICS[currentTactic]?.label,10,cH-12);
+  ctx.textAlign='right';
+  ctx.fillText(TACTICS[cpuTactic]?.label,cW-10,cH-12);
 }
 
 function drawPlayer(p){
