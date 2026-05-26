@@ -21,6 +21,9 @@ body{font-family:'DM Sans',sans-serif;background:#000;color:#fff;overflow-x:hidd
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(249,115,22,.4);}
 .btn-secondary{padding:16px 36px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:12px;font-size:16px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;text-decoration:none;display:inline-block;transition:all .15s;}
 .btn-secondary:hover{background:rgba(255,255,255,.14);}
+.scroll-indicator{margin-top:48px;display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,255,255,.3);font-size:12px;letter-spacing:1px;text-transform:uppercase;animation:bounce 2s infinite;}
+.scroll-indicator svg{width:24px;height:24px;stroke:rgba(255,255,255,.3);}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
 
 /* STATS BAR */
 .stats-bar{background:#0a0a0a;border-top:1px solid #1a1a1a;border-bottom:1px solid #1a1a1a;padding:24px;display:flex;justify-content:center;gap:64px;flex-wrap:wrap;}
@@ -83,6 +86,12 @@ footer span{color:#fb923c;}
   <div class="hero-btns">
     <a href="game.html" class="btn-primary">▶ Play Now — Free</a>
     <a href="#beta" class="btn-secondary">Join Beta →</a>
+  </div>
+  <div class="scroll-indicator">
+    <span>Scroll to learn more</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
   </div>
 </section>
 
