@@ -2225,13 +2225,31 @@ function startNewSeason(){
       const diff=p.rating-prev;
       if(diff>=4&&p.age<=24)devNews.push({icon:'📈',txt:`Breakout! ${p.name} (${t.name}) jumped from ${prev}→${p.rating}!`});
       else if(diff<=-3&&p.age>=33)devNews.push({icon:'📉',txt:`${p.name} (${t.name}) declined to ${p.rating}.`});
-      if(p.contract===0){p.contract=1;devNews.push({icon:'📝',txt:`${p.name} (${t.name}) becomes a free agent.`});}
+      if(p.contract===0){
+        if(t.id!==myTeam.id){
+          const isKeeper=p.rating>=85||(p.rating>=78&&p.age<=27)||(p.rating>=72&&p.age<=23);
+          const resignChance=isKeeper?0.85:p.rating>=75?0.55:0.25;
+          if(Math.random()<resignChance){
+            p.contract=Math.floor(rand(1,4));
+            // No popup for CPU re-signs — just silent
+          } else {
+            p.contract=0;
+            // No popup — will appear in free agency
+          }
+        } else {
+          p.contract=0;
+          devNews.push({icon:'📝',title:`${p.name} contract expired`,txt:`${p.name} (Rtg ${p.rating}, Age ${p.age}) is a free agent. Re-sign or let him walk?`,btns:[
+            {label:`✅ Re-sign ${Math.floor(rand(1,4))}yr`,cls:'sl-btn-g',fn:()=>{p.contract=Math.floor(rand(1,4));addNews(`📝 ${p.name} re-signed!`);}},
+            {label:'❌ Let him walk',cls:'sl-btn-r',fn:()=>{myTeam.players=myTeam.players.filter(pp=>pp!==p);if(!window._freeAgents)window._freeAgents=[];window._freeAgents.push({...p,fromTeam:myTeam.id});addNews(`👋 ${p.name} enters free agency.`);refreshDash();buildRoster();}},
+          ]});
+        }
+      }
       p.morale=Math.min(95,p.morale+5);
     });
     toRemove.forEach(p=>{const idx=t.players.indexOf(p);if(idx>-1)t.players.splice(idx,1);});
     t.coach.rating=Math.max(70,Math.min(99,t.coach.rating+Math.floor(rand(-1,2))));
   });
-  if(devNews.length>0){devNews.slice(0,5).forEach(n=>slQueue.push({icon:n.icon,title:'Offseason Update',body:n.txt,btns:[{label:'OK',cls:'sl-btn-n',fn:()=>{}}]}));}
+  if(devNews.length>0){devNews.slice(0,5).forEach(n=>slQueue.push({icon:n.icon,title:n.title||'Offseason Update',body:n.txt,btns:n.btns||[{label:'OK',cls:'sl-btn-n',fn:()=>{}}]}));}
   DRAFT_PROSPECTS=generateDraftClass(seasonNum);
   availableProspects=[...DRAFT_PROSPECTS];
   playoffSeeds=[];
@@ -2274,17 +2292,13 @@ function buildFreeAgencyUI(){
 }
 
 function goToFreeAgency(){
-  // Collect free agents from all teams
-  window._freeAgents=[];
+  // Collect free agents from all teams (players with contract 0)
+  window._freeAgents=window._freeAgents||[];
   TEAMS.forEach(t=>{
     const expired=t.players.filter(p=>p.contract===0);
     expired.forEach(p=>{
-      if(Math.random()<0.5){
-        window._freeAgents.push({...p,fromTeam:t.id});
-        t.players=t.players.filter(pp=>pp!==p);
-      } else {
-        p.contract=Math.floor(rand(1,4));
-      }
+      window._freeAgents.push({...p,fromTeam:t.id});
+      t.players=t.players.filter(pp=>pp!==p);
     });
   });
   // CPU teams sign some
