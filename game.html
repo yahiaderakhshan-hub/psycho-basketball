@@ -381,6 +381,7 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cur
     <div class="ni" onclick="showTab('minutes',this)"><i class="ti ti-clock"></i> Minutes</div>
     <div class="ni" onclick="showTab('trades',this)"><i class="ti ti-arrows-exchange"></i> Trades</div>
     <div class="ni" onclick="showTab('draft',this)"><i class="ti ti-clipboard-list"></i> Draft</div>
+    <div class="ni" id="fa-nav" onclick="showTab('freeagency',this)" style="display:none;"><i class="ti ti-user-plus"></i> Free Agency</div>
     <div class="ni" onclick="showTab('awards',this)"><i class="ti ti-award"></i> Awards</div>
     <div class="ni" onclick="showTab('hof',this)"><i class="ti ti-building"></i> Hall of Fame</div>
     <div class="ngl">Game</div>
@@ -516,6 +517,14 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cur
     </div>
 
     <!-- DRAFT -->
+    <div id="tab-freeagency" class="tab">
+      <div style="padding:16px;">
+        <div class="tp-hdr" style="margin-bottom:12px;">FREE AGENCY</div>
+        <div style="font-size:12px;color:var(--t3);margin-bottom:12px;">Sign one free agent to your roster. Choose wisely.</div>
+        <div id="fa-list"></div>
+        <div id="fa-msg" style="display:none;padding:12px;background:var(--grn-bg,#f0fdf4);color:var(--grn,#16a34a);border-radius:8px;font-size:13px;margin-top:12px;"></div>
+      </div>
+    </div>
     <div id="tab-draft" class="tab">
       <div class="stcard">
         <div class="sthdr" style="display:flex;align-items:center;justify-content:space-between;">
@@ -2180,6 +2189,32 @@ function startNewSeason(){
     t.coach.rating=Math.max(70,Math.min(99,t.coach.rating+Math.floor(rand(-1,2))));
   });
   if(devNews.length>0){devNews.slice(0,5).forEach(n=>slQueue.push({icon:n.icon,title:'Offseason Update',body:n.txt,btns:[{label:'OK',cls:'sl-btn-n',fn:()=>{}}]}));}
+  // Collect free agents
+  window._freeAgents=[];
+  TEAMS.forEach(t=>{
+    const expired=t.players.filter(p=>p.contract===0);
+    expired.forEach(p=>{
+      // 50% chance they actually hit free agency (others re-sign)
+      if(Math.random()<0.5){
+        window._freeAgents.push({...p,fromTeam:t.id});
+        t.players=t.players.filter(pp=>pp!==p);
+      } else {
+        p.contract=Math.floor(rand(1,4));
+      }
+    });
+  });
+  // CPU teams sign some free agents
+  const cpuFAs=[...window._freeAgents];
+  TEAMS.filter(t=>t.id!==myTeam.id).forEach(t=>{
+    if(t.players.length<8&&cpuFAs.length>0){
+      const idx=Math.floor(Math.random()*cpuFAs.length);
+      const fa=cpuFAs.splice(idx,1)[0];
+      fa.contract=Math.floor(rand(1,3));
+      t.players.push(fa);
+      window._freeAgents=window._freeAgents.filter(f=>f!==fa);
+    }
+  });
+  window._faSigned=false;
   DRAFT_PROSPECTS=generateDraftClass(seasonNum);
   availableProspects=[...DRAFT_PROSPECTS];
   playoffSeeds=[];
@@ -2187,9 +2222,68 @@ function startNewSeason(){
   const pb=document.getElementById('playoff-bracket');if(pb)pb.innerHTML='<div style="font-size:13px;color:var(--t3);text-align:center;padding:32px;">Complete the regular season to unlock playoffs.</div>';
   const ps=document.getElementById('playoff-status');if(ps)ps.textContent='Season in progress';
   buildSchedule();buildGameUI();
-  if(slQueue.length>0)showNextSlEvent();else showTab('dashboard',document.querySelector('.ni'));
+  // Show free agency screen
+  const faNav=document.getElementById('fa-nav');
+  if(faNav)faNav.style.display='';
+  buildFreeAgencyUI();
+  showTab('freeagency',document.getElementById('fa-nav'));
+  if(slQueue.length>0)showNextSlEvent();
   saveGame();
   addNews(`Season ${seasonNum} — rosters updated!`);
+}
+
+// ══════════════════════════════════════════
+// FREE AGENCY
+// ══════════════════════════════════════════
+function buildFreeAgencyUI(){
+  const list=document.getElementById('fa-list');if(!list)return;
+  const fas=window._freeAgents||[];
+  if(!fas.length){
+    list.innerHTML=`<div style="font-size:13px;color:var(--t3);padding:16px 0;">No notable free agents available this offseason.</div>
+    <button onclick="showTab('dashboard',document.querySelector('.ni'))" style="margin-top:12px;padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Continue to new season →</button>`;
+    return;
+  }
+  // Sort by rating
+  fas.sort((a,b)=>b.rating-a.rating);
+  list.innerHTML=fas.slice(0,12).map((p,i)=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--sur);border:1px solid var(--brd);border-radius:8px;margin-bottom:8px;">
+      <div>
+        <div style="font-size:13px;font-weight:600;">${p.name}</div>
+        <div style="font-size:11px;color:var(--t3);">${p.pos} · Age ${p.age} · Pot ${p.pot}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="font-size:16px;font-weight:700;color:var(--blue);">${p.rating}</div>
+        ${window._faSigned?'<span style="font-size:11px;color:var(--t3);">Signed</span>':`<button onclick="signFreeAgent(${i})" style="padding:6px 14px;background:var(--blue);color:#fff;border:none;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">Sign</button>`}
+      </div>
+    </div>`).join('');
+
+  if(!window._faSigned){
+    list.innerHTML+=`<button onclick="showTab('dashboard',document.querySelector('.ni'))" style="margin-top:8px;padding:10px 20px;background:var(--pan);color:var(--t2);border:1px solid var(--brd);border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Skip free agency →</button>`;
+  } else {
+    list.innerHTML+=`<button onclick="showTab('dashboard',document.querySelector('.ni'))" style="margin-top:8px;padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Continue to new season →</button>`;
+  }
+}
+
+function signFreeAgent(idx){
+  const fas=window._freeAgents||[];
+  const p=fas.slice(0,12)[idx];
+  if(!p||window._faSigned)return;
+  // Replace lowest-rated bench player or add if roster < 10
+  p.contract=Math.floor(rand(1,3));
+  p.starter=false;p.pts=0;p.reb=0;p.ast=0;p.stl=0;p.blk=0;p.mins=0;
+  if(myTeam.players.length>=12){
+    // Replace lowest rated non-starter
+    const bench=myTeam.players.filter(pp=>!pp.starter).sort((a,b)=>a.rating-b.rating);
+    if(bench.length){const worst=bench[0];myTeam.players=myTeam.players.filter(pp=>pp!==worst);}
+  }
+  myTeam.players.push(p);
+  window._freeAgents=fas.filter(f=>f!==p);
+  window._faSigned=true;
+  const msg=document.getElementById('fa-msg');
+  if(msg){msg.style.display='block';msg.textContent=`✅ ${p.name} signed! Welcome to ${myTeam.name}.`;}
+  addNews(`📝 Signed ${p.name} in free agency.`);
+  buildFreeAgencyUI();
+  refreshDash();buildRoster();
 }
 
 // ══════════════════════════════════════════
