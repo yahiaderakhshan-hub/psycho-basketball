@@ -270,16 +270,55 @@ input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:6px;}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:28px;border-radius:50%;cursor:grab;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);margin-top:-10px;}
 input[type=range]::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.15);}
 input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cursor:grab;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+
+/* ── In-Game Events ── */
+#ig-event-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;align-items:center;justify-content:center;}
+#ig-event-overlay.on{display:flex;}
+.ig-event-box{background:#0f172a;border:1px solid #334155;border-radius:16px;padding:28px;max-width:380px;width:90%;box-shadow:0 24px 80px rgba(0,0,0,.6);}
+.ig-event-icon{font-size:40px;text-align:center;margin-bottom:12px;}
+.ig-event-situation{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#64748b;margin-bottom:6px;text-align:center;}
+.ig-event-title{font-size:18px;font-weight:700;color:#fff;text-align:center;margin-bottom:8px;line-height:1.3;}
+.ig-event-desc{font-size:13px;color:#94a3b8;text-align:center;margin-bottom:20px;line-height:1.5;}
+.ig-event-btns{display:flex;flex-direction:column;gap:8px;}
+.ig-event-btn{padding:12px 16px;border:none;border-radius:10px;font-size:13px;font-weight:600;font-family:"DM Sans",sans-serif;cursor:pointer;text-align:left;transition:all .15s;}
+.ig-event-btn.good{background:#1e3a5f;color:#60a5fa;border:1px solid #1e40af;}
+.ig-event-btn.good:hover{background:#1e40af;}
+.ig-event-btn.risky{background:#3b1f1f;color:#f87171;border:1px solid #7f1d1d;}
+.ig-event-btn.risky:hover{background:#7f1d1d;}
+.ig-event-btn.neutral{background:#1e293b;color:#94a3b8;border:1px solid #334155;}
+.ig-event-btn.neutral:hover{background:#334155;}
+
+/* ── Achievements ── */
+#achievement-container{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;}
+.achievement-toast{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #f59e0b;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;min-width:280px;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,.5),0 0 20px rgba(245,158,11,.2);animation:achIn .4s cubic-bezier(.34,1.56,.64,1) forwards;pointer-events:auto;}
+.achievement-toast.hiding{animation:achOut .3s ease forwards;}
+.ach-icon{font-size:28px;flex-shrink:0;}
+.ach-text{flex:1;}
+.ach-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#f59e0b;margin-bottom:2px;}
+.ach-name{font-size:14px;font-weight:700;color:#fff;}
+.ach-desc{font-size:11px;color:rgba(255,255,255,.5);margin-top:2px;}
+@keyframes achIn{from{opacity:0;transform:translateX(120px);}to{opacity:1;transform:translateX(0);}}
+@keyframes achOut{from{opacity:1;transform:translateX(0);}to{opacity:0;transform:translateX(120px);}}
 </style>
 </head>
 <body>
 <!-- INTRO -->
+<div id="achievement-container"></div>
+<div id="ig-event-overlay">
+  <div class="ig-event-box">
+    <div class="ig-event-icon" id="ige-icon">🏀</div>
+    <div class="ig-event-situation" id="ige-situation">IN-GAME EVENT</div>
+    <div class="ig-event-title" id="ige-title">Event Title</div>
+    <div class="ig-event-desc" id="ige-desc">Description</div>
+    <div class="ig-event-btns" id="ige-btns"></div>
+  </div>
+</div>
 <div id="pg-intro" class="pg on">
   <div style="text-align:center;width:280px;">
     <div style="font-size:64px;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(251,146,60,.6));">🏀</div>
     <div style="font-size:42px;font-weight:900;color:#fff;letter-spacing:-1.5px;line-height:1;margin-bottom:6px;">PSYCHO</div>
     <div style="font-size:42px;font-weight:900;color:#fb923c;letter-spacing:-1.5px;line-height:1;margin-bottom:16px;">BASKETBALL</div>
-    <div style="font-size:14px;color:rgba(255,255,255,.5);margin-bottom:40px;letter-spacing:.5px;text-transform:uppercase;">Coach like you're crazy. Win like you mean it.</div>
+    <div style="font-size:14px;color:rgba(255,255,255,.5);margin-bottom:40px;letter-spacing:.5px;text-transform:uppercase;">Coach like you are crazy. Win like you mean it.</div>
     <div class="intro-btns">
       <button class="intro-btn intro-btn-p" onclick="goTeams()" style="background:linear-gradient(135deg,#f97316,#ea580c);border:none;font-size:15px;font-weight:700;letter-spacing:.3px;">🏀 New Game</button>
       <button class="intro-btn intro-btn-s" onclick="tryLoad()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);font-size:14px;">📂 Continue Game</button>
@@ -590,6 +629,8 @@ input[type=range]::-moz-range-thumb{width:28px;height:28px;border-radius:50%;cur
             <span class="qs" id="qs1">—</span><span class="qs" id="qs2">—</span>
             <span class="qs" id="qs3">—</span><span class="qs" id="qs4">—</span>
           </div>
+          <div id="momentum-bar" style="height:3px;border-radius:2px;background:#1e293b;margin-top:4px;transition:background .5s;"></div>
+          <div id="momentum-label" style="font-size:9px;text-align:center;color:#64748b;margin-top:2px;">⚖️ Even game</div>
         </div>
         <div class="score-team">
           <div class="score-name" id="mteamB">Away</div>
@@ -1159,7 +1200,6 @@ const TEAMS = [
     color:'#000000', bg:'#f8fafc', border:'#e2e8f0', rating:75.0, chem:66,
     coach:{name:'Jordi Fernandez', rating:74},
     players:[
-      {name:'Cam Thomas',      pos:'SG',rating:83,age:23,pot:90,morale:82,contract:3,nbaId:1630591,skills:['scorer','playmaker'],starter:true},
       {name:'Nic Claxton',     pos:'C', rating:80,age:26,pot:83,morale:78,contract:3,nbaId:1629651,skills:['defender','rebounder'],starter:true},
       {name:"D'Angelo Russell",pos:'PG',rating:78,age:29,pot:79,morale:74,contract:2,nbaId:1626156,skills:['scorer','playmaker'],starter:true},
       {name:'Ziaire Williams', pos:'SF',rating:75,age:23,pot:82,morale:76,contract:3,nbaId:1630531,skills:['scorer','defender'],starter:true},
@@ -1168,7 +1208,7 @@ const TEAMS = [
       {name:'Dennis Schroder', pos:'PG',rating:76,age:32,pot:76,morale:74,contract:1,nbaId:203471, skills:['scorer','playmaker'],starter:false},
       {name:'Noah Clowney',    pos:'PF',rating:72,age:21,pot:82,morale:78,contract:3,nbaId:1642355,skills:['defender','rebounder'],starter:false},
     ],
-    news:[{t:'Nets full rebuild \u2014 stockpiling picks.',c:''},{t:'Cam Thomas is their best player.',c:''},{t:'3rd straight year missing playoffs.',c:'d'}]
+    news:[{t:'Nets full rebuild \u2014 stockpiling picks.',c:''},{t:'Young core finding their identity.',c:''},{t:'3rd straight year missing playoffs.',c:'d'}]
   },
 
   // \u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550
@@ -1331,6 +1371,7 @@ function buildTeamGrid(){
   TEAMS.forEach(t=>{const l=t.league||'NBA';if(leagues[l])leagues[l].push(t);});
   Object.entries(leagues).forEach(([league,teams])=>{
     if(!teams.length)return;
+    teams.sort((a,b)=>a.name.localeCompare(b.name));
     const hdr=document.createElement('div');hdr.className='ts-league-hdr';hdr.textContent=league;
     grid.appendChild(hdr);
     teams.forEach(t=>{
@@ -1451,7 +1492,16 @@ function refreshDash(){
 function buildSchedule(){
   gameSchedule=[];wins=0;losses=0;currentGameIdx=0;
   const sameLeague=TEAMS.filter(t=>t.id!==myTeam.id&&(t.league||'NBA')===(myTeam.league||'NBA'));
-  sameLeague.forEach(opp=>gameSchedule.push({home:myTeam,away:opp,played:false,scoreA:0,scoreB:0,won:null}));
+  // Each team twice (home and away) then shuffle
+  sameLeague.forEach(opp=>{
+    gameSchedule.push({home:myTeam,away:opp,played:false,scoreA:0,scoreB:0,won:null});
+    gameSchedule.push({home:opp,away:myTeam,played:false,scoreA:0,scoreB:0,won:null});
+  });
+  // Shuffle
+  for(let i=gameSchedule.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [gameSchedule[i],gameSchedule[j]]=[gameSchedule[j],gameSchedule[i]];
+  }
 }
 
 function buildScheduleUI(){
@@ -1466,7 +1516,9 @@ function buildScheduleUI(){
     let score='—',stCls='st-u',stTxt='Upcoming';
     if(g.played){score=g.scoreA+'–'+g.scoreB;stCls=g.won?'st-w':'st-l';stTxt=g.won?'Win':'Loss';}
     else if(isNext){stCls='st-c';stTxt='Next up';}
-    d.innerHTML=`<div class="gr-teams">${teamBadgeHtml(g.home,28,6)}<span class="gr-nm">${g.home.short}</span><span class="gr-vs">vs</span>${teamBadgeHtml(g.away,28,6)}<span class="gr-nm">${g.away.short}</span></div>
+    const dispHome=g.home.id===myTeam.id?myTeam:getTeam(g.home.id)||g.home;
+    const dispAway=g.away.id===myTeam.id?myTeam:getTeam(g.away.id)||g.away;
+    d.innerHTML=`<div class="gr-teams">${teamBadgeHtml(dispHome,28,6)}<span class="gr-nm">${dispHome.short}</span><span class="gr-vs">vs</span>${teamBadgeHtml(dispAway,28,6)}<span class="gr-nm">${dispAway.short}</span></div>
       <div class="gr-score">${score}</div>
       ${isNext?`<button onclick="goNextGame()" style="padding:5px 12px;background:var(--blue);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;">▶ Play</button>`:`<span class="gr-status ${stCls}">${stTxt}</span>`}`;
     if(isNext)d.onclick=(e)=>{if(e.target.tagName!=='BUTTON')goNextGame();};
@@ -1528,7 +1580,7 @@ function cutPlayer(i){
     p.contract=Math.floor(rand(1,3));
     cpuTeam.players.push(p);
     window._freeAgents=window._freeAgents.filter(f=>f.name!==p.name);
-    addNews(`✂️ ${p.name} waived — signed by ${cpuTeam.short}`);
+    unlockAch('cut_player');addNews(`✂️ ${p.name} waived — signed by ${cpuTeam.short}`);
   } else {
     addNews(`✂️ ${p.name} waived — entering free agency`);
   }
@@ -1570,6 +1622,9 @@ function selectMyPlayer(i){tradeMyPick=i;renderMyTradeList();document.getElement
 function selectOppPlayer(id,i){tradeOppPick={id,i};renderOppTradeList();document.getElementById('propose-btn').disabled=!(tradeMyPick!==null&&tradeOppPick!==null);}
 
 function proposeTrade(){
+  _tradeCount++;
+  if(_tradeCount===1)unlockAch('first_trade');
+  if(_tradeCount>=3)unlockAch('trade3');
   if(tradeMyPick===null||tradeOppPick===null)return;
   const t=myTeam,opp=getTeam(tradeOppPick.id);
   const myP=t.players[tradeMyPick],oppP=opp.players[tradeOppPick.i];
@@ -1719,7 +1774,7 @@ function generateEvents(){
   const events=[];const t=myTeam;
   t.players.forEach(p=>{
     if(p.contract===1&&Math.random()<.5){
-      events.push({icon:'📝',title:`${p.name} wants a new deal`,body:`${p.name} (Rtg ${p.rating}) has 1 year left. He's requesting an extension.`,btns:[
+      events.push({icon:'📝',title:`${p.name} wants a new deal`,body:`${p.name} (Rtg ${p.rating}) has 1 year left. Player is requesting an extension.`,btns:[
         {label:'✅ Sign 3-year extension',cls:'sl-btn-g',fn:()=>{p.contract=3;addNews(`${p.name} signed a 3-year extension!`);}},
         {label:'❌ Let contract run out',cls:'sl-btn-r',fn:()=>{addNews(`${p.name} will be a free agent at season end.`);}},
         {label:'💬 Negotiate — 2-year deal',cls:'sl-btn-b',fn:()=>{p.contract=2;p.morale=Math.max(60,p.morale-8);addNews(`${p.name} accepted a 2-year deal.`);}},
@@ -1728,7 +1783,7 @@ function generateEvents(){
   });
   t.players.forEach(p=>{
     if(p.morale<72&&Math.random()<.4){
-      events.push({icon:'😤',title:`${p.name} is unhappy`,body:`${p.name} has low morale (${p.morale}). He feels he's not getting enough playing time.`,btns:[
+      events.push({icon:'😤',title:`${p.name} is unhappy`,body:`${p.name} has low morale (${p.morale}). He feels player is not getting enough playing time.`,btns:[
         {label:'💬 Talk to him',cls:'sl-btn-b',fn:()=>{p.morale=Math.min(95,p.morale+12);addNews(`${p.name} morale boosted!`);}},
         {label:'Ignore it',cls:'sl-btn-n',fn:()=>{p.morale=Math.max(40,p.morale-5);}},
       ]});
@@ -1829,6 +1884,7 @@ function endOfSeason(){
 }
 
 function startPlayoffs(){
+  unlockAch('playoffs');
   playoffState={
     sf1:{teamA:playoffSeeds[0].team,teamB:playoffSeeds[7].team,wA:0,wB:0,done:false,winner:null},
     sf2:{teamA:playoffSeeds[3].team,teamB:playoffSeeds[4].team,wA:0,wB:0,done:false,winner:null},
@@ -1957,6 +2013,7 @@ function checkSeriesOver(key,s){
   }
   if(key==='final'&&s.done){
     addNews(`🏆 ${s.winner.name} are the Champions!`);
+      if(s.winner.id===myTeam.id){_championships++;unlockAch('champion');if(_championships>=2)unlockAch('back2back');}
     if(s.winner.id===myTeam.id)addNews('🎉 YOU WON THE CHAMPIONSHIP!');
   }
 }
@@ -2203,6 +2260,8 @@ function buildNewsFeed(){
 // NEW SEASON
 // ══════════════════════════════════════════
 function startNewSeason(){
+  if(seasonNum>=2)unlockAch('season2');
+  if(seasonNum>=5)unlockAch('season5');
   seasonNum++;wins=0;losses=0;currentGameIdx=0;
   allTimeNews.unshift({txt:`🏀 Season ${seasonNum} begins!`,game:'Pre-season',season:seasonNum,time:'00:00'});
   const devNews=[];
@@ -2326,7 +2385,7 @@ function signFreeAgent(idx){
   if(!p||window._faSigned)return;
   // Replace lowest-rated bench player or add if roster < 10
   p.contract=Math.floor(rand(1,3));
-  p.starter=false;p.pts=0;p.reb=0;p.ast=0;p.stl=0;p.blk=0;p.mins=0;
+  p.starter=false;p.pts=0;p.reb=0;p.ast=0;p.stl=0;p.blk=0;p.mins=0;p.fouls=0;
   if(myTeam.players.length>=12){
     // Replace lowest rated non-starter
     const bench=myTeam.players.filter(pp=>!pp.starter).sort((a,b)=>a.rating-b.rating);
@@ -2334,7 +2393,7 @@ function signFreeAgent(idx){
   }
   myTeam.players.push(p);
   window._freeAgents=fas.filter(f=>f!==p);
-  window._faSigned=true;
+  window._faSigned=true;unlockAch('signed_fa');
   const msg=document.getElementById('fa-msg');
   if(msg){msg.style.display='block';msg.textContent=`✅ ${p.name} signed! Welcome to ${myTeam.name}.`;}
   addNews(`📝 Signed ${p.name} in free agency.`);
@@ -2627,6 +2686,8 @@ function setupMatch(g){
   const rB=fillRoster(allB);onCourtB=rB.onCourt;benchB=rB.bench;
   courtPlayers=[...onCourtA,...onCourtB];
   ball={x:.5,y:.5,tx:.5,ty:.5,fromX:.5,fromY:.5,progress:1,arcH:0};
+  if(window._qWatcher){clearInterval(window._qWatcher);window._qWatcher=null;}
+  _momentum=0;_lastEventQuarter=0;
 
   canvas=document.getElementById('courtCanvas');ctx=canvas.getContext('2d');
   // Use offsetWidth but fall back to 480 if tab not visible yet
@@ -2701,7 +2762,7 @@ function updateCourtBenchUI(){
 function updateBoxScore(){
   const renderBox=(players,domId,statsId,tR,tA,tS,tB)=>{
     const el=document.getElementById(domId);if(!el)return;
-    el.innerHTML=players.map(p=>`<div class="box-row"><span>${p.short}</span><span>${p.pts}</span><span>${p.reb}</span><span>${p.ast}</span><span>${p.mins}</span></div>`).join('');
+    el.innerHTML=players.map(p=>`<div class="box-row"><span>${p.short}</span><span>${p.pts}</span><span>${p.reb}</span><span>${p.ast}</span><span style="color:${(p.fouls||0)>=4?'#ef4444':(p.fouls||0)>=3?'#f97316':'inherit'}">${p.fouls||0}f</span></div>`).join('');
     const sel=document.getElementById(statsId);if(sel)sel.innerHTML=
       `<div class="ts-stat"><div class="ts-val">${tR}</div><div class="ts-lbl">REB</div></div>
        <div class="ts-stat"><div class="ts-val">${tA}</div><div class="ts-lbl">AST</div></div>
@@ -2720,6 +2781,86 @@ function addComment(txt){
 }
 
 // Match simulation
+function getQuarterEventForQ(q, snapA, snapB){
+  const sA=snapA!==undefined?snapA:scoreA;
+  const sB=snapB!==undefined?snapB:scoreB;
+  const g=gameSchedule[currentGameIdx]||window._playoffGame;
+  const myIsHome=g?.home?.id===myTeam?.id;
+  const myScore=myIsHome?sA:sB;
+  const oppScore=myIsHome?sB:sA;
+  const diff=myScore-oppScore;
+  const myPlayers=myIsHome?onCourtA:onCourtB;
+  const oppPlayers=myIsHome?onCourtB:onCourtA;
+  const star=myPlayers.slice().sort((a,b)=>b.rating-a.rating)[0];
+  const oppStar=oppPlayers.slice().sort((a,b)=>b.rating-a.rating)[0];
+  // Find hot/cold players by points this game
+  const hotPlayer=myPlayers.slice().sort((a,b)=>b.pts-a.pts)[0];
+  const coldPlayer=myPlayers.slice().sort((a,b)=>a.pts-b.pts)[0];
+  const oppHot=oppPlayers.slice().sort((a,b)=>b.pts-a.pts)[0];
+  const topRebounder=myPlayers.slice().sort((a,b)=>b.reb-a.reb)[0];
+
+  const boost=(pts,msg)=>()=>{scoreA+=myIsHome?pts:0;scoreB+=myIsHome?0:pts;addComment('📣 '+msg+(pts?' +'+pts+' pts!':''));closeIGEvent();};
+  const risky=(goodPts,goodMsg,badPts,badMsg)=>()=>{
+    if(Math.random()<0.6){scoreA+=myIsHome?goodPts:0;scoreB+=myIsHome?0:goodPts;addComment('📣 '+goodMsg+' +'+goodPts+' pts!');}
+    else{scoreA+=myIsHome?0:badPts;scoreB+=myIsHome?badPts:0;addComment('📣 '+badMsg);}
+    closeIGEvent();
+  };
+
+  // Build a pool of relevant events and pick one
+  const pool=[];
+
+  if(q===1){
+    if(hotPlayer&&hotPlayer.pts>=6) pool.push({icon:'🔥',title:hotPlayer.name+' is HOT — '+hotPlayer.pts+' pts already',desc:'Keep feeding him or spread the ball?',btns:[{label:'🔥 Keep feeding '+hotPlayer.name,cls:'good',fx:boost(4,hotPlayer.name+' stays hot!')},{label:'🤝 Spread the ball',cls:'neutral',fx:boost(2,'Ball movement opens things up.')}]});
+    if(oppHot&&oppHot.pts>=6) pool.push({icon:'😰',title:oppHot.name+' has '+oppHot.pts+' — stop him',desc:'He is cooking. What is the defensive call?',btns:[{label:'🛡️ Send double team',cls:'good',fx:boost(3,'Double team disrupts his rhythm!')},{label:'💪 One-on-one — pride on the line',cls:'risky',fx:risky(2,'Lockdown defense!',3,oppHot.name+' scores again...')}]});
+    if(diff>=8) pool.push({icon:'⚡',title:'Up '+diff+' — dominant Q1',desc:star?.name+' setting the tone. Keep pushing?',btns:[{label:'🔥 Keep attacking',cls:'good',fx:boost(4,'Relentless!')},{label:'🛡️ Tighten up defensively',cls:'neutral',fx:boost(2,'Solid and disciplined.')}]});
+    if(diff<=-8) pool.push({icon:'😰',title:'Down '+Math.abs(diff)+' — need a reset',desc:oppStar?.name+' taking over. Adjust now.',btns:[{label:'🔄 Switch defensive scheme',cls:'good',fx:boost(3,'Defense disrupts their flow!')},{label:'💪 Match their energy',cls:'risky',fx:risky(4,'Fired up!',2,'Still struggling...')}]});
+    pool.push({icon:'🏀',title:'End of Q1 — what is the message?',desc:'Score: '+myScore+'-'+oppScore+'. Q2 sets the tone.',btns:[{label:'⚡ Come out aggressive in Q2',cls:'good',fx:boost(3,'Hot start to Q2!')},{label:'🧘 Patient — trust the system',cls:'neutral',fx:boost(2,'Composed and ready.')}]});
+  }
+
+  if(q===2){
+    if(coldPlayer&&coldPlayer.pts===0) pool.push({icon:'😬',title:coldPlayer.name+' has 0 points at halftime',desc:'Do you bench him or give him a chance to find it?',btns:[{label:'🔄 Bench him — try someone else',cls:'good',fx:boost(3,'Fresh legs change the game!')},{label:'💪 Keep faith in him',cls:'risky',fx:risky(4,coldPlayer.name+' EXPLODES in Q3!',0,coldPlayer.name+' stays quiet...')}]});
+    if(topRebounder&&topRebounder.reb>=4) pool.push({icon:'💪',title:topRebounder.name+' dominating the boards — '+topRebounder.reb+' reb',desc:'Push the tempo off his rebounds?',btns:[{label:'⚡ Push pace off rebounds',cls:'good',fx:boost(4,'Fast break points!')},{label:'🧘 Control tempo',cls:'neutral',fx:boost(2,'Disciplined possession.')}]});
+    if(diff>=10) pool.push({icon:'😊',title:'Up '+diff+' at halftime',desc:'Biggest danger now — complacency.',btns:[{label:'🔥 No mercy — keep the pressure',cls:'good',fx:boost(5,'Extending the lead!')},{label:'🧘 Rest starters for Q3',cls:'neutral',fx:()=>{addComment('📣 Starters rested and ready for Q3.');closeIGEvent();}}]});
+    if(diff<=-10) pool.push({icon:'😤',title:'Down '+Math.abs(diff)+' at half — comeback time',desc:star?.name+' needs a monster second half.',btns:[{label:'🔥 Trust '+star?.name+' — give him everything',cls:'good',fx:boost(6,star?.name+' takes over!')},{label:'🧠 Tactical change — new game plan',cls:'neutral',fx:boost(4,'Smart adjustments!')}]});
+    pool.push({icon:'😐',title:'Halftime — '+myScore+'-'+oppScore,desc:'What do you tell them in the locker room?',btns:[{label:'🎯 Identify their weakness',cls:'good',fx:boost(4,'Exploiting the gaps!')},{label:'💪 Bring more intensity',cls:'neutral',fx:boost(3,'Energy up in Q3!')}]});
+  }
+
+  if(q===3){
+    if(hotPlayer&&hotPlayer.pts>=12) pool.push({icon:'⭐',title:hotPlayer.name+' has '+hotPlayer.pts+' pts — give him the 4th?',desc:'Let him take over or share the load?',btns:[{label:'⭐ He takes over in Q4',cls:'good',fx:boost(5,hotPlayer.name+' — unstoppable!')},{label:'🤝 Keep it balanced',cls:'neutral',fx:boost(3,'Team basketball wins.')}]});
+    if(Math.abs(diff)<=6) pool.push({icon:'⚖️',title:'One possession game going into Q4',desc:'Every possession is everything. What is the call?',btns:[{label:'🛡️ Defense wins championships',cls:'good',fx:boost(3,'Locked in defensively!')},{label:'🔥 Attack — make them stop you',cls:'risky',fx:risky(6,'Offense takes control!',3,'Turnover — they score...')}]});
+    if(diff>=12) pool.push({icon:'👑',title:'Up '+diff+' — control the 4th',desc:'Protect it or push for a statement win?',btns:[{label:'🔄 Protect lead — smart basketball',cls:'good',fx:()=>{addComment('📣 Clock management — protecting the lead.');closeIGEvent();}},{label:'💪 Push for a statement win',cls:'neutral',fx:boost(4,'Sending a message!')}]});
+    pool.push({icon:'😤',title:'Q4 coming — '+myScore+'-'+oppScore,desc:'Last 12 minutes. Leave it all out there.',btns:[{label:'🔥 Max effort — no regrets',cls:'good',fx:boost(3,'Maximum intensity!')},{label:'🎯 Execute the game plan',cls:'neutral',fx:boost(2,'Disciplined to the end.')}]});
+  }
+
+  if(!pool.length)return null;
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+
+function showIGEvent(evt, doneQ){
+  if(!evt)return;
+  document.getElementById('ige-icon').textContent=evt.icon;
+  document.getElementById('ige-situation').textContent='END OF QUARTER '+(doneQ||quarter-1);
+  document.getElementById('ige-title').textContent=evt.title;
+  document.getElementById('ige-desc').textContent=evt.desc;
+  const btns=document.getElementById('ige-btns');
+  btns.innerHTML='';
+  evt.btns.forEach(b=>{
+    const btn=document.createElement('button');
+    btn.className='ig-event-btn '+b.cls;
+    btn.textContent=b.label;
+    btn.onclick=()=>b.fx();
+    btns.appendChild(btn);
+  });
+  document.getElementById('ig-event-overlay').classList.add('on');
+  if(simRunning)toggleSim();
+}
+
+function closeIGEvent(){
+  document.getElementById('ig-event-overlay').classList.remove('on');
+  // Resume game
+  if(!simRunning&&!gameFinished)toggleSim();
+}
+
 function toggleSim(){
   if(gameFinished)return;
   simRunning=!simRunning;
@@ -2728,10 +2869,23 @@ function toggleSim(){
     btn.innerHTML='<i class="ti ti-player-pause"></i> Pause';
     btn.classList.add('active');
     ticker=setInterval(stepPlay,16);
+    let _wq=quarter;
+    window._qWatcher=setInterval(()=>{
+      if(!simRunning||gameFinished)return;
+      if(quarter!==_wq){
+        const doneQ=_wq;
+        const snapA=scoreA;
+        const snapB=scoreB;
+        _wq=quarter;
+        const e=getQuarterEventForQ(doneQ,snapA,snapB);
+        if(e)setTimeout(()=>showIGEvent(e,doneQ),200);
+      }
+    },500);
   }else{
     btn.innerHTML='<i class="ti ti-player-play"></i> Play';
     btn.classList.remove('active');
     clearInterval(ticker);
+    if(window._qWatcher){clearInterval(window._qWatcher);window._qWatcher=null;}
   }
 }
 
@@ -2783,33 +2937,13 @@ function buildPlay(){
     // Ball animation
     const target=isA?{x:.75+Math.random()*.1,y:.3+Math.random()*.4}:{x:.15+Math.random()*.1,y:.3+Math.random()*.4};
     ball.fromX=ball.x;ball.fromY=ball.y;ball.tx=target.x;ball.ty=target.y;ball.progress=0;ball.arcH=0.15+Math.random()*0.1;
-    const scoreLines=isThree?[
-      `🎯 ${scorer.name} from deep — SPLASH! ${scoreA}-${scoreB}`,
-      `🎯 ${scorer.name} fires the three — it's good! ${scoreA}-${scoreB}`,
-      `🎯 Corner three by ${scorer.name}! ${scoreA}-${scoreB}`,
-      `🎯 ${scorer.name} steps back and drains it! ${scoreA}-${scoreB}`,
-      `🎯 ${scorer.name} — ice cold from three! ${scoreA}-${scoreB}`,
-    ]:[
-      `✅ ${scorer.name} drives and finishes! ${scoreA}-${scoreB}`,
-      `✅ ${scorer.name} with the mid-range — good! ${scoreA}-${scoreB}`,
-      `✅ ${scorer.name} in the paint — two points! ${scoreA}-${scoreB}`,
-      `✅ ${scorer.name} draws contact and scores! ${scoreA}-${scoreB}`,
-      `✅ Easy bucket for ${scorer.name}. ${scoreA}-${scoreB}`,
-      `✅ ${scorer.name} off the glass — counts! ${scoreA}-${scoreB}`,
-    ];
-    addComment(scoreLines[Math.floor(Math.random()*scoreLines.length)]);
+    addComment((isThree?'🎯':'🏀')+' '+scorer.name+' scores '+(isThree?'3':'2')+'! ('+scoreA+'-'+scoreB+')');
   }else{
     const reb=defenders[Math.floor(Math.random()*defenders.length)];
     reb.reb++;
     if(isA)tRB++;else tRA++;
     if(Math.random()<.15){const s=defenders[Math.floor(Math.random()*defenders.length)];s.stl++;if(isA)tSB++;else tSA++;}
-    const missLines=[
-      `❌ ${scorer.name} misses — ${reb.name} rebounds`,
-      `❌ Off the rim — ${reb.name} with the board`,
-      `❌ No good — ${reb.name} pulls it down`,
-      `❌ ${scorer.name} can't convert — ${reb.name} rebounds`,
-      `❌ Rattles out — ${reb.name} cleans it up`,
-    ];
+    const missLines=['❌ Off the rim — '+reb.name+' with the board','❌ '+scorer.name+' misses — '+reb.name+' rebounds!','❌ No good — '+reb.name+' pulls it down','❌ Rattles out — '+reb.name+' cleans it up','❌ Short — '+reb.name+' grabs it'];
     addComment(missLines[Math.floor(Math.random()*missLines.length)]);
   }
   // Move players
@@ -2906,40 +3040,6 @@ function drawBall(){
   ctx.strokeStyle='#92400e';ctx.lineWidth=1;ctx.stroke();
 }
 
-
-function drawCourt(){
-  ctx.fillStyle='#1a1a2e';ctx.fillRect(0,0,cW,cH);
-  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;
-  ctx.beginPath();ctx.moveTo(cW/2,10);ctx.lineTo(cW/2,cH-10);ctx.stroke();
-  ctx.beginPath();ctx.arc(cW/2,cH/2,30,0,Math.PI*2);ctx.stroke();
-  // Paint areas
-  ctx.strokeRect(cW*.02,cH*.2,cW*.2,cH*.6);
-  ctx.strokeRect(cW*.78,cH*.2,cW*.2,cH*.6);
-  // Baskets
-  ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(cW*.04,cH/2,6,0,Math.PI*2);ctx.fill();
-  ctx.beginPath();ctx.arc(cW*.96,cH/2,6,0,Math.PI*2);ctx.fill();
-  // Tactic labels
-  ctx.textAlign='left';ctx.fillStyle='rgba(255,255,255,.35)';ctx.font='9px sans-serif';
-  ctx.fillText(TACTICS[currentTactic]?.label,10,cH-12);
-  ctx.textAlign='right';
-  ctx.fillText(TACTICS[cpuTactic]?.label,cW-10,cH-12);
-}
-
-function drawPlayer(p){
-  const x=p.x*cW,y=p.y*cH;
-  ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);
-  ctx.fillStyle=p.color||'#1a56db';ctx.fill();
-  ctx.fillStyle='#fff';ctx.font='7px sans-serif';ctx.textAlign='center';
-  ctx.fillText(p.short,x,y+3);
-}
-
-function drawBall(){
-  const x=ball.x*cW,y=ball.y*cH;
-  ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);
-  ctx.fillStyle='#f97316';ctx.fill();
-  ctx.strokeStyle='#92400e';ctx.lineWidth=1;ctx.stroke();
-}
-
 function finishGame(){
   if(gameFinished)return;
   gameFinished=true;clearInterval(ticker);simRunning=false;
@@ -2950,10 +3050,14 @@ function finishGame(){
   document.getElementById('mtimer').textContent='Final';
   const g=window._inPlayoffs?window._playoffGame:gameSchedule[currentGameIdx];
   if(!g)return;
-  const won=scoreA>scoreB;
-  g.played=true;g.scoreA=scoreA;g.scoreB=scoreB;g.won=won;
+  const myIsHome=g.home.id===myTeam.id;
+  const myScore=myIsHome?scoreA:scoreB;
+  const oppScore=myIsHome?scoreB:scoreA;
+  const won=myScore>oppScore;
+  g.played=true;g.scoreA=scoreA;g.scoreB=scoreB;g.won=myIsHome?won:!won;
   if(!window._inPlayoffs){
-    if(won)wins++;else losses++;
+    if(won){wins++;_winStreak++;_allTimeWins++;}else{losses++;_winStreak=0;}
+    checkAchs();
     recordGameStats();
     const allCourtPlayers=[...onCourtA,...benchA];
     myTeam.players.forEach(rp=>{
@@ -2963,9 +3067,10 @@ function finishGame(){
     });
     if(autoMinsEnabled)myTeam.players.forEach(p=>p.assignedMins=undefined);
   }
-  addComment('FINAL! '+(won?g.home.short:g.away.short)+' win '+Math.max(scoreA,scoreB)+'-'+Math.min(scoreA,scoreB)+'!');
+  const winner=myScore>oppScore?myTeam:(myIsHome?g.away:g.home);
+  addComment('FINAL! '+winner.short+' win '+Math.max(myScore,oppScore)+'-'+Math.min(myScore,oppScore)+'!');
   if(window._inPlayoffs){setTimeout(()=>recordPlayoffResult(won),1200);return;}
-  setTimeout(()=>showPost(won,g),900);
+  setTimeout(()=>showPost(won,g,myScore,oppScore),900);
   refreshDash();buildScheduleUI();
 }
 
@@ -2981,11 +3086,13 @@ function recordGameStats(){
   });
 }
 
-function showPost(won,g){
+function showPost(won,g,myScore,oppScore){
+  if(myScore===undefined){const myIsHome=g?.home?.id===myTeam?.id;myScore=myIsHome?scoreA:scoreB;oppScore=myIsHome?scoreB:scoreA;}
+  const opp=g.home.id===myTeam.id?g.away:g.home;
   document.getElementById('pg-icon').textContent=won?'🏆':'😔';
   document.getElementById('pg-title').textContent=won?'Victory!':'Defeat';
-  document.getElementById('pg-score').textContent=scoreA+' — '+scoreB;
-  document.getElementById('pg-sub').textContent=(won?'Great win vs ':'Tough loss vs ')+g.away.name+'. Season record: '+wins+'W-'+losses+'L.';
+  document.getElementById('pg-score').textContent=myScore+' — '+oppScore;
+  document.getElementById('pg-sub').textContent=(won?'Great win vs ':'Tough loss vs ')+opp.name+'. Season record: '+wins+'W-'+losses+'L.';
   document.getElementById('postgame').classList.add('on');
 }
 
@@ -3027,14 +3134,52 @@ function skipGame(){
 // ══════════════════════════════════════════
 // SAVE / LOAD
 // ══════════════════════════════════════════
-function saveGame(){
-  const state={myTeamId:myTeam.id,wins,losses,currentGameIdx,seasonNum,
-    teams:TEAMS.map(t=>({id:t.id,players:t.players,coach:t.coach,news:t.news,_w:t._w||0,_l:t._l||0})),
-    schedule:gameSchedule.map(g=>({homeId:g.home.id,awayId:g.away.id,played:g.played,scoreA:g.scoreA,scoreB:g.scoreB,won:g.won})),
-    allTimeNews,hofInductees};
-  try{localStorage.setItem('wbs_save',JSON.stringify(state));showSaveToast('✅ Saved!');}
-  catch(e){showSaveToast('❌ Save failed');}
+
+// ── ACHIEVEMENTS ──
+const ACHIEVEMENTS={
+  first_win:{icon:'🏆',name:'First W',desc:'Win your first game'},
+  win5:{icon:'🔥',name:'On Fire',desc:'Win 5 games'},
+  win10:{icon:'💪',name:'Real Contender',desc:'Win 10 games'},
+  win20:{icon:'👑',name:'Dynasty Begins',desc:'Win 20 games'},
+  playoffs:{icon:'🎯',name:'Playoff Bound',desc:'Make the playoffs'},
+  champion:{icon:'🏅',name:'Champion',desc:'Win the championship'},
+  first_trade:{icon:'🔄',name:'Deal Maker',desc:'Complete your first trade'},
+  signed_fa:{icon:'✍️',name:'Big Signing',desc:'Sign a free agent'},
+  cut_player:{icon:'✂️',name:'Hard Choices',desc:'Cut a player'},
+  streak5:{icon:'🌊',name:'Win Streak',desc:'Win 5 in a row'},
+  season2:{icon:'📅',name:'Long Haul',desc:'Start a second season'},
+};
+let _unlockedAchs=new Set();
+let _winStreak=0,_allTimeWins=0,_championships=0;
+try{
+  const v=localStorage.getItem('psyho_ach_v');
+  if(v==='2')_unlockedAchs=new Set(JSON.parse(localStorage.getItem('psyho_achs')||'[]'));
+  else{localStorage.removeItem('psyho_achs');localStorage.setItem('psyho_ach_v','2');}
+}catch(e){}
+
+function unlockAch(id){
+  if(_unlockedAchs.has(id)||!ACHIEVEMENTS[id])return;
+  _unlockedAchs.add(id);
+  try{localStorage.setItem('psyho_achs',JSON.stringify([..._unlockedAchs]));}catch(e){}
+  const a=ACHIEVEMENTS[id];
+  const c=document.getElementById('achievement-container');if(!c)return;
+  const t=document.createElement('div');
+  t.className='achievement-toast';
+  t.innerHTML=`<div class="ach-icon">${a.icon}</div><div class="ach-text"><div class="ach-label">🏆 Achievement Unlocked</div><div class="ach-name">${a.name}</div><div class="ach-desc">${a.desc}</div></div>`;
+  c.appendChild(t);
+  setTimeout(()=>{t.classList.add('hiding');setTimeout(()=>t.remove(),300);},4000);
 }
+
+function checkAchs(){
+  if(wins>=1)unlockAch('first_win');
+  if(wins>=5)unlockAch('win5');
+  if(wins>=10)unlockAch('win10');
+  if(wins>=20)unlockAch('win20');
+  if(_winStreak>=5)unlockAch('streak5');
+  if(seasonNum>=2)unlockAch('season2');
+  if(myTeam&&myTeam.players.length>=12)unlockAch('full_roster');
+}
+
 </script>
 </body>
 </html>
